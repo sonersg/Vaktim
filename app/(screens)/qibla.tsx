@@ -1,7 +1,6 @@
-import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function Qibla() {
   const insets = useSafeAreaInsets();
@@ -10,9 +9,9 @@ export default function Qibla() {
     <View
       style={{
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#242424",
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#242424a4',
         paddingHorizontal: 10,
         // Paddings to handle safe area
         paddingTop: insets.top,
@@ -20,18 +19,13 @@ export default function Qibla() {
       }}
     >
       <Text style={styles.text}>Gördüğün ilk kişiye kıbleyi sor.</Text>
-      <StatusBar
-        style="light"
-        backgroundColor="transparent"
-        translucent={true}
-      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   btn: {
-    backgroundColor: "red",
+    backgroundColor: 'red',
     paddingBottom: 5,
     margin: 10,
     paddingHorizontal: 20,
@@ -39,7 +33,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    color: "white",
+    color: 'white',
     fontSize: 18,
   },
 });

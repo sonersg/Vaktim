@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import {
   ImageBackground,
@@ -12,44 +11,24 @@ import Menu from '../../components/Menu';
 import Calendar from '../../components/Calendar';
 import PrayerTimesTable from '../../components/PrayerTimesTable';
 
-const defaultBgImgUri =
-  'https://images.pexels.com/photos/8071161/pexels-photo-8071161.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
-
 export default function Home() {
   const [menuVisible, setmenuVisible] = useState(false);
   // const data = useContext(ReRenderContext);
 
   return (
-    <ImageBackground
-      // source={{
-      //     uri: MMKVstorage.getString("bg-img-URL") || defaultBgImgUri,
-      // }}
-      source={{
-        uri: defaultBgImgUri,
-      }}
-      style={{ flex: 1, backgroundColor: '#242424' }}
-      resizeMode='cover'
+    <Pressable
+      style={styles.mainContainer}
+      onPress={() => setmenuVisible((prev) => !prev)}
     >
-      <Pressable
-        style={styles.mainContainer}
-        onPress={() => setmenuVisible((prev) => !prev)}
-      >
-        <View>
-          <ScrollView>
-            <Calendar />
+      <View>
+        <ScrollView>
+          <Calendar />
 
-            <PrayerTimesTable />
-          </ScrollView>
-        </View>
-        {menuVisible && <Menu />}
-      </Pressable>
-
-      <StatusBar
-        style='dark'
-        backgroundColor='transparent'
-        translucent={true}
-      />
-    </ImageBackground>
+          <PrayerTimesTable />
+        </ScrollView>
+      </View>
+      {menuVisible && <Menu />}
+    </Pressable>
   );
 }
 
@@ -57,6 +36,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     justifyContent: 'center',
+    backgroundColor: 'transparant',
     // for some reason "alignItems" cancelled "justifyContent"
   },
 

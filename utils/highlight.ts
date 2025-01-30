@@ -1,8 +1,7 @@
 import moment from 'moment';
-import getTodaySarray from './todaySarray';
-import { MMKVstorage } from '../app/(screens)/citiesList';
+import { storage } from '../app/(screens)/_layout';
 // import { IPrayerTimesObject } from '../../src/types/sampleObjectType';
-// import { MMKVstorage } from '../../src/screens/CitiesListScreen';
+// import { storage } from '../../src/screens/CitiesListScreen';
 
 // type getTimesType = {
 //   time: number;
@@ -43,15 +42,14 @@ import { MMKVstorage } from '../app/(screens)/citiesList';
 //   }
 //   return { time: -1, timeLeft: 'error' };
 // }
-console.log('outside funcs, highligt fşle');
-const ishaMessage = MMKVstorage.getString('isha-message') || '--';
 
-const todaySarray = ['06:07', '07:29', '12:48', '15:35', '17:58', '20:16'];
-const currentTime = moment().format('HH:mm');
-const currentTimeValue = +currentTime.replace(':', '');
-const ishaTimeValue = +todaySarray[5].replace(':', '');
+export function getRemaining(todaySarray: string[]) {
+  if (todaySarray.length < 5) return 'ah sana array';
+  const ishaMessage = storage.getString('isha-message') || '--';
 
-export function getRemaining() {
+  const currentTime = moment().format('HH:mm');
+  const currentTimeValue = +currentTime.replace(':', '');
+  const ishaTimeValue = +todaySarray[5].replace(':', '');
   if (currentTimeValue >= ishaTimeValue) return ishaMessage;
 
   for (let i = 0; i < todaySarray.length; i++) {
@@ -76,7 +74,11 @@ export function getRemaining() {
   }
 }
 
-export function getHighlightedIndex() {
+export function getHighlightedIndex(todaySarray: string[]) {
+  if (todaySarray.length < 5) return -1;
+  const currentTime = moment().format('HH:mm');
+  const currentTimeValue = +currentTime.replace(':', '');
+  const ishaTimeValue = +todaySarray[5].replace(':', '');
   if (currentTimeValue >= ishaTimeValue) return -1;
 
   for (let i = 0; i < todaySarray.length; i++) {

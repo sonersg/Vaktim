@@ -5,52 +5,48 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
-import { Link, useRouter } from 'expo-router';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'expo-router';
 import { iller } from '../../assets/iller';
 import useToast from '../../utils/useToast';
-import { MMKV } from 'react-native-mmkv';
-
-export const MMKVstorage = new MMKV();
+import { getFavs, setFavs } from '../../utils/favsArray';
+import { storage } from './_layout';
 
 export default function CitiesList() {
-  const insets = useSafeAreaInsets();
   const router = useRouter();
+  const [concatedArr, setconcatedArr] = useState(getFavs());
 
-  async function handleItemPress() {
+  useEffect(() => {
+    const favsArr = getFavs() || [];
+    const concated = favsArr.concat(iller);
+    setconcatedArr(concated);
+  }, []);
+
+  async function handleItemPress(cityName: string, code: string) {
+    if (cityName === '--') return;
+    storage.set('selected-city', cityName);
+    setFavs(cityName, code);
     useToast('Vakitler yükleniyor.');
     router.back();
   }
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: '#242424',
-        paddingHorizontal: 10,
-        // Paddings to handle safe area
-        paddingTop: insets.top,
-        paddingBottom: insets.bottom,
-      }}
-    >
-      <FlatList
-        data={iller}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.itemContainer}
-            onPress={() => handleItemPress()}
-          >
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={styles.ad}>{item.ad}</Text>
-              <Text style={styles.plaka}>{item.plaka}</Text>
-            </View>
-            <Text style={styles.sponsor}>{item.sponsor}</Text>
-          </TouchableOpacity>
-        )}
-        keyExtractor={(item, index) => index.toString()}
-      />
-    </View>
+    <FlatList
+      data={concatedArr}
+      renderItem={({ item }) => (
+        <TouchableOpacity
+          style={styles.itemContainer}
+          onPress={() => handleItemPress(item.name, item.code)}
+        >
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={styles.ad}>{item.name}</Text>
+            <Text style={styles.plaka}>{item.code}</Text>
+          </View>
+          <Text style={styles.sponsor}>{item.sponsor}</Text>
+        </TouchableOpacity>
+      )}
+      // keyExtractor={(item, index) => index.toString()}
+    />
   );
 }
 
@@ -72,13 +68,13 @@ const styles = StyleSheet.create({
   },
 
   itemContainer: {
-    backgroundColor: '#555',
+    backgroundColor: '#555555dd',
     height: 50,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginVertical: 5,
+    marginVertical: 3,
     paddingHorizontal: 10,
   },
 });
@@ -99,7 +95,7 @@ const styles = StyleSheet.create({
 // import useToast from '../../app/hooks/useToast';
 // import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-// export const MMKVstorage = new MMKV();
+// export const storage = new MMKV();
 
 // export async function fetchPrayerTimes(city: string, today: string) {
 //   try {
@@ -111,7 +107,7 @@ const styles = StyleSheet.create({
 
 //     if (!data.error) {
 //       const stringifiedData = JSON.stringify(data);
-//       MMKVstorage.set('stringified-prayer-times-object', stringifiedData);
+//       storage.set('stringified-prayer-times-object', stringifiedData);
 //       useToast('Güncellendi');
 //       await setNotificationArguments(data);
 //     } else if (data.error) {
@@ -143,7 +139,7 @@ const styles = StyleSheet.create({
 //         text: 'Tamam',
 //         onPress: () => {
 //           fetchPrayerTimes(city, new Date().toISOString().slice(0, 10));
-//           MMKVstorage.set('sponsor-of-the-city', sponsor);
+//           storage.set('sponsor-of-the-city', sponsor);
 //           useToast('Güncelleniyor!');
 //           // invoke rerendering with context api
 //           setTimeout(() => setReRender((prev) => !prev), 3000);

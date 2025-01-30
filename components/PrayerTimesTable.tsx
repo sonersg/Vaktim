@@ -1,4 +1,4 @@
-import React, { memo, useContext, useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import {
   Pressable,
   StyleSheet,
@@ -7,47 +7,84 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useRouter } from 'expo-router';
-import minick from '../assets/minicik.json';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { prayerTimeLabels } from '../assets/iller';
-import { MMKVstorage } from '../app/(screens)/citiesList';
 import { getHighlightedIndex, getRemaining } from '../utils/highlight';
 import getTodaySarray from '../utils/todaySarray';
+import { storage } from '../app/(screens)/_layout';
+
+let arr = getTodaySarray();
 
 function PrayerTimesTable() {
-  const [highlight, sethighlight] = useState(-1);
+  const [arry, setarry] = useState(arr);
   const [remaining, setremaining] = useState('--');
-  const [arry, setarry] = useState(getTodaySarray());
+  const [highlight, sethighlight] = useState(-1);
   const router = useRouter();
-  // const data = useContext(ReRenderContext);
 
   // const shouldShowTimesOnPress =
-  //   MMKVstorage.getString('show-times-when') === 'on-press';
-  useEffect(() => {
-    // if (shouldShowTimesOnPress) {
-    //   sethighlight(-1);
-    //   setremaining('--');
-    // }
-    // if (!shouldShowTimesOnPress) {
-    //   showTimesAlways();
-    // }
+  //   storage.getString('show-times-when') === 'on-press';
+  // useEffect(() => {
+  //   // if (shouldShowTimesOnPress) {
+  //   //   sethighlight(-1);
+  //   //   setremaining('--');
+  //   // }
+  //   // if (!shouldShowTimesOnPress) {
+  //   //   showTimesAlways();
+  //   // }
 
-    const interval = setInterval(() => {
+  //   let arr = getTodaySarray();
+  //   const interval = setInterval(() => {
+  //     if (new Date().getHours() === 23) {
+  //       arr = getTodaySarray();
+  //     }
+  //     // if (!shouldShowTimesOnPress) {
+  //     setremaining(getRemaining(arr) || '--');
+  //     // }
+
+  //     // sethighlight
+  //     sethighlight(getHighlightedIndex(arr) || -1);
+  //     // setarry
+  //     setarry(arr);
+  //   }, 3000);
+  //   // Clean up the interval when the component unmounts
+  //   return () => clearInterval(interval);
+  //   // }, [shouldShowTimesOnPress, data]);
+  // }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      console.log('useFocusEffect');
+      // if (shouldShowTimesOnPress) {
+      //   sethighlight(-1);
+      //   setremaining('--');
+      // }
       // if (!shouldShowTimesOnPress) {
-      setremaining(getRemaining() || '');
+      //   showTimesAlways();
       // }
 
-      // sethighlight
-      sethighlight(getHighlightedIndex() || -1);
-      // setarry
-      setarry(getTodaySarray());
-    }, 3000);
-    // Clean up the interval when the component unmounts
-    return () => clearInterval(interval);
-    // }, [shouldShowTimesOnPress, data]);
-  }, []);
+      arr = getTodaySarray();
+      const interval = setInterval(() => {
+        if (new Date().getHours() === 23) {
+          arr = getTodaySarray();
+        }
+        // if (!shouldShowTimesOnPress) {
+        setremaining(getRemaining(arr) || '--');
+        // }
 
-  const storageColor = MMKVstorage.getString('theme-color') || 'skyblue';
+        // sethighlight
+        sethighlight(getHighlightedIndex(arr) || -1);
+        // setarry
+        setarry(arr);
+      }, 3000);
+
+      return () => {
+        console.log('Screen unfocused, clearing interval');
+        clearInterval(interval);
+      };
+    }, [])
+  );
+
+  const storageColor = storage.getString('theme-color') || 'skyblue';
   const themeColor = storageColor === 'skyblue' ? '#87ceeb' : '#ff69b4';
 
   // showTimesOnPress function
@@ -71,7 +108,9 @@ function PrayerTimesTable() {
     return (
       <View style={styles.mainContainer}>
         <Pressable onPress={showTimesOnPress}>
-          <Text style={styles.remainingStyle}>{remaining}</Text>
+          <Text style={[styles.remainingStyle, { color: themeColor }]}>
+            {remaining}
+          </Text>
         </Pressable>
 
         <View>
@@ -112,7 +151,7 @@ function PrayerTimesTable() {
           onPress={() => router.navigate('citiesList')}
         >
           <Text style={{ color: 'white', fontSize: 25 }}>
-            {minick.Gaziantep.place.stateName}
+            {storage.getString('selected-city')}
           </Text>
         </TouchableHighlight>
 
@@ -177,7 +216,9 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 15,
     backgroundColor: '#33333399',
-    borderRadius: 10,
     fontWeight: 'bold',
+    borderWidth: 3,
+    borderColor: '#777',
+    borderRadius: 15,
   },
 });
