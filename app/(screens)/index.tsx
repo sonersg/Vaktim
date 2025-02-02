@@ -1,19 +1,11 @@
 import React, { useState } from 'react';
-import {
-  ImageBackground,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import Menu from '../../components/Menu';
 import Calendar from '../../components/Calendar';
 import PrayerTimesTable from '../../components/PrayerTimesTable';
 
 export default function Home() {
   const [menuVisible, setmenuVisible] = useState(false);
-  // const data = useContext(ReRenderContext);
 
   return (
     <Pressable
@@ -36,7 +28,6 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: 'transparant',
     // for some reason "alignItems" cancelled "justifyContent"
   },
 

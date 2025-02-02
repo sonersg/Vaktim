@@ -30,6 +30,7 @@ export default function ScreensLayout() {
           // headerTransparent: true,
           // headerShadowVisible: false,
           contentStyle: { backgroundColor: 'transparent' },
+          animation: 'slide_from_bottom',
         }}
       >
         <Stack.Screen name='index' options={{ headerShown: false }} />

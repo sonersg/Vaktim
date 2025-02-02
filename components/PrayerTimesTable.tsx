@@ -13,11 +13,9 @@ import { getHighlightedIndex, getRemaining } from '../utils/highlight';
 import getTodaySarray from '../utils/todaySarray';
 import { storage } from '../app/(screens)/_layout';
 
-let arr = getTodaySarray();
-
 function PrayerTimesTable() {
-  const [arry, setarry] = useState(arr);
-  const [remaining, setremaining] = useState('--');
+  const [arry, setarry] = useState([]);
+  const [remaining, setremaining] = useState('r');
   const [highlight, sethighlight] = useState(-1);
   const router = useRouter();
 
@@ -53,7 +51,8 @@ function PrayerTimesTable() {
 
   useFocusEffect(
     useCallback(() => {
-      console.log('useFocusEffect');
+      // console.log('useFocusEffect');
+
       // if (shouldShowTimesOnPress) {
       //   sethighlight(-1);
       //   setremaining('--');
@@ -62,17 +61,21 @@ function PrayerTimesTable() {
       //   showTimesAlways();
       // }
 
-      arr = getTodaySarray();
+      let arr = getTodaySarray();
+      setarry(arr);
+      setremaining(getRemaining(arr) || '--');
+      sethighlight(getHighlightedIndex(arr) || 0);
       const interval = setInterval(() => {
         if (new Date().getHours() === 23) {
           arr = getTodaySarray();
         }
+
         // if (!shouldShowTimesOnPress) {
         setremaining(getRemaining(arr) || '--');
         // }
 
         // sethighlight
-        sethighlight(getHighlightedIndex(arr) || -1);
+        sethighlight(getHighlightedIndex(arr) || 0);
         // setarry
         setarry(arr);
       }, 3000);
