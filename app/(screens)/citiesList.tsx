@@ -43,7 +43,7 @@ export default function CitiesList() {
           <Text style={styles.sponsor}>{item.sponsor}</Text>
         </TouchableOpacity>
       )}
-      // keyExtractor={(item, index) => index.toString()}
+      keyExtractor={(item, index) => index.toString()}
     />
   );
 }

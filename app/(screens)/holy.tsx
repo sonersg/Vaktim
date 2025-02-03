@@ -27,7 +27,7 @@ const HolyDaysScreen = () => {
             {item}
           </Text>
         )}
-        // keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item, index) => index.toString()}
       />
     </View>
   );

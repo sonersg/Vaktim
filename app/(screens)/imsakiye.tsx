@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, ScrollView, View } from 'react-native';
+import { StyleSheet, Text, ScrollView, View, FlatList } from 'react-native';
 import { storage } from './_layout';
 import getToday from '../../utils/todayTR';
 import getHijri from '../../utils/getHijri';
@@ -19,12 +19,11 @@ import { IPrayerTimesObject } from '../../assets/types/sampleObjectType';
 }
 
 const ImsakiyeScreen = () => {
-  //   console.log('imsakiye screen');
-
   const currentCity = storage.getString('selected-city') || '';
   const themeColor = storage.getString('theme-color') || 'skyblue';
   const today = new Date().toISOString().slice(0, 10);
   const keys = Object.keys(prayerTimes);
+
   let timesObject: IPrayerTimesObject | null;
   if (keys.includes(currentCity)) {
     //@ts-ignore
@@ -34,7 +33,10 @@ const ImsakiyeScreen = () => {
   }
 
   if (timesObject?.times[today]) {
-    const keysArray = Object.keys(timesObject.times);
+    let keysArray = Object.keys(timesObject.times);
+    const indx = keysArray.indexOf(today);
+    keysArray = Object.keys(timesObject.times).slice(indx, indx + 66);
+    // console.log('imsakiye screen', indx);
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -42,30 +44,39 @@ const ImsakiyeScreen = () => {
             {getToday()} - {getHijri()}
           </Text>
         </View>
-        <ScrollView>
-          {keysArray.map((date, index) => (
-            <View
-              key={index}
-              style={[
-                styles.displayRow,
-                date === today && styles.highlightToday,
-              ]}
-            >
-              <Text style={[styles.text, { color: themeColor }]}>{date}</Text>
-              {timesObject.times[date].map((time, index2) => (
-                <Text
-                  key={index2}
-                  style={[
-                    styles.text,
-                    index2 % 2 !== 0 && { color: themeColor },
-                  ]}
-                >
-                  {time}
-                </Text>
-              ))}
-            </View>
-          ))}
-          <Text></Text>
+
+        <ScrollView
+          horizontal
+          alwaysBounceHorizontal
+          maximumZoomScale={5}
+          minimumZoomScale={1}
+        >
+          <FlatList
+            data={keysArray}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item, index }) => (
+              <View
+                key={index}
+                style={[
+                  styles.displayRow,
+                  item === today && styles.highlightToday,
+                ]}
+              >
+                <Text style={[styles.text, { color: themeColor }]}>{item}</Text>
+                {timesObject.times[item].map((time, index2) => (
+                  <Text
+                    key={index2}
+                    style={[
+                      styles.text,
+                      index2 % 2 !== 0 && { color: themeColor },
+                    ]}
+                  >
+                    {time}
+                  </Text>
+                ))}
+              </View>
+            )}
+          />
         </ScrollView>
       </View>
     );
@@ -81,14 +92,14 @@ const ImsakiyeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 5,
+    paddingHorizontal: 6,
     backgroundColor: '#242424aa',
-    justifyContent: 'center',
     alignItems: 'center',
   },
   text: {
     color: 'white',
     margin: 5,
+    // fontSize: 22,
   },
 
   displayRow: {

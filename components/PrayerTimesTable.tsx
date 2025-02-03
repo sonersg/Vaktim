@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState } from 'react';
+import React, { memo, useCallback, useRef, useState } from 'react';
 import {
   Pressable,
   StyleSheet,
@@ -18,22 +18,14 @@ function PrayerTimesTable() {
   const [arry, setarry] = useState([]);
   const [remaining, setremaining] = useState('r');
   const [highlight, sethighlight] = useState(-1);
-  const [autoLocation, setautoLocation] = useState(false);
+  const autoLocation = useRef(storage.getBoolean('auto-location') || true);
   const router = useRouter();
 
   useFocusEffect(
     useCallback(() => {
-      // console.log('useFocusEffect');
+      // console.log(autoLocation.current);
 
-      // if (shouldShowTimesOnPress) {
-      //   sethighlight(-1);
-      //   setremaining('--');
-      // }
-      // if (!shouldShowTimesOnPress) {
-      //   showTimesAlways();
-      // }
-      setautoLocation(storage.getBoolean('auto-location') || true);
-      autoLocation && getCurrentLocation();
+      autoLocation.current && getCurrentLocation();
       let arr = getTodaySarray();
       setarry(arr);
       setremaining(getRemaining(arr) || '--');
