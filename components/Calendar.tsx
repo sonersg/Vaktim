@@ -1,11 +1,13 @@
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import moment from 'moment';
 import { memo, useEffect, useState } from 'react';
 import getToday from '../utils/todayTR';
 import getHijri from '../utils/getHijri';
+import { useRouter } from 'expo-router';
 
 function Calendar() {
   const [currentTime, setCurrentTime] = useState(moment().format('HH:mm'));
+  const router = useRouter();
 
   useEffect(() => {
     // update current time
@@ -21,20 +23,20 @@ function Calendar() {
 
   return (
     <View style={styles.container}>
-      <Pressable
+      <TouchableOpacity
         style={styles.one}
-        // onPress={() => navigation.navigate("Dini Gün ve Geceler")}
+        onPress={() => router.navigate('holy')}
       >
         <Text style={[styles.text, { fontSize: 40 }]}>{currentTime}</Text>
-      </Pressable>
+      </TouchableOpacity>
 
-      <Pressable
+      <TouchableOpacity
         style={styles.one}
-        // onPress={() => navigation.navigate("İmsakiye")}
+        onPress={() => router.navigate('imsakiye')}
       >
         <Text style={[styles.text]}>{getToday()}</Text>
         <Text style={[styles.text]}>{getHijri()}</Text>
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 }

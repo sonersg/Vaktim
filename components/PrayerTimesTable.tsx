@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import {
   Pressable,
   StyleSheet,
@@ -12,42 +12,14 @@ import { prayerTimeLabels } from '../assets/iller';
 import { getHighlightedIndex, getRemaining } from '../utils/highlight';
 import getTodaySarray from '../utils/todaySarray';
 import { storage } from '../app/(screens)/_layout';
+import { getCurrentLocation } from '../utils/location';
 
 function PrayerTimesTable() {
   const [arry, setarry] = useState([]);
   const [remaining, setremaining] = useState('r');
   const [highlight, sethighlight] = useState(-1);
+  const [autoLocation, setautoLocation] = useState(false);
   const router = useRouter();
-
-  // const shouldShowTimesOnPress =
-  //   storage.getString('show-times-when') === 'on-press';
-  // useEffect(() => {
-  //   // if (shouldShowTimesOnPress) {
-  //   //   sethighlight(-1);
-  //   //   setremaining('--');
-  //   // }
-  //   // if (!shouldShowTimesOnPress) {
-  //   //   showTimesAlways();
-  //   // }
-
-  //   let arr = getTodaySarray();
-  //   const interval = setInterval(() => {
-  //     if (new Date().getHours() === 23) {
-  //       arr = getTodaySarray();
-  //     }
-  //     // if (!shouldShowTimesOnPress) {
-  //     setremaining(getRemaining(arr) || '--');
-  //     // }
-
-  //     // sethighlight
-  //     sethighlight(getHighlightedIndex(arr) || -1);
-  //     // setarry
-  //     setarry(arr);
-  //   }, 3000);
-  //   // Clean up the interval when the component unmounts
-  //   return () => clearInterval(interval);
-  //   // }, [shouldShowTimesOnPress, data]);
-  // }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -60,7 +32,8 @@ function PrayerTimesTable() {
       // if (!shouldShowTimesOnPress) {
       //   showTimesAlways();
       // }
-
+      setautoLocation(storage.getBoolean('auto-location') || true);
+      autoLocation && getCurrentLocation();
       let arr = getTodaySarray();
       setarry(arr);
       setremaining(getRemaining(arr) || '--');
@@ -87,6 +60,7 @@ function PrayerTimesTable() {
     }, [])
   );
 
+  const city = storage.getString('selected-city') || 'skyblue';
   const storageColor = storage.getString('theme-color') || 'skyblue';
   const themeColor = storageColor === 'skyblue' ? '#87ceeb' : '#ff69b4';
 
@@ -153,9 +127,7 @@ function PrayerTimesTable() {
           style={[styles.btn, { backgroundColor: themeColor }]}
           onPress={() => router.navigate('citiesList')}
         >
-          <Text style={{ color: 'white', fontSize: 25 }}>
-            {storage.getString('selected-city')}
-          </Text>
+          <Text style={{ color: 'white', fontSize: 25 }}>{city}</Text>
         </TouchableHighlight>
 
         {/* <Text style={{ color: 'white', fontSize: 15 }}>{getSponsor()}</Text> */}
@@ -164,15 +136,15 @@ function PrayerTimesTable() {
   } else {
     return (
       <View style={styles.mainContainer}>
-        <Text style={{ color: 'white', fontSize: 20 }}>
-          Lütfen bulunduğunuz şehri seçin.
-        </Text>
         <TouchableHighlight
           style={[styles.btn, { backgroundColor: themeColor }]}
           onPress={() => router.push('citiesList')}
         >
           <Text style={{ color: 'white', fontSize: 25 }}>Şehirler</Text>
         </TouchableHighlight>
+        <Text style={{ color: 'white', fontSize: 20 }}>
+          Lütfen bulunduğunuz şehri seçin.
+        </Text>
       </View>
     );
   }

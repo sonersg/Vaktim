@@ -19,7 +19,7 @@
 
 //         if (input.trim().slice(2, 5) === "dgg") {
 //             // RELIGIOUS DAYS NIGHTS
-//             MMKVstorage.set("religious-days-nights", input.trim());
+//             MMKVstorage.set("holy-days-nights", input.trim());
 //             useToast("Dini Günler Güncellendi");
 //             setinput("");
 //         } else if (define[0].trim().toLowerCase() === "isha message") {

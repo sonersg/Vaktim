@@ -38,6 +38,8 @@ export default function ScreensLayout() {
         <Stack.Screen name='qada' options={{ headerShown: false }} />
         <Stack.Screen name='qibla' options={{ headerShown: false }} />
         <Stack.Screen name='settings' options={{ headerShown: false }} />
+        <Stack.Screen name='imsakiye' options={{ headerShown: false }} />
+        <Stack.Screen name='holy' options={{ headerShown: false }} />
       </Stack>
 
       <StatusBar

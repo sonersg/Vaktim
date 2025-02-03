@@ -8,7 +8,6 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { iller } from '../../assets/iller';
-import useToast from '../../utils/useToast';
 import { getFavs, setFavs } from '../../utils/favsArray';
 import { storage } from './_layout';
 
@@ -26,7 +25,6 @@ export default function CitiesList() {
     if (cityName === '--') return;
     storage.set('selected-city', cityName);
     setFavs(cityName, code);
-    useToast('Vakitler yükleniyor.');
     router.back();
   }
 

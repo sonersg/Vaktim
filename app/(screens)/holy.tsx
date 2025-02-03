@@ -1,38 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { View, FlatList, StyleSheet, Text } from 'react-native';
-import { MMKVstorage } from './CitiesListScreen';
-import { IslamicEvents } from '../../assets/types/holyDaysObjectType';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RDNObject } from '../../assets/iller';
+import { storage } from './_layout';
+import { IslamicEvents } from '../../assets/types/holyDaysObjectType';
 
-const ReligiousDaysScreen = () => {
+const HolyDaysScreen = () => {
   const [religiousDaysNights, setreligiousDaysNights] =
     useState<IslamicEvents>(RDNObject);
 
-  const insets = useSafeAreaInsets();
-
   useEffect(() => {
-    const jsonString = MMKVstorage.getString('religious-days-nights');
+    const jsonString = storage.getString('holy-days-nights');
     if (jsonString) {
       setreligiousDaysNights(JSON.parse(jsonString));
     }
   }, []);
 
-  const themeColor = MMKVstorage.getString('theme-color') || 'skyblue';
+  const themeColor = storage.getString('theme-color') || 'skyblue';
 
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#242424',
-        paddingHorizontal: 10,
-        // Paddings to handle safe area
-        paddingTop: insets.top,
-        paddingBottom: insets.bottom,
-      }}
-    >
+    <View style={styles.container}>
       <Text style={styles.header}>{religiousDaysNights.dgg}</Text>
       <FlatList
         data={religiousDaysNights.value}
@@ -41,18 +27,26 @@ const ReligiousDaysScreen = () => {
             {item}
           </Text>
         )}
-        keyExtractor={(item, index) => index.toString()}
+        // keyExtractor={(item, index) => index.toString()}
       />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    // justifyContent: 'center',
+    backgroundColor: '#242424aa',
+    paddingHorizontal: 10,
+  },
+
   header: {
     backgroundColor: 'green',
     paddingHorizontal: 20,
     paddingVertical: 5,
-    marginVertical: 20,
+    marginVertical: 50,
     color: 'white',
     fontWeight: 'bold',
   },
@@ -64,4 +58,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ReligiousDaysScreen;
+export default HolyDaysScreen;
