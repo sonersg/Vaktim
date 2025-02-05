@@ -22,9 +22,7 @@ function Menu() {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity
-        // onPress={() => navigation.navigate("Ayarlar")}
-        >
+        <TouchableOpacity onPress={() => router.push('settings')}>
           <View style={styles.itemContainer}>
             <Text style={{ fontSize: 50 }}>💬</Text>
             <Text style={{ color: 'white' }}>Ayarlar</Text>

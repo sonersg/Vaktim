@@ -22,6 +22,9 @@ Cumartesi 25, Ocak 2025
    npx expo run:android --device
    npx expo run:android --variant Release --device
    npx expo prebuild --platform ios
+
+   cd android && ./gradlew clean
+   cd ..
    ```
 
 ## Learn more

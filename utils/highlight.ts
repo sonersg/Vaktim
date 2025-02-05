@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { storage } from '../app/(screens)/_layout';
 // import { IPrayerTimesObject } from '../../src/types/sampleObjectType';
 // import { storage } from '../../src/screens/CitiesListScreen';

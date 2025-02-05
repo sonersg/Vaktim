@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { storage } from './_layout';
 import getToday from '../../utils/todayTR';
-import moment from 'moment';
 import { qadaTimeLabels } from '../../assets/iller';
+import moment from 'moment-timezone';
 
 export default function Qada() {
   const [fajr, setfajr] = useState(storage.getNumber('qada-fajr') || 0);
@@ -151,7 +151,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#fff',
     backgroundColor: '#444',
-    borderRadius: 10,
+    borderRadius: 15,
+    padding: 5,
   },
 
   touchableHghlght: {

@@ -25,7 +25,10 @@ function PrayerTimesTable() {
     useCallback(() => {
       // console.log(autoLocation.current);
 
-      autoLocation.current && getCurrentLocation();
+      autoLocation.current &&
+        (async () => {
+          await getCurrentLocation();
+        })();
       let arr = getTodaySarray();
       setarry(arr);
       setremaining(getRemaining(arr) || '--');

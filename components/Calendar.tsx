@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import moment from 'moment';
 import { memo, useEffect, useState } from 'react';
 import getToday from '../utils/todayTR';
 import getHijri from '../utils/getHijri';
 import { useRouter } from 'expo-router';
+import moment from 'moment-timezone';
 
 function Calendar() {
   const [currentTime, setCurrentTime] = useState(moment().format('HH:mm'));
