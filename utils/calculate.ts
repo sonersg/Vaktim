@@ -1,3 +1,4 @@
+import { storage } from '../app/(screens)/_layout';
 import PrayTimes from '../assets/prayTimes';
 
 const prayTimes = PrayTimes('MWL');
@@ -18,24 +19,32 @@ prayTimes.tune({
 
 const timeZone = 3;
 
-export function name(lat: number, long: number) {
-  let obj = {};
-  for (let i = 0; i < 33; i++) {
-    const date = new Date();
-    date.setDate(date.getDate() + i);
-    const iso = date.toISOString().slice(0, 10);
-    const times = prayTimes.getTimes(date, [lat, long], timeZone);
+export default function calculateArray(size: number) {
+  const lat = storage.getNumber('lat') || 37.066;
+  const long = storage.getNumber('long') || 37.3781;
 
-    obj = {
-      ...obj,
-      [iso]: times,
-    };
+  if (lat === 37.066 && long === 37.3781) {
+    storage.set('selected-city', 'Gaziantep');
   }
 
-  console.log(obj);
-  return obj;
+  const arr = new Array(size); // Pre-allocate
+
+  for (let i = 0; i < size; i++) {
+    const date = new Date();
+    date.setDate(date.getDate() + i);
+    // const iso = date.toISOString().slice(0, 10);
+    const times = prayTimes.getTimes(date, [lat, long], timeZone);
+    const valuesArray = Object.values(times);
+    valuesArray.splice(8, 1); // remove midnight
+    valuesArray.splice(5, 1); // remove sunset
+    valuesArray.splice(0, 1); // remove imsak
+    arr[i] = valuesArray;
+    // arr.push(times);
+  }
+
+  return arr;
 }
 
-const lat = 37.066;
-const long = 37.3781;
+// const lat = 37.066;
+// const long = 37.3781;
 // console.log(name(lat, long));

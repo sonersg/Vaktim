@@ -32,11 +32,23 @@ const getCityFromCoords = async (latitude: number, longitude: number) => {
       latitude,
       longitude,
     });
-    // console.log(reverseGeocode);
+
     if (reverseGeocode.length > 0) {
       const address = reverseGeocode[0];
-      // console.log('City:', address.city);
-      address.region && storage.set('selected-city', address.region);
+
+      // console.log('City:', address);
+
+      storage.set('lat', latitude);
+      storage.set('long', longitude);
+
+      if (address.city) {
+        storage.set('selected-city', address.city);
+      } else if (address.subregion) {
+        storage.set('selected-city', address.subregion);
+      } else if (address.region) {
+        storage.set('selected-city', address.region);
+      }
+
       return address.region;
     } else {
       // console.log('No address found');

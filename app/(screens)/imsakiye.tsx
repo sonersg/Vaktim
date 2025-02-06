@@ -1,69 +1,49 @@
-import React from 'react';
-import { StyleSheet, Text, ScrollView, View, FlatList } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  ScrollView,
+  View,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 import { storage } from './_layout';
-import getToday from '../../utils/todayTR';
-import getHijri from '../../utils/getHijri';
-import prayerTimes from '../../assets/minicik.json';
-import { IPrayerTimesObject } from '../../assets/types/sampleObjectType';
-
-{
-  /* <FlatList
-        data={religiousDaysNights.value}
-        renderItem={({ item, index }) => (
-          <Text style={[styles.text, index % 2 !== 0 && { color: themeColor }]}>
-            {item}
-          </Text>
-        )}
-        // keyExtractor={(item, index) => index.toString()}
-/> */
-}
+import calculateArray from '../../utils/calculate';
+import { getHijri, getISO, getTR } from '../../utils/date';
 
 const ImsakiyeScreen = () => {
-  const currentCity = storage.getString('selected-city') || '';
+  const [arr, setarr] = useState<string[][]>([]);
+
+  useEffect(() => {
+    setarr(calculateArray(3));
+
+    const timeout = setTimeout(() => {
+      setarr(calculateArray(99));
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
   const themeColor = storage.getString('theme-color') || 'skyblue';
-  const today = new Date().toISOString().slice(0, 10);
-  const keys = Object.keys(prayerTimes);
 
-  let timesObject: IPrayerTimesObject | null;
-  if (keys.includes(currentCity)) {
-    //@ts-ignore
-    timesObject = prayerTimes[currentCity];
-  } else {
-    timesObject = null;
-  }
-
-  if (timesObject?.times[today]) {
-    let keysArray = Object.keys(timesObject.times);
-    const indx = keysArray.indexOf(today);
-    keysArray = Object.keys(timesObject.times).slice(indx, indx + 66);
-    // console.log('imsakiye screen', indx);
+  if (arr.length > 0) {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>
-            {getToday()} - {getHijri()}
+            {getTR()} - {getHijri()}
           </Text>
         </View>
 
-        <ScrollView
-          horizontal
-          alwaysBounceHorizontal
-          maximumZoomScale={5}
-          minimumZoomScale={1}
-        >
+        <ScrollView horizontal>
           <FlatList
-            data={keysArray}
-            keyExtractor={(item, index) => index.toString()}
+            data={arr}
             renderItem={({ item, index }) => (
-              <View
-                key={index}
-                style={[
-                  styles.displayRow,
-                  item === today && styles.highlightToday,
-                ]}
-              >
-                <Text style={[styles.text, { color: themeColor }]}>{item}</Text>
-                {timesObject.times[item].map((time, index2) => (
+              <TouchableOpacity key={index} style={[styles.displayRow]}>
+                <Text style={[styles.text, { color: themeColor }]}>
+                  {getISO(index)}
+                </Text>
+                {item.map((time, index2) => (
                   <Text
                     key={index2}
                     style={[
@@ -74,8 +54,10 @@ const ImsakiyeScreen = () => {
                     {time}
                   </Text>
                 ))}
-              </View>
+                <Text style={[styles.text]}>{getHijri(index)}</Text>
+              </TouchableOpacity>
             )}
+            keyExtractor={(item, index) => index.toString()}
           />
         </ScrollView>
       </View>
@@ -107,10 +89,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     // gap: 5,
-  },
-
-  highlightToday: {
-    backgroundColor: 'green',
   },
 
   header: {

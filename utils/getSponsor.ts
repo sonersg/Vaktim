@@ -1,11 +1,11 @@
-import { MMKVstorage } from "../../src/screens/CitiesListScreen";
+import { storage } from '../app/(screens)/_layout';
 
 function getSponsor(): string {
-  const jsonString = MMKVstorage.getString("sponsor-of-the-city");
+  const jsonString = storage.getString('sponsor-of-the-city');
   if (jsonString) {
     return jsonString;
   }
-  return "";
+  return '';
 }
 
 export default getSponsor;

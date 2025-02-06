@@ -45,7 +45,7 @@ import { storage } from '../app/(screens)/_layout';
 
 export function getRemaining(todaySarray: string[]) {
   if (todaySarray.length < 5) return 'ah sana array';
-  const ishaMessage = storage.getString('isha-message') || '--';
+  const ishaMessage = storage.getString('isha-message') || 'Set isha message.';
 
   const currentTime = moment().format('HH:mm');
   const currentTimeValue = +currentTime.replace(':', '');

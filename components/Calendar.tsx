@@ -1,9 +1,8 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { memo, useEffect, useState } from 'react';
-import getToday from '../utils/todayTR';
-import getHijri from '../utils/getHijri';
 import { useRouter } from 'expo-router';
 import moment from 'moment-timezone';
+import { getHijri, getTR } from '../utils/date';
 
 function Calendar() {
   const [currentTime, setCurrentTime] = useState(moment().format('HH:mm'));
@@ -34,7 +33,7 @@ function Calendar() {
         style={styles.one}
         onPress={() => router.navigate('imsakiye')}
       >
-        <Text style={[styles.text]}>{getToday()}</Text>
+        <Text style={[styles.text]}>{getTR()}</Text>
         <Text style={[styles.text]}>{getHijri()}</Text>
       </TouchableOpacity>
     </View>

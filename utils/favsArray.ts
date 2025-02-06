@@ -1,14 +1,16 @@
 import { storage } from '../app/(screens)/_layout';
 
 // setFavs function
-export function setFavs(city: string, code: string) {
+export function setFavs(city: string, lat: number, long: number) {
   const arrStr = storage.getString('favs-array') || '[]';
-  let parsedArray = JSON.parse(arrStr);
+  const parsedArray = JSON.parse(arrStr);
 
   const temp = {
     name: city,
-    code: code,
-    sponsor: '',
+    code: null,
+    sponsor: '--',
+    latitude: lat,
+    longitude: long,
   };
 
   if (parsedArray.length >= 5) {

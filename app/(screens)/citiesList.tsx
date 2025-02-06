@@ -21,10 +21,12 @@ export default function CitiesList() {
     setconcatedArr(concated);
   }, []);
 
-  async function handleItemPress(cityName: string, code: string) {
+  async function handleItemPress(cityName: string, lat: number, long: number) {
     if (cityName === '--') return;
     storage.set('selected-city', cityName);
-    setFavs(cityName, code);
+    storage.set('lat', lat);
+    storage.set('long', long);
+    setFavs(cityName, lat, long);
     router.back();
   }
 
@@ -34,7 +36,9 @@ export default function CitiesList() {
       renderItem={({ item }) => (
         <TouchableOpacity
           style={styles.itemContainer}
-          onPress={() => handleItemPress(item.name, item.code)}
+          onPress={() =>
+            handleItemPress(item.name, item.latitude, item.longitude)
+          }
         >
           <View style={{ flexDirection: 'row' }}>
             <Text style={styles.ad}>{item.name}</Text>

@@ -10,12 +10,12 @@ import {
 import { useFocusEffect, useRouter } from 'expo-router';
 import { prayerTimeLabels } from '../assets/iller';
 import { getHighlightedIndex, getRemaining } from '../utils/highlight';
-import getTodaySarray from '../utils/todaySarray';
 import { storage } from '../app/(screens)/_layout';
 import { getCurrentLocation } from '../utils/location';
+import calculateArray from '../utils/calculate';
 
 function PrayerTimesTable() {
-  const [arry, setarry] = useState([]);
+  const [arry, setarry] = useState<string[]>([]);
   const [remaining, setremaining] = useState('r');
   const [highlight, sethighlight] = useState(-1);
   const autoLocation = useRef(storage.getBoolean('auto-location') || true);
@@ -29,13 +29,14 @@ function PrayerTimesTable() {
         (async () => {
           await getCurrentLocation();
         })();
-      let arr = getTodaySarray();
+
+      let arr = calculateArray(1)[0];
       setarry(arr);
       setremaining(getRemaining(arr) || '--');
       sethighlight(getHighlightedIndex(arr) || 0);
       const interval = setInterval(() => {
         if (new Date().getHours() === 23) {
-          arr = getTodaySarray();
+          arr = calculateArray(1)[0];
         }
 
         // if (!shouldShowTimesOnPress) {
@@ -76,7 +77,7 @@ function PrayerTimesTable() {
     // }, 3000);
   }
 
-  if (arry.length > 0) {
+  if (arry.length === 6) {
     return (
       <View style={styles.mainContainer}>
         <Pressable onPress={showTimesOnPress}>
