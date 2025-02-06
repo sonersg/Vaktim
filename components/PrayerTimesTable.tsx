@@ -18,22 +18,25 @@ function PrayerTimesTable() {
   const [arry, setarry] = useState<string[]>([]);
   const [remaining, setremaining] = useState('r');
   const [highlight, sethighlight] = useState(-1);
-  const autoLocation = useRef(storage.getBoolean('auto-location') || true);
   const router = useRouter();
 
   useFocusEffect(
     useCallback(() => {
-      // console.log(autoLocation.current);
+      // console.log(storage.getString('auto-location'));
 
-      autoLocation.current &&
-        (async () => {
-          await getCurrentLocation();
-        })();
+      const autoLocation = storage.getString('auto-location') || 'on';
 
       let arr = calculateArray(1)[0];
-      setarry(arr);
-      setremaining(getRemaining(arr) || '--');
-      sethighlight(getHighlightedIndex(arr) || 0);
+
+      autoLocation === 'on' &&
+        (async () => {
+          await getCurrentLocation();
+          arr = await calculateArray(1)[0];
+          setarry(arr);
+          setremaining(getRemaining(arr) || '--');
+          sethighlight(getHighlightedIndex(arr) || 0);
+        })();
+
       const interval = setInterval(() => {
         if (new Date().getHours() === 23) {
           arr = calculateArray(1)[0];
@@ -56,10 +59,6 @@ function PrayerTimesTable() {
     }, [])
   );
 
-  const city = storage.getString('selected-city') || 'skyblue';
-  const storageColor = storage.getString('theme-color') || 'skyblue';
-  const themeColor = storageColor === 'skyblue' ? '#87ceeb' : '#ff69b4';
-
   // showTimesOnPress function
   function showTimesOnPress() {
     // sethighlight(getTimes(getParsedPrayerTimes()).time);
@@ -76,6 +75,9 @@ function PrayerTimesTable() {
     //   setremaining('--');
     // }, 3000);
   }
+
+  const city = storage.getString('selected-city') || 'skyblue';
+  const themeColor = storage.getString('theme-color') || 'skyblue';
 
   if (arry.length === 6) {
     return (
@@ -179,6 +181,7 @@ const styles = StyleSheet.create({
     margin: 30,
     paddingHorizontal: 20,
     borderRadius: 10,
+    maxWidth: '99%',
   },
 
   remainingStyle: {

@@ -36,8 +36,6 @@ const getCityFromCoords = async (latitude: number, longitude: number) => {
     if (reverseGeocode.length > 0) {
       const address = reverseGeocode[0];
 
-      // console.log('City:', address);
-
       storage.set('lat', latitude);
       storage.set('long', longitude);
 
@@ -48,6 +46,7 @@ const getCityFromCoords = async (latitude: number, longitude: number) => {
       } else if (address.region) {
         storage.set('selected-city', address.region);
       }
+      // console.log('storage set for lat, long, city');
 
       return address.region;
     } else {

@@ -1,29 +1,22 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function Qibla() {
-  const insets = useSafeAreaInsets();
-
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#242424a4',
-        paddingHorizontal: 10,
-        // Paddings to handle safe area
-        paddingTop: insets.top,
-        paddingBottom: insets.bottom,
-      }}
-    >
+    <View style={styles.container}>
       <Text style={styles.text}>Gördüğün ilk kişiye kıbleyi sor.</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#242424a4',
+    paddingHorizontal: 10,
+  },
   btn: {
     backgroundColor: 'red',
     paddingBottom: 5,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { storage } from '../app/(screens)/_layout';
 import useToast from '../utils/useToast';
@@ -28,7 +28,7 @@ const Konsol = () => {
       storage.set('bg-img-URL', input.trim());
       setinput('');
     } else if (input.trim().toLowerCase() === 'varsayılan') {
-      storage.set('bg-img-URL', '');
+      storage.delete('bg-img-URL');
       setinput('');
       // BACKGROUND IMAGE END
     } else if (define[0].trim().toLowerCase() === 'notification body message') {
@@ -54,6 +54,9 @@ const Konsol = () => {
       // CANCEL NOTIFICATIONS
       // cancelTrigger();
       setinput('');
+    } else {
+      useToast('Oyuncağa benziyor galiba.');
+      setinput('');
     }
   };
 
@@ -64,16 +67,9 @@ const Konsol = () => {
         onChangeText={(text) => setinput(text)}
         onEndEditing={handleEndEditing}
         value={input}
+        // multiline={true}
+        cursorColor={themeColor}
       />
-      {/* <TextInput
-        style={styles.input}
-        onChangeText={setinput}
-        value={input}
-        placeholder="Enter text or URL"
-        keyboardType="default"
-        textAlign="center"
-        multiline={true}
-      /> */}
     </View>
   );
 };
@@ -83,15 +79,15 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 10,
+    marginVertical: 50,
   },
 
   input: {
     textAlign: 'center',
-    padding: 1,
-    borderWidth: 1,
+    padding: 5,
+    borderWidth: 2,
     borderRadius: 20,
-    width: '80%',
+    width: '70%',
     color: 'white',
   },
 });

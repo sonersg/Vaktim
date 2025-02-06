@@ -17,7 +17,9 @@ prayTimes.tune({
   maghrib: 6,
 });
 
-const timeZone = 3;
+const timeZone = -1 * (new Date().getTimezoneOffset() / 60);
+
+// console.log('timezone from calculate', timeZone);
 
 export default function calculateArray(size: number) {
   const lat = storage.getNumber('lat') || 37.066;
