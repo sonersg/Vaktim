@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, FlatList, StyleSheet, Text } from 'react-native';
 import { RDNObject } from '../../assets/iller';
 import { storage } from './_layout';
-import { IslamicEvents } from '../../assets/types/holyDaysObjectType';
+import { IslamicEvents } from '../../assets/types/types';
 
 const HolyDaysScreen = () => {
   const [religiousDaysNights, setreligiousDaysNights] =

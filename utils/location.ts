@@ -7,6 +7,8 @@ export async function getCurrentLocation() {
   //     return 'Oops, this will not work on Snack in an Android Emulator. Try it on your device!';
   //   }
 
+  console.log('location called');
+
   let { status } = await Location.requestForegroundPermissionsAsync();
   if (status !== 'granted') {
     return 'Permission to access location was denied';
@@ -14,7 +16,6 @@ export async function getCurrentLocation() {
 
   try {
     let location = await Location.getCurrentPositionAsync({});
-    //   console.log(location);
     await getCityFromCoords(
       location.coords.latitude,
       location.coords.longitude

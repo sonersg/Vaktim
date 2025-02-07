@@ -19,9 +19,9 @@ prayTimes.tune({
 
 const timeZone = -1 * (new Date().getTimezoneOffset() / 60);
 
-// console.log('timezone from calculate', timeZone);
-
 export default function calculateArray(size: number) {
+  console.log('Calculate function called', timeZone);
+
   const lat = storage.getNumber('lat') || 37.066;
   const long = storage.getNumber('long') || 37.3781;
 

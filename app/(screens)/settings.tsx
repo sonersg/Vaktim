@@ -35,10 +35,11 @@ const SettingsScreen = () => {
       <ScrollView>
         <Konsol />
         <View style={styles.sectionContainer}>
-          <Text style={styles.text}>Duvar kağıdı ayarla:</Text>
-          <Text style={{ fontSize: 12, color: 'white' }}>
+          <Text style={styles.text}>Duvar kağıdı:</Text>
+          <Text style={{ color: 'white', textAlign: 'center' }}>
             Duvar kağıdı ayarlamak için internetten bulduğunuz herhangi bir
-            fotoğrafı yeni sekmede açıp linkini konsola yapıştırabilirsiniz.
+            fotoğrafı yeni sekmede açıp, linkini yukarıdaki kutucuğa
+            yapıştırabilirsiniz.
           </Text>
         </View>
 
@@ -144,8 +145,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 20,
-    backgroundColor: '#555',
-    paddingVertical: 20,
+    borderWidth: 2,
+    padding: 10,
   },
 
   rowContainer: {

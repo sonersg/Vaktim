@@ -67,7 +67,7 @@ const Konsol = () => {
         onChangeText={(text) => setinput(text)}
         onEndEditing={handleEndEditing}
         value={input}
-        // multiline={true}
+        multiline={true}
         cursorColor={themeColor}
       />
     </View>

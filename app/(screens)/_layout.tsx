@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MMKV } from 'react-native-mmkv';
 
 export const storage = new MMKV();
+
 const defaultBgImgUri =
   'https://images.pexels.com/photos/8071161/pexels-photo-8071161.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
 
@@ -18,17 +19,15 @@ export default function ScreensLayout() {
       }}
       style={{
         flex: 1,
-        backgroundColor: '#242424',
+        backgroundColor: '#444',
         paddingTop: insets.top,
         paddingBottom: insets.bottom,
-        paddingHorizontal: 10,
+        paddingHorizontal: 5,
       }}
       resizeMode='cover'
     >
       <Stack
         screenOptions={{
-          // headerTransparent: true,
-          // headerShadowVisible: false,
           contentStyle: { backgroundColor: 'transparent' },
           animation: 'slide_from_bottom',
         }}
@@ -43,8 +42,8 @@ export default function ScreensLayout() {
       </Stack>
 
       <StatusBar
-        style='dark'
-        backgroundColor='transparent'
+        style='light'
+        // backgroundColor='transparent'
         translucent={true}
       />
     </ImageBackground>

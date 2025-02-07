@@ -24,10 +24,12 @@ function PrayerTimesTable() {
     useCallback(() => {
       // console.log(storage.getString('auto-location'));
 
-      const autoLocation = storage.getString('auto-location') || 'on';
-
       let arr = calculateArray(1)[0];
+      setarry(arr);
+      setremaining(getRemaining(arr) || '--');
+      sethighlight(getHighlightedIndex(arr) || 0);
 
+      const autoLocation = storage.getString('auto-location') || 'on';
       autoLocation === 'on' &&
         (async () => {
           await getCurrentLocation();
@@ -76,7 +78,7 @@ function PrayerTimesTable() {
     // }, 3000);
   }
 
-  const city = storage.getString('selected-city') || 'skyblue';
+  const city = storage.getString('selected-city') || 'Şehirler';
   const themeColor = storage.getString('theme-color') || 'skyblue';
 
   if (arry.length === 6) {
