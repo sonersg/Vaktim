@@ -12,6 +12,8 @@ const defaultBgImgUri =
 export default function ScreensLayout() {
   const insets = useSafeAreaInsets();
 
+  console.log('_layout screen');
+
   return (
     <ImageBackground
       source={{
@@ -30,15 +32,16 @@ export default function ScreensLayout() {
         screenOptions={{
           contentStyle: { backgroundColor: 'transparent' },
           animation: 'slide_from_bottom',
+          headerShown: false,
         }}
       >
-        <Stack.Screen name='index' options={{ headerShown: false }} />
-        <Stack.Screen name='citiesList' options={{ headerShown: false }} />
-        <Stack.Screen name='qada' options={{ headerShown: false }} />
-        <Stack.Screen name='qibla' options={{ headerShown: false }} />
-        <Stack.Screen name='settings' options={{ headerShown: false }} />
-        <Stack.Screen name='imsakiye' options={{ headerShown: false }} />
-        <Stack.Screen name='holy' options={{ headerShown: false }} />
+        <Stack.Screen name='index' />
+        <Stack.Screen name='citiesList' />
+        <Stack.Screen name='qada' />
+        <Stack.Screen name='qibla' />
+        <Stack.Screen name='settings' />
+        <Stack.Screen name='imsakiye' />
+        <Stack.Screen name='holy' />
       </Stack>
 
       <StatusBar

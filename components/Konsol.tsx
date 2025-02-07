@@ -8,7 +8,7 @@ const Konsol = () => {
 
   const themeColor = storage.getString('theme-color') || 'skyblue';
 
-  // onEndEditing function
+  // handleEndEditing function
   const handleEndEditing = () => {
     let define = ['', ''];
     if (input.includes('~')) define = input.trim().split('~');
@@ -54,10 +54,11 @@ const Konsol = () => {
       // CANCEL NOTIFICATIONS
       // cancelTrigger();
       setinput('');
-    } else {
-      useToast('Oyuncağa benziyor galiba.');
-      setinput('');
     }
+    // else {
+    //   useToast('Oyuncağa benziyor galiba.');
+    //   setinput('');
+    // }
   };
 
   return (
@@ -67,8 +68,8 @@ const Konsol = () => {
         onChangeText={(text) => setinput(text)}
         onEndEditing={handleEndEditing}
         value={input}
-        multiline={true}
         cursorColor={themeColor}
+        autoCapitalize='none'
       />
     </View>
   );
@@ -89,6 +90,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: '70%',
     color: 'white',
+    maxHeight: 44,
   },
 });
 

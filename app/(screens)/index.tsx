@@ -7,6 +7,8 @@ import PrayerTimesTable from '../../components/PrayerTimesTable';
 export default function Home() {
   const [menuVisible, setmenuVisible] = useState(false);
 
+  console.log('index screen');
+
   return (
     <Pressable
       style={styles.mainContainer}

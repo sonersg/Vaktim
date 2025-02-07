@@ -1,6 +1,5 @@
-import React, { memo, useCallback, useRef, useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import {
-  Pressable,
   StyleSheet,
   Text,
   TouchableHighlight,
@@ -61,34 +60,17 @@ function PrayerTimesTable() {
     }, [])
   );
 
-  // showTimesOnPress function
-  function showTimesOnPress() {
-    // sethighlight(getTimes(getParsedPrayerTimes()).time);
-    // let rt, rta;
-    // if (getTimes(getParsedPrayerTimes()).time === -1) {
-    //   rt = getTimes(getParsedPrayerTimes()).timeLeft;
-    // } else {
-    //   rta = getTimes(getParsedPrayerTimes()).timeLeft.split(':');
-    //   rt = rta[0] === '0' ? rta[1] : rta[0] + ':' + rta[1];
-    // }
-    // setremaining(rt);
-    // setTimeout(() => {
-    //   sethighlight(-1);
-    //   setremaining('--');
-    // }, 3000);
-  }
-
   const city = storage.getString('selected-city') || 'Şehirler';
   const themeColor = storage.getString('theme-color') || 'skyblue';
 
   if (arry.length === 6) {
     return (
       <View style={styles.mainContainer}>
-        <Pressable onPress={showTimesOnPress}>
+        <TouchableHighlight onPress={() => console.log('jk')}>
           <Text style={[styles.remainingStyle, { color: themeColor }]}>
             {remaining}
           </Text>
-        </Pressable>
+        </TouchableHighlight>
 
         <View>
           {arry.map((time: string, index: number) => (
