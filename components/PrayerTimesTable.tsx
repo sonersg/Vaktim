@@ -55,7 +55,7 @@ function PrayerTimesTable() {
 
         // sethighlight
         sethighlight(getHighlightedIndex(arr) || 0);
-      }, 3000);
+      }, 3333);
 
       return () => {
         console.log('Screen unfocused, clearing interval');
