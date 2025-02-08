@@ -1,12 +1,46 @@
 import { useRouter } from 'expo-router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Animated, {
+  useSharedValue,
+  withSpring,
+  useAnimatedStyle,
+} from 'react-native-reanimated';
 
-function Menu() {
+interface IMenuProps {
+  menuVisible: boolean;
+}
+function Menu({ menuVisible }: IMenuProps) {
   const router = useRouter();
+  const height = useSharedValue(0);
+  const opacity = useSharedValue(0);
+
+  useEffect(() => {
+    if (menuVisible) {
+      // height.value = withSpring(150, {
+      //   mass: 1,
+      //   stiffness: 100,
+      //   damping: 5, //also known as friction
+      // }); // Animate to 100
+      height.value = withSpring(150); // Animate to 100
+      opacity.value = withSpring(1); // Animate to 100
+    } else {
+      height.value = withSpring(55); // Animate to 0
+      opacity.value = withSpring(0); // Animate to 100
+    }
+  }, [menuVisible]); // Only run this effect when menuVisible changes
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      height: height.value, // Animate height
+      opacity: opacity.value,
+    };
+  });
+
+  // console.log(menuVisible);
 
   return (
-    <View style={styles.menuContainer}>
+    <Animated.View style={[styles.container, animatedStyle]}>
       <View style={styles.row}>
         <TouchableOpacity onPress={() => router.push('qada')}>
           <View style={styles.itemContainer}>
@@ -41,21 +75,21 @@ function Menu() {
           <Text>item 6 </Text>
         </View>
       </View> */}
-    </View>
+    </Animated.View>
   );
 }
 
 export default Menu;
 
 const styles = StyleSheet.create({
-  menuContainer: {
+  container: {
     display: 'flex',
     position: 'absolute',
-    bottom: 0,
+    bottom: -20,
     width: '100%',
-    height: 'auto',
-    backgroundColor: '#242424',
+    backgroundColor: '#33333399',
     padding: 10,
+    borderRadius: 30,
   },
 
   row: {

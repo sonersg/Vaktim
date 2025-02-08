@@ -21,7 +21,7 @@ export default function Home() {
           <PrayerTimesTable />
         </ScrollView>
       </View>
-      {menuVisible && <Menu />}
+      <Menu menuVisible={menuVisible} />
     </Pressable>
   );
 }

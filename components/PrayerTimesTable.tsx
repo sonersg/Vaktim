@@ -12,6 +12,7 @@ import { getHighlightedIndex, getRemaining } from '../utils/highlight';
 import { storage } from '../app/(screens)/_layout';
 import { getCurrentLocation } from '../utils/location';
 import calculateArray from '../utils/calculate';
+import Magnify from './Magnify';
 
 function PrayerTimesTable() {
   const [arry, setarry] = useState<string[]>([]);
@@ -28,34 +29,38 @@ function PrayerTimesTable() {
       setremaining(getRemaining(arr) || '--');
       sethighlight(getHighlightedIndex(arr) || 0);
 
-      const autoLocation = storage.getString('auto-location') || 'on';
-      autoLocation === 'on' &&
-        (async () => {
-          await getCurrentLocation();
-          arr = await calculateArray(1)[0];
-          setarry(arr);
-          setremaining(getRemaining(arr) || '--');
-          sethighlight(getHighlightedIndex(arr) || 0);
-        })();
+      const timeout = setTimeout(() => {
+        const autoLocation = storage.getString('auto-location') || 'on';
+        autoLocation === 'on' &&
+          (async () => {
+            await getCurrentLocation();
+            arr = await calculateArray(1)[0];
+            setarry(arr);
+            setremaining(getRemaining(arr) || '--');
+            sethighlight(getHighlightedIndex(arr) || 0);
+          })();
+      }, 1111);
 
       const interval = setInterval(() => {
         if (new Date().getHours() === 23) {
-          arr = calculateArray(1)[0];
+          if (new Date().getMinutes() === 59) {
+            arr = calculateArray(1)[0];
+            // setarry
+            setarry(arr);
+          }
         }
 
-        // if (!shouldShowTimesOnPress) {
+        // setremaining
         setremaining(getRemaining(arr) || '--');
-        // }
 
         // sethighlight
         sethighlight(getHighlightedIndex(arr) || 0);
-        // setarry
-        setarry(arr);
       }, 3000);
 
       return () => {
         console.log('Screen unfocused, clearing interval');
         clearInterval(interval);
+        clearTimeout(timeout);
       };
     }, [])
   );
@@ -66,11 +71,7 @@ function PrayerTimesTable() {
   if (arry.length === 6) {
     return (
       <View style={styles.mainContainer}>
-        <TouchableHighlight onPress={() => console.log('jk')}>
-          <Text style={[styles.remainingStyle, { color: themeColor }]}>
-            {remaining}
-          </Text>
-        </TouchableHighlight>
+        <Magnify remaining={remaining} themeColor={themeColor} />
 
         <View>
           {arry.map((time: string, index: number) => (
@@ -166,17 +167,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 10,
     maxWidth: '99%',
-  },
-
-  remainingStyle: {
-    fontSize: 20,
-    color: 'white',
-    paddingVertical: 5,
-    paddingHorizontal: 15,
-    backgroundColor: '#33333399',
-    fontWeight: 'bold',
-    borderWidth: 3,
-    borderColor: '#777',
-    borderRadius: 15,
   },
 });
