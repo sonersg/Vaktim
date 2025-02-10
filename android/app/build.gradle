@@ -86,9 +86,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.anonymous.Vaktim'
+    namespace 'com.viyolet'
     defaultConfig {
-        applicationId 'com.anonymous.Vaktim'
+        applicationId 'com.viyolet'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

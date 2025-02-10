@@ -1,4 +1,4 @@
-package com.anonymous.Vaktim
+package com.viyolet
 
 import android.os.Build
 import android.os.Bundle

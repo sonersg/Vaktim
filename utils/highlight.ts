@@ -1,6 +1,7 @@
 import moment from 'moment-timezone';
 import { storage } from '../app/(screens)/_layout';
 import calculateArray from './calculate';
+import useToast from './useToast';
 
 const ishaMessage =
   storage.getString('isha-message') || `Güneş: ${calculateArray(2)[1][1]}`;
@@ -45,5 +46,39 @@ export function getHighlightedIndex(todaySarray: string[]) {
   for (let i = 0; i < todaySarray.length; i++) {
     const prayerTimeValue = +todaySarray[i].replace(':', '');
     if (currentTimeValue <= prayerTimeValue) return i;
+  }
+}
+
+export function getTouched(touched: string) {
+  const currentTime = moment().format('HH:mm');
+
+  const [currentHours, currentMinutes] = currentTime.split(':');
+  const [touchedHours, touchedMinutes] = touched.split(':');
+
+  const totalMinutes1 = +currentHours * 60 + +currentMinutes;
+  const totalMinutes2 = +touchedHours * 60 + +touchedMinutes;
+
+  const minutesDifference = totalMinutes2 - totalMinutes1;
+
+  if (minutesDifference > 0) {
+    const hoursLeft = Math.floor(minutesDifference / 60).toString();
+    const minutesLeft = (minutesDifference % 60).toString();
+
+    if (hoursLeft === '0') {
+      useToast(`${minutesLeft} dakika sonra`);
+      return;
+    }
+
+    useToast(`${hoursLeft} saat ${minutesLeft} dakika sonra`);
+  } else if (minutesDifference < 0) {
+    const hoursLeft = Math.floor(-minutesDifference / 60).toString();
+    const minutesLeft = (-minutesDifference % 60).toString();
+
+    if (hoursLeft === '0') {
+      useToast(`${minutesLeft} dakika önce`);
+      return;
+    }
+
+    useToast(`${hoursLeft} saat ${minutesLeft} dakika önce`);
   }
 }

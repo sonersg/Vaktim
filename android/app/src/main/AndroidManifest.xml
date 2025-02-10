@@ -27,7 +27,7 @@
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="your-app-scheme"/>
-        <data android:scheme="com.anonymous.Vaktim"/>
+        <data android:scheme="com.viyolet"/>
       </intent-filter>
     </activity>
   </application>

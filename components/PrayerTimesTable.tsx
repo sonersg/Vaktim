@@ -8,7 +8,11 @@ import {
 } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { prayerTimeLabels } from '../assets/iller';
-import { getHighlightedIndex, getRemaining } from '../utils/highlight';
+import {
+  getHighlightedIndex,
+  getRemaining,
+  getTouched,
+} from '../utils/highlight';
 import { storage } from '../app/(screens)/_layout';
 import { getCurrentLocation } from '../utils/location';
 import calculateArray from '../utils/calculate';
@@ -78,7 +82,7 @@ function PrayerTimesTable() {
             <TouchableOpacity
               key={index}
               style={[styles.eachTimeContainer]}
-              // onPress={index === 4 ? getSunset : undefined}
+              onPress={() => getTouched(time)}
             >
               <Text
                 style={[
@@ -103,6 +107,14 @@ function PrayerTimesTable() {
                 {time}
               </Text>
             </TouchableOpacity>
+
+            // <TableCell
+            //   key={index}
+            //   time={time}
+            //   index={index}
+            //   highlight={highlight}
+            //   themeColor={themeColor}
+            // />
           ))}
         </View>
 
