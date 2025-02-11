@@ -2,9 +2,11 @@ import React, { memo, useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { storage } from '../app/(screens)/_layout';
 import useToast from '../utils/useToast';
+import { useRouter } from 'expo-router';
 
 const Konsol = () => {
   const [input, setinput] = useState('');
+  const router = useRouter();
 
   const themeColor = storage.getString('theme-color') || 'skyblue';
 
@@ -26,6 +28,7 @@ const Konsol = () => {
     } else if (input.trim().slice(0, 4) === 'http') {
       // BACKGROUND IMAGE START
       storage.set('bg-img-URL', input.trim());
+      router.setParams({ updateTrigger: input.trim() });
       setinput('');
     } else if (input.trim().toLowerCase() === 'varsayılan') {
       storage.delete('bg-img-URL');

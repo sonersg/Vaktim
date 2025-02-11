@@ -65,20 +65,19 @@ export function getTouched(touched: string) {
     const minutesLeft = (minutesDifference % 60).toString();
 
     if (hoursLeft === '0') {
-      useToast(`${minutesLeft} dakika sonra`);
-      return;
+      return `${minutesLeft} dakika sonra`;
     }
 
-    useToast(`${hoursLeft} saat ${minutesLeft} dakika sonra`);
+    return `${hoursLeft} saat ${minutesLeft} dakika sonra`;
   } else if (minutesDifference < 0) {
     const hoursLeft = Math.floor(-minutesDifference / 60).toString();
     const minutesLeft = (-minutesDifference % 60).toString();
 
     if (hoursLeft === '0') {
-      useToast(`${minutesLeft} dakika önce`);
-      return;
+      return `${minutesLeft} dakika önce`;
     }
 
-    useToast(`${hoursLeft} saat ${minutesLeft} dakika önce`);
+    return `${hoursLeft} saat ${minutesLeft} dakika önce`;
   }
+  return '';
 }

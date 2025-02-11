@@ -82,7 +82,7 @@ function PrayerTimesTable() {
             <TouchableOpacity
               key={index}
               style={[styles.eachTimeContainer]}
-              onPress={() => getTouched(time)}
+              onPress={() => setremaining(getTouched(time))}
             >
               <Text
                 style={[

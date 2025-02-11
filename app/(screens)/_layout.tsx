@@ -1,4 +1,4 @@
-import { Stack } from 'expo-router';
+import { Stack, useGlobalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { ImageBackground } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -6,13 +6,18 @@ import { MMKV } from 'react-native-mmkv';
 
 export const storage = new MMKV();
 
+// const defaultBgImgUri =
+//   'https://images.pexels.com/photos/8071161/pexels-photo-8071161.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
 const defaultBgImgUri =
-  'https://images.pexels.com/photos/8071161/pexels-photo-8071161.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
+  'https://images.pexels.com/photos/1624496/pexels-photo-1624496.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
 
 export default function ScreensLayout() {
   const insets = useSafeAreaInsets();
+  const params = useGlobalSearchParams();
 
-  console.log('_layout screen');
+  const updateTrigger = params.updateTrigger;
+
+  console.log('_layout screen: ', updateTrigger);
 
   return (
     <ImageBackground
