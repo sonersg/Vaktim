@@ -35,17 +35,17 @@ const SettingsScreen = () => {
       <ScrollView>
         <Konsol />
         <View style={styles.sectionContainer}>
-          <Text style={styles.text}>Duvar kağıdı:</Text>
+          <Text style={styles.text}>Duvar Kağıdı:</Text>
           <Text style={{ color: 'white', textAlign: 'center' }}>
             Duvar kağıdı ayarlamak için internetten bulduğunuz herhangi bir
-            fotoğrafı yeni sekmede açıp, linkini yukarıdaki kutucuğa
+            fotoğrafı yeni sekmede açıp, linkini yukarıdaki alana
             yapıştırabilirsiniz.
           </Text>
         </View>
 
         <View style={styles.sectionContainer}>
           <Text style={styles.text}>Konum:</Text>
-          <View style={styles.rowContainer}>
+          <View style={styles.row}>
             <TouchableHighlight
               style={[
                 styles.radioBtn,
@@ -76,7 +76,7 @@ const SettingsScreen = () => {
 
         {/* <View style={styles.sectionContainer}>
           <Text style={styles.text}>Bir sonraki namaza kalan vakti:</Text>
-          <View style={styles.rowContainer}>
+          <View style={styles.row}>
             <TouchableHighlight
               style={[
                 styles.radioBtn,
@@ -107,7 +107,7 @@ const SettingsScreen = () => {
 
         <View style={styles.sectionContainer}>
           <Text style={styles.text}>Bir renk seç?</Text>
-          <View style={styles.rowContainer}>
+          <View style={styles.row}>
             <TouchableHighlight
               style={[
                 styles.radioBtn,
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 
-  rowContainer: {
+  row: {
     flexDirection: 'row',
   },
 

@@ -6,10 +6,10 @@ import { MMKV } from 'react-native-mmkv';
 
 export const storage = new MMKV();
 
-// const defaultBgImgUri =
-//   'https://images.pexels.com/photos/8071161/pexels-photo-8071161.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
 const defaultBgImgUri =
-  'https://images.pexels.com/photos/1624496/pexels-photo-1624496.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
+  'https://images.pexels.com/photos/8071161/pexels-photo-8071161.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
+// const defaultBgImgUri =
+//   'https://images.pexels.com/photos/1624496/pexels-photo-1624496.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
 
 export default function ScreensLayout() {
   const insets = useSafeAreaInsets();

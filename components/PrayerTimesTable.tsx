@@ -21,12 +21,15 @@ import Magnify from './Magnify';
 function PrayerTimesTable() {
   const [arry, setarry] = useState<string[]>([]);
   const [remaining, setremaining] = useState('r');
+  const [bell, setbell] = useState('');
   const [highlight, sethighlight] = useState(-1);
   const router = useRouter();
 
   useFocusEffect(
     useCallback(() => {
       // console.log(storage.getString('auto-location'));
+
+      setbell(storage.getString('bells') || '000000');
 
       let arr = calculateArray(1)[0];
       setarry(arr);
@@ -46,18 +49,15 @@ function PrayerTimesTable() {
       }, 1111);
 
       const interval = setInterval(() => {
-        if (new Date().getHours() === 23) {
-          if (new Date().getMinutes() === 59) {
+        if (new Date().getHours() === 0) {
+          if (new Date().getMinutes() === 0) {
             arr = calculateArray(1)[0];
-            // setarry
             setarry(arr);
           }
         }
 
-        // setremaining
         setremaining(getRemaining(arr) || '--');
 
-        // sethighlight
         sethighlight(getHighlightedIndex(arr) || 0);
       }, 3333);
 
@@ -68,6 +68,20 @@ function PrayerTimesTable() {
       };
     }, [])
   );
+
+  function handleBell(index: number) {
+    if (bell[index] === '0') {
+      const temp = bell.substring(0, index) + '1' + bell.substring(index + 1);
+      storage.set('bells', temp);
+      setbell(temp);
+      // scheduleAlarm(index)
+    } else if (bell[index] === '1') {
+      const temp = bell.substring(0, index) + '0' + bell.substring(index + 1);
+      storage.set('bells', temp);
+      setbell(temp);
+      // cancellAlarm(index)
+    }
+  }
 
   const city = storage.getString('selected-city') || 'Şehirler';
   const themeColor = storage.getString('theme-color') || 'skyblue';
@@ -95,17 +109,25 @@ function PrayerTimesTable() {
               >
                 {prayerTimeLabels[index]}:
               </Text>
-              <Text
-                style={[
-                  styles.text,
-                  highlight === index && {
-                    fontWeight: 'bold',
-                    color: themeColor,
-                  },
-                ]}
-              >
-                {time}
-              </Text>
+
+              <View style={styles.row}>
+                <TouchableOpacity onPress={() => handleBell(index)}>
+                  <Text>{bell[index] === '1' ? '🔔' : '⚫️'}</Text>
+                  {/* ⭕️🟢🔴⚫️⚪️ */}
+                </TouchableOpacity>
+
+                <Text
+                  style={[
+                    styles.text,
+                    highlight === index && {
+                      fontWeight: 'bold',
+                      color: themeColor,
+                    },
+                  ]}
+                >
+                  {time}
+                </Text>
+              </View>
             </TouchableOpacity>
 
             // <TableCell
@@ -122,7 +144,7 @@ function PrayerTimesTable() {
           style={[styles.btn, { backgroundColor: themeColor }]}
           onPress={() => router.navigate('citiesList')}
         >
-          <Text style={{ color: 'white', fontSize: 25 }}>{city}</Text>
+          <Text style={styles.text}>{city}</Text>
         </TouchableHighlight>
 
         {/* <Text style={{ color: 'white', fontSize: 15 }}>{getSponsor()}</Text> */}
@@ -135,11 +157,8 @@ function PrayerTimesTable() {
           style={[styles.btn, { backgroundColor: themeColor }]}
           onPress={() => router.push('citiesList')}
         >
-          <Text style={{ color: 'white', fontSize: 25 }}>Şehirler</Text>
+          <Text style={styles.text}>Şehirler</Text>
         </TouchableHighlight>
-        <Text style={{ color: 'white', fontSize: 20 }}>
-          Lütfen bulunduğunuz şehri seçin.
-        </Text>
       </View>
     );
   }
@@ -161,11 +180,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#33333399',
     paddingVertical: 7,
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     borderWidth: 3,
     borderColor: '#777',
     borderRadius: 15,
-    width: 210,
+    width: 240,
   },
 
   text: {
@@ -179,5 +198,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 10,
     maxWidth: '99%',
+  },
+
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '50%',
+    alignItems: 'center',
   },
 });

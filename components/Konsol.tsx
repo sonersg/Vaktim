@@ -32,6 +32,7 @@ const Konsol = () => {
       setinput('');
     } else if (input.trim().toLowerCase() === 'varsayılan') {
       storage.delete('bg-img-URL');
+      router.setParams({ updateTrigger: input.trim() });
       setinput('');
       // BACKGROUND IMAGE END
     } else if (define[0].trim().toLowerCase() === 'notification body message') {
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     padding: 5,
     borderWidth: 2,
-    borderRadius: 20,
+    borderRadius: 15,
     width: '70%',
     color: 'white',
     maxHeight: 44,

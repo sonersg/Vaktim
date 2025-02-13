@@ -22,12 +22,10 @@ const timeZone = -1 * (new Date().getTimezoneOffset() / 60);
 export default function calculateArray(size: number) {
   console.log('Calculate function called', timeZone);
 
-  const lat = storage.getNumber('lat') || 37.066;
-  const long = storage.getNumber('long') || 37.3781;
+  const lat = storage.getNumber('lat') || -111;
+  const long = storage.getNumber('long') || -111;
 
-  if (lat === 37.066 && long === 37.3781) {
-    storage.set('selected-city', 'Gaziantep');
-  }
+  if (lat === -111 && long === -111) return [];
 
   const arr = new Array(size); // Pre-allocate
 
