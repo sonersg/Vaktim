@@ -1,7 +1,6 @@
 import moment from 'moment-timezone';
 import { storage } from '../app/(screens)/_layout';
 import calculateArray from './calculate';
-import useToast from './useToast';
 
 const ishaMessage =
   storage.getString('isha-message') || `Güneş: ${calculateArray(2)[1][1]}`;

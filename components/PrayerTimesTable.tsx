@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#777',
     borderRadius: 15,
-    width: 240,
+    width: 230,
   },
 
   text: {
