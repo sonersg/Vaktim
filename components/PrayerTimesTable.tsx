@@ -111,9 +111,11 @@ function PrayerTimesTable() {
               </Text>
 
               <View style={styles.row}>
-                <TouchableOpacity onPress={() => handleBell(index)}>
+                <TouchableOpacity
+                  style={styles.bell}
+                  onPress={() => handleBell(index)}
+                >
                   <Text>{bell[index] === '1' ? '🔔' : '⚫️'}</Text>
-                  {/* ⭕️🟢🔴⚫️⚪️ */}
                 </TouchableOpacity>
 
                 <Text
@@ -129,14 +131,6 @@ function PrayerTimesTable() {
                 </Text>
               </View>
             </TouchableOpacity>
-
-            // <TableCell
-            //   key={index}
-            //   time={time}
-            //   index={index}
-            //   highlight={highlight}
-            //   themeColor={themeColor}
-            // />
           ))}
         </View>
 
@@ -184,7 +178,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#777',
     borderRadius: 15,
-    width: 230,
+    width: 240,
   },
 
   text: {
@@ -202,8 +196,13 @@ const styles = StyleSheet.create({
 
   row: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '50%',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '57%',
+  },
+
+  bell: {
+    // backgroundColor: 'red',
+    padding: 7,
   },
 });
