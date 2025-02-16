@@ -8,6 +8,7 @@ import useToast from './useToast';
 import calculateArray from './calculate';
 import { getISO } from './date';
 import { storage } from '../app/(screens)/_layout';
+import { PermissionsAndroid, Platform } from 'react-native';
 
 const SIZE = 5;
 const fiveArr = calculateArray(SIZE);
@@ -79,3 +80,30 @@ export const resetAlarms = async () => {
   // console.log(await getAllAlarms());
   console.log('dddddddddddddddddddddddddddddddddddddd');
 };
+
+// requestNotificationPermissions function
+export async function requestNotificationPermissions() {
+  if (Platform.OS === 'android') {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+        {
+          title: 'Notification Permission',
+          message: 'App needs notification permission to show alarms',
+          buttonPositive: 'OK',
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('You can use the notifications');
+        return true; // Permission granted
+      } else {
+        console.log('Notification permission denied');
+        return false; // Permission denied
+      }
+    } catch (err) {
+      console.warn(err);
+      return false;
+    }
+  }
+  return true; // Permission granted by default on iOS or not needed
+}

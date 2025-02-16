@@ -1,6 +1,9 @@
 import { Stack } from 'expo-router';
 import { useEffect } from 'react';
-import { resetAlarms } from '../utils/expoAlarm';
+import {
+  requestNotificationPermissions,
+  resetAlarms,
+} from '../utils/expoAlarm';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -14,7 +17,7 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   useEffect(() => {
-    resetAlarms();
+    requestNotificationPermissions().then(() => resetAlarms());
   }, []);
 
   return (
