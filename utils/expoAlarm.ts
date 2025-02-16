@@ -1,0 +1,81 @@
+import {
+  getAllAlarms,
+  removeAlarm,
+  removeAllAlarms,
+  scheduleAlarm,
+} from 'expo-alarm-module';
+import useToast from './useToast';
+import calculateArray from './calculate';
+import { getISO } from './date';
+import { storage } from '../app/(screens)/_layout';
+
+const SIZE = 5;
+const fiveArr = calculateArray(SIZE);
+
+// setAlarm function
+export const setAlarm = async (prayer: number) => {
+  if (fiveArr.length === 2) return;
+
+  const now = new Date(); // Get the current date and time
+  const timeZone = new Date().getTimezoneOffset() / -60;
+  now.setUTCHours(now.getUTCHours() + timeZone);
+
+  fiveArr.map(async (arr, index) => {
+    const hr = +arr[prayer].slice(0, 2);
+    const mn = +arr[prayer].slice(3, 5);
+
+    const newDate = new Date();
+    newDate.setUTCDate(newDate.getUTCDate() + index);
+    // newDate.setHours(hr);
+    newDate.setUTCHours(hr);
+    newDate.setUTCMinutes(mn);
+    newDate.setUTCSeconds(0);
+
+    // Check if the newDate is in the past
+    if (newDate <= now) {
+      console.log(`Skipping past date: ${newDate}`);
+      // console.log(newDate, now);
+      return; // Skip scheduling this alarm
+    }
+
+    await scheduleAlarm({
+      uid: `${prayer}~${getISO(index)}`,
+      day: newDate,
+      title: arr[prayer],
+      description: '',
+      snoozeInterval: 5,
+      repeating: false,
+      active: true,
+    } as any);
+  });
+
+  // console.log(await getAllAlarms());
+};
+
+// cancellAlarm function
+export const cancellAlarm = async (index: number) => {
+  useToast('Güncelleniyor');
+
+  for (let i = 0; i < SIZE; i++) {
+    await removeAlarm(`${index}~${getISO(i)}`);
+  }
+
+  console.log(await getAllAlarms());
+};
+
+// resetAlarms function
+export const resetAlarms = async () => {
+  await removeAllAlarms();
+
+  const bells = storage.getString('bells') || '111000';
+
+  bells.split('').map(async (digit, index) => {
+    if (digit === '1') {
+      await setAlarm(index);
+      // console.log(index);
+    }
+  });
+
+  // console.log(await getAllAlarms());
+  console.log('dddddddddddddddddddddddddddddddddddddd');
+};

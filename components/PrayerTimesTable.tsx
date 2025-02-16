@@ -17,6 +17,7 @@ import { storage } from '../app/(screens)/_layout';
 import { getCurrentLocation } from '../utils/location';
 import calculateArray from '../utils/calculate';
 import Magnify from './Magnify';
+import { cancellAlarm, setAlarm } from '../utils/expoAlarm';
 
 function PrayerTimesTable() {
   const [arry, setarry] = useState<string[]>([]);
@@ -29,7 +30,7 @@ function PrayerTimesTable() {
     useCallback(() => {
       // console.log(storage.getString('auto-location'));
 
-      setbell(storage.getString('bells') || '000000');
+      setbell(storage.getString('bells') || '111000');
 
       let arr = calculateArray(1)[0];
       setarry(arr);
@@ -74,12 +75,12 @@ function PrayerTimesTable() {
       const temp = bell.substring(0, index) + '1' + bell.substring(index + 1);
       storage.set('bells', temp);
       setbell(temp);
-      // scheduleAlarm(index)
+      setAlarm(index);
     } else if (bell[index] === '1') {
       const temp = bell.substring(0, index) + '0' + bell.substring(index + 1);
       storage.set('bells', temp);
       setbell(temp);
-      // cancellAlarm(index)
+      cancellAlarm(index);
     }
   }
 
