@@ -29,11 +29,9 @@ const ImsakiyeScreen = () => {
   if (arr.length > 0) {
     return (
       <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>
-            {getTR()} - {getHijri()}
-          </Text>
-        </View>
+        <Text style={styles.header}>
+          {getTR()} - {getHijri()}
+        </Text>
 
         <ScrollView horizontal>
           <FlatList
@@ -74,7 +72,7 @@ const ImsakiyeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 6,
+    padding: 5,
     backgroundColor: '#242424aa',
     justifyContent: 'center',
     alignItems: 'center',
@@ -95,12 +93,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'green',
     paddingHorizontal: 20,
     paddingVertical: 5,
-    marginVertical: 20,
-  },
-
-  headerText: {
-    fontWeight: 'bold',
+    marginVertical: 30,
     color: 'white',
+    fontWeight: 'bold',
+    fontSize: 18,
   },
 });
 

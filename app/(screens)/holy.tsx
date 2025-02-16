@@ -39,21 +39,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     // justifyContent: 'center',
     backgroundColor: '#242424aa',
-    paddingHorizontal: 10,
+    padding: 10,
   },
 
   header: {
     backgroundColor: 'green',
     paddingHorizontal: 20,
     paddingVertical: 5,
-    marginVertical: 50,
+    marginVertical: 30,
     color: 'white',
     fontWeight: 'bold',
+    fontSize: 18,
   },
 
   text: {
     color: 'white',
-    fontSize: 15,
+    fontSize: 17,
     marginVertical: 5,
   },
 });
