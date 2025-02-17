@@ -41,11 +41,14 @@ function PrayerTimesTable() {
         const autoLocation = storage.getString('auto-location') || 'on';
         autoLocation === 'on' &&
           (async () => {
-            await getCurrentLocation();
-            arr = await calculateArray(1)[0];
-            setarry(arr);
-            setremaining(getRemaining(arr) || '--');
-            sethighlight(getHighlightedIndex(arr) || 0);
+            const loc = await getCurrentLocation();
+            console.log(loc);
+            if (loc === 'location-changed') {
+              arr = await calculateArray(1)[0];
+              setarry(arr);
+              setremaining(getRemaining(arr) || '--');
+              sethighlight(getHighlightedIndex(arr) || 0);
+            }
           })();
       }, 1111);
 

@@ -38,6 +38,8 @@ export async function getCurrentLocation() {
         storage.set('lon', longitude);
 
         await getCityFromCoords(latitude, longitude);
+
+        return 'location-changed';
       }
     } else {
       // If no stored location exists, save the new location
@@ -46,7 +48,7 @@ export async function getCurrentLocation() {
     }
 
     // return JSON.stringify(location);
-    return 'success';
+    return 'success-Location is same';
   } catch (error) {
     return "Couldn't get location!";
   }
