@@ -36,7 +36,6 @@ export async function getCurrentLocation() {
       ) {
         storage.set('lat', latitude);
         storage.set('lon', longitude);
-
         await getCityFromCoords(latitude, longitude);
 
         return 'location-changed';
@@ -45,6 +44,9 @@ export async function getCurrentLocation() {
       // If no stored location exists, save the new location
       storage.set('lat', latitude);
       storage.set('lon', longitude);
+      await getCityFromCoords(latitude, longitude);
+
+      return 'location-changed';
     }
 
     // return JSON.stringify(location);
