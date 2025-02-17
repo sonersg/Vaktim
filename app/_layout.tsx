@@ -17,7 +17,7 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   useEffect(() => {
-    requestNotificationPermissions().then(() => resetAlarms());
+    requestNotificationPermissions().then(resetAlarms);
   }, []);
 
   return (

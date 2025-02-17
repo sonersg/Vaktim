@@ -38,7 +38,7 @@ class Sound {
         startVibration();
 
         // Stop alarm automatically after 5 seconds
-        new Handler(Looper.getMainLooper()).postDelayed(this::stop, 9999);
+        new Handler(Looper.getMainLooper()).postDelayed(this::stop, 11111);
     }
 
     void stop() {
@@ -59,7 +59,7 @@ class Sound {
                 mediaPlayer.setScreenOnWhilePlaying(true);
                 mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
                 mediaPlayer.setDataSource(context, soundUri);
-                mediaPlayer.setVolume(100, 100);
+                mediaPlayer.setVolume(99, 99);
                 mediaPlayer.setLooping(false);
                 mediaPlayer.prepare();
                 mediaPlayer.start();
