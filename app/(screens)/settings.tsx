@@ -8,6 +8,9 @@ import {
 } from 'react-native';
 import { storage } from './_layout';
 import Konsol from '../../components/Konsol';
+import * as Linking from 'expo-linking';
+import { Platform } from 'react-native';
+import { Alert } from 'react-native';
 
 const SettingsScreen = () => {
   const [themeColor, setthemeColor] = useState(
@@ -71,6 +74,36 @@ const SettingsScreen = () => {
               onPress={() => setAndNotify('auto-location', 'off')}
             >
               <Text style={styles.text}>Kapalı</Text>
+            </TouchableHighlight>
+          </View>
+          <TouchableHighlight
+            style={[
+              styles.radioBtn,
+              { borderColor: themeColor },
+              highlight === 'always' && {
+                backgroundColor: themeColor,
+              },
+            ]}
+            onPress={reqLocAcc}
+          >
+            <Text style={styles.text}>Konum erişimine izin ver</Text>
+          </TouchableHighlight>
+        </View>
+
+        <View style={styles.sectionContainer}>
+          <Text style={styles.text}>Bildirimler:</Text>
+          <View style={styles.row}>
+            <TouchableHighlight
+              style={[
+                styles.radioBtn,
+                { borderColor: themeColor },
+                highlight === 'always' && {
+                  backgroundColor: themeColor,
+                },
+              ]}
+              onPress={reqLocAcc}
+            >
+              <Text style={styles.text}>Bildirimlere izin ver</Text>
             </TouchableHighlight>
           </View>
         </View>
@@ -177,3 +210,30 @@ const styles = StyleSheet.create({
 });
 
 export default SettingsScreen;
+
+// Request Location Access Function
+function reqLocAcc() {
+  // Handle different platforms
+  if (Platform.OS === 'ios') {
+    Linking.openURL('app-settings:'); // Opens iOS app settings
+  } else if (Platform.OS === 'android') {
+    // More robust method for Android (try multiple methods for different Android versions)
+    try {
+      Linking.openSettings(); // Try the most common settings page
+    } catch (e) {
+      // Fallback to a direct intent (more specific, less reliable)
+      try {
+        Linking.openURL('app-settings:');
+      } catch (e) {
+        // Last resort - open app details page which contains permission settings
+        console.error('Could not open app settings: ', e);
+      }
+    }
+  } else {
+    // Handle other platforms (e.g., web) - usually settings aren't accessible directly.
+    Alert.alert(
+      'Platform Not Supported',
+      'Please enable location permissions manually in your device settings.'
+    );
+  }
+}
