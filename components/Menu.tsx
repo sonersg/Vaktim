@@ -58,7 +58,7 @@ function Menu({ menuVisible }: IMenuProps) {
 
         <TouchableOpacity onPress={() => router.push('settings')}>
           <View style={styles.itemContainer}>
-            <Text style={{ fontSize: 50 }}>💬</Text>
+            <Text style={{ fontSize: 50 }}>✨</Text>
             <Text style={{ color: 'white' }}>Ayarlar</Text>
           </View>
         </TouchableOpacity>
