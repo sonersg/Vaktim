@@ -29,7 +29,7 @@ const ImsakiyeScreen = () => {
   if (arr.length > 0) {
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>
+        <Text style={[styles.header, { backgroundColor: themeColor }]}>
           {getTR()} - {getHijri()}
         </Text>
 

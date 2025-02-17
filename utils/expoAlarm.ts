@@ -11,26 +11,24 @@ import { storage } from '../app/(screens)/_layout';
 import { PermissionsAndroid, Platform } from 'react-native';
 
 const SIZE = 5;
-const fiveArr = calculateArray(SIZE);
 
 // setAlarm function
 export const setAlarm = async (prayer: number) => {
+  const fiveArr = calculateArray(SIZE);
   if (fiveArr.length === 2) return;
 
   const now = new Date(); // Get the current date and time
-  const timeZone = new Date().getTimezoneOffset() / -60;
-  now.setUTCHours(now.getUTCHours() + timeZone);
 
   fiveArr.map(async (arr, index) => {
     const hr = +arr[prayer].slice(0, 2);
     const mn = +arr[prayer].slice(3, 5);
 
     const newDate = new Date();
-    newDate.setUTCDate(newDate.getUTCDate() + index);
+    newDate.setDate(newDate.getDate() + index);
     // newDate.setHours(hr);
-    newDate.setUTCHours(hr);
-    newDate.setUTCMinutes(mn);
-    newDate.setUTCSeconds(0);
+    newDate.setHours(hr);
+    newDate.setMinutes(mn);
+    newDate.setSeconds(0);
 
     // Check if the newDate is in the past
     if (newDate <= now) {
@@ -61,7 +59,7 @@ export const cancellAlarm = async (index: number) => {
     await removeAlarm(`${index}~${getISO(i)}`);
   }
 
-  console.log(await getAllAlarms());
+  // console.log(await getAllAlarms());
 };
 
 // resetAlarms function

@@ -21,12 +21,12 @@ export default function CitiesList() {
     setconcatedArr(concated);
   }, []);
 
-  async function handleItemPress(cityName: string, lat: number, long: number) {
+  async function handleItemPress(cityName: string, lat: number, lon: number) {
     if (cityName === '--') return;
     storage.set('selected-city', cityName);
     storage.set('lat', lat);
-    storage.set('long', long);
-    setFavs(cityName, lat, long);
+    storage.set('lon', lon);
+    setFavs(cityName, lat, lon);
     router.back();
   }
 

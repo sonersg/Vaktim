@@ -23,9 +23,9 @@ export default function calculateArray(size: number) {
   console.log('Calculate function called', timeZone);
 
   const lat = storage.getNumber('lat') || -111;
-  const long = storage.getNumber('long') || -111;
+  const lon = storage.getNumber('lon') || -111;
 
-  if (lat === -111 && long === -111) return [[], ['--', 'isha']];
+  if (lat === -111 && lon === -111) return [[], ['--', 'isha']];
 
   const arr = new Array(size); // Pre-allocate
 
@@ -33,7 +33,7 @@ export default function calculateArray(size: number) {
     const date = new Date();
     date.setDate(date.getDate() + i);
     // const iso = date.toISOString().slice(0, 10);
-    const times = prayTimes.getTimes(date, [lat, long], timeZone);
+    const times = prayTimes.getTimes(date, [lat, lon], timeZone);
     const valuesArray = Object.values(times);
     valuesArray.splice(8, 1); // remove midnight
     valuesArray.splice(5, 1); // remove sunset

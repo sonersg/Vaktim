@@ -19,7 +19,10 @@ const HolyDaysScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>{religiousDaysNights.dgg}</Text>
+      <Text style={[styles.header, { backgroundColor: themeColor }]}>
+        {religiousDaysNights.dgg}
+      </Text>
+
       <FlatList
         data={religiousDaysNights.value}
         renderItem={({ item, index }) => (

@@ -2,6 +2,8 @@
 import * as Location from 'expo-location';
 import { storage } from '../app/(screens)/_layout';
 
+const LOCATION_CHANGE_THRESHOLD = 0.01; // Threshold in degrees (approx 1 km)
+
 export async function getCurrentLocation() {
   //   if (Platform.OS === 'android' && !Device.isDevice) {
   //     return 'Oops, this will not work on Snack in an Android Emulator. Try it on your device!';
@@ -16,10 +18,33 @@ export async function getCurrentLocation() {
 
   try {
     let location = await Location.getCurrentPositionAsync({});
-    await getCityFromCoords(
-      location.coords.latitude,
-      location.coords.longitude
-    );
+    const { latitude, longitude } = location.coords;
+
+    // Get the previously stored location
+    const storedLat = storage.getNumber('lat');
+    const storedLon = storage.getNumber('lon');
+
+    if (storedLat && storedLon) {
+      // Calculate the difference between the new and stored location
+      const latDiff = Math.abs(latitude - storedLat);
+      const lonDiff = Math.abs(longitude - storedLon);
+
+      // Only update storage if the change is significant
+      if (
+        latDiff > LOCATION_CHANGE_THRESHOLD ||
+        lonDiff > LOCATION_CHANGE_THRESHOLD
+      ) {
+        storage.set('lat', latitude);
+        storage.set('lon', longitude);
+
+        await getCityFromCoords(latitude, longitude);
+      }
+    } else {
+      // If no stored location exists, save the new location
+      storage.set('lat', latitude);
+      storage.set('lon', longitude);
+    }
+
     // return JSON.stringify(location);
     return 'success';
   } catch (error) {
@@ -37,9 +62,6 @@ const getCityFromCoords = async (latitude: number, longitude: number) => {
     if (reverseGeocode.length > 0) {
       const address = reverseGeocode[0];
 
-      storage.set('lat', latitude);
-      storage.set('long', longitude);
-
       if (address.city) {
         storage.set('selected-city', address.city);
       } else if (address.subregion) {
@@ -47,7 +69,7 @@ const getCityFromCoords = async (latitude: number, longitude: number) => {
       } else if (address.region) {
         storage.set('selected-city', address.region);
       }
-      // console.log('storage set for lat, long, city');
+      // console.log('storage set for lat, lon, city');
 
       return address.region;
     } else {

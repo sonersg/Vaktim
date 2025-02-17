@@ -34,6 +34,7 @@ const SettingsScreen = () => {
     <View style={{ flex: 1, backgroundColor: '#242424a4' }}>
       <ScrollView>
         <Konsol />
+
         <View style={styles.sectionContainer}>
           <Text style={styles.text}>Duvar Kağıdı:</Text>
           <Text style={{ color: 'white', textAlign: 'center' }}>
