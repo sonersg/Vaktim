@@ -79,6 +79,21 @@ export const resetAlarms = async () => {
   console.log('dddddddddddddddddddddddddddddddddddddd');
 };
 
+export async function testAlarm() {
+  const newDate = new Date();
+  newDate.setSeconds(newDate.getSeconds() + 4);
+
+  await scheduleAlarm({
+    uid: 'test',
+    day: newDate,
+    title: 'arr[prayer]',
+    description: '',
+    snoozeInterval: 5,
+    repeating: false,
+    active: true,
+  } as any);
+}
+
 // requestNotificationPermissions function
 export async function requestNotificationPermissions() {
   if (Platform.OS === 'android') {

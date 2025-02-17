@@ -90,7 +90,7 @@ class Sound {
             vibrator.vibrate(500);
         }
 
-        long[] pattern = {0, 500, 1000, 1000,1000};
+        long[] pattern = {0, 300, 200, 200, 500};
 
         // The '0' here means to repeat indefinitely
         // '0' is actually the index at which the pattern keeps repeating from (the start)
@@ -116,6 +116,7 @@ class Sound {
             }
             soundUri = Uri.parse("android.resource://" + context.getPackageName() + "/" + resId);
         }
+        
         return soundUri;
     }
 }
