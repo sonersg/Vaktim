@@ -1,6 +1,7 @@
 // import * as Device from 'expo-device';
 import * as Location from 'expo-location';
 import { storage } from '../app/(screens)/_layout';
+import { resetAlarms } from './expoAlarm';
 
 const LOCATION_CHANGE_THRESHOLD = 0.01; // Threshold in degrees (approx 1 km)
 
@@ -36,6 +37,7 @@ export async function getCurrentLocation() {
       ) {
         storage.set('lat', latitude);
         storage.set('lon', longitude);
+        resetAlarms();
         await getCityFromCoords(latitude, longitude);
 
         return 'location-changed';
@@ -44,6 +46,7 @@ export async function getCurrentLocation() {
       // If no stored location exists, save the new location
       storage.set('lat', latitude);
       storage.set('lon', longitude);
+      resetAlarms();
       await getCityFromCoords(latitude, longitude);
 
       return 'location-changed';
