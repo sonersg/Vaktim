@@ -6,7 +6,7 @@ const ishaMessage =
   storage.getString('isha-message') || `Güneş: ${calculateArray(2)[1][1]}`;
 
 export function getRemaining(todaySarray: string[]) {
-  if (todaySarray.length < 5) return 'ah sana array';
+  if (todaySarray.length < 6) return 'ah sana array';
 
   const currentTime = moment().format('HH:mm');
   const currentTimeValue = +currentTime.replace(':', '');
@@ -36,7 +36,8 @@ export function getRemaining(todaySarray: string[]) {
 }
 
 export function getHighlightedIndex(todaySarray: string[]) {
-  if (todaySarray.length < 5) return -1;
+  if (todaySarray.length < 6) return -1;
+
   const currentTime = moment().format('HH:mm');
   const currentTimeValue = +currentTime.replace(':', '');
   const ishaTimeValue = +todaySarray[5].replace(':', '');

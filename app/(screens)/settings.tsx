@@ -16,9 +16,6 @@ const SettingsScreen = () => {
   const [themeColor, setthemeColor] = useState(
     storage.getString('theme-color') || 'skyblue'
   );
-  const [highlight, setHighlight] = useState(
-    storage.getString('show-times-when') || 'always'
-  );
   const [locatn, setlocatn] = useState(
     storage.getString('auto-location') || 'on'
   );
@@ -28,7 +25,6 @@ const SettingsScreen = () => {
     storage.set(key, value);
 
     // set state
-    if (key === 'show-times-when') setHighlight(value);
     if (key === 'theme-color') setthemeColor(value);
     if (key === 'auto-location') setlocatn(value);
   };
@@ -77,14 +73,8 @@ const SettingsScreen = () => {
             </TouchableHighlight>
           </View>
           <TouchableHighlight
-            style={[
-              styles.radioBtn,
-              { borderColor: themeColor },
-              highlight === 'always' && {
-                backgroundColor: themeColor,
-              },
-            ]}
-            onPress={reqLocAcc}
+            style={[styles.radioBtn, { backgroundColor: themeColor }]}
+            onPress={openAppSettings}
           >
             <Text style={styles.text}>Konum erişimine izin ver</Text>
           </TouchableHighlight>
@@ -94,14 +84,8 @@ const SettingsScreen = () => {
           <Text style={styles.text}>Bildirimler:</Text>
           <View style={styles.row}>
             <TouchableHighlight
-              style={[
-                styles.radioBtn,
-                { borderColor: themeColor },
-                highlight === 'always' && {
-                  backgroundColor: themeColor,
-                },
-              ]}
-              onPress={reqLocAcc}
+              style={[styles.radioBtn, { backgroundColor: themeColor }]}
+              onPress={openAppSettings}
             >
               <Text style={styles.text}>Bildirimlere izin ver</Text>
             </TouchableHighlight>
@@ -212,7 +196,7 @@ const styles = StyleSheet.create({
 export default SettingsScreen;
 
 // Request Location Access Function
-function reqLocAcc() {
+function openAppSettings() {
   // Handle different platforms
   if (Platform.OS === 'ios') {
     Linking.openURL('app-settings:'); // Opens iOS app settings
