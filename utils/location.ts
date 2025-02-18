@@ -12,6 +12,7 @@ export async function getCurrentLocation() {
 
   let { status } = await Location.requestForegroundPermissionsAsync();
   if (status !== 'granted') {
+    storage.set('auto-location', 'off');
     return 'Permission to access location was denied';
   }
 
