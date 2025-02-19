@@ -2,6 +2,7 @@
 import * as Location from 'expo-location';
 import { storage } from '../app/(screens)/_layout';
 import { resetAlarms } from './expoAlarm';
+import { setFavs } from './favsArray';
 
 const LOCATION_CHANGE_THRESHOLD = 0.01; // Threshold in degrees (approx 1 km)
 
@@ -53,7 +54,6 @@ export async function getCurrentLocation() {
       return 'location-changed';
     }
 
-    // return JSON.stringify(location);
     return 'success-Location is same';
   } catch (error) {
     return "Couldn't get location!";
@@ -72,12 +72,14 @@ const getCityFromCoords = async (latitude: number, longitude: number) => {
 
       if (address.city) {
         storage.set('selected-city', address.city);
+        setFavs(address.city, latitude, longitude);
       } else if (address.subregion) {
         storage.set('selected-city', address.subregion);
+        setFavs(address.subregion, latitude, longitude);
       } else if (address.region) {
         storage.set('selected-city', address.region);
+        setFavs(address.region, latitude, longitude);
       }
-      // console.log('storage set for lat, lon, city');
 
       return address.region;
     } else {

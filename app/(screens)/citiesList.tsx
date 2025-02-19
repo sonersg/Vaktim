@@ -10,13 +10,14 @@ import { useRouter } from 'expo-router';
 import { iller } from '../../assets/iller';
 import { getFavs, setFavs } from '../../utils/favsArray';
 import { storage } from './_layout';
+import { resetAlarms } from '../../utils/expoAlarm';
 
 export default function CitiesList() {
   const router = useRouter();
   const [concatedArr, setconcatedArr] = useState(getFavs());
 
   useEffect(() => {
-    const favsArr = getFavs() || [];
+    const favsArr = getFavs();
     const concated = favsArr.concat(iller);
     setconcatedArr(concated);
   }, []);
@@ -26,8 +27,9 @@ export default function CitiesList() {
     storage.set('selected-city', cityName);
     storage.set('lat', lat);
     storage.set('lon', lon);
-    setFavs(cityName, lat, lon);
     router.back();
+    setFavs(cityName, lat, lon);
+    resetAlarms();
   }
 
   return (

@@ -21,7 +21,7 @@ import { cancellAlarm, setAlarm } from '../utils/expoAlarm';
 
 function PrayerTimesTable() {
   const [arry, setarry] = useState<string[]>([]);
-  const [remaining, setremaining] = useState('r');
+  const [remaining, setremaining] = useState('--');
   const [bell, setbell] = useState('');
   const [highlight, sethighlight] = useState(-1);
   const router = useRouter();
@@ -45,9 +45,9 @@ function PrayerTimesTable() {
             console.log(loc);
             if (loc === 'location-changed') {
               arr = await calculateArray(1)[0];
-              setarry(arr);
-              setremaining(getRemaining(arr) || '--');
-              sethighlight(getHighlightedIndex(arr) || 0);
+              await setarry(arr);
+              await setremaining(getRemaining(arr) || '--');
+              await sethighlight(getHighlightedIndex(arr) || 0);
             }
           })();
       }, 1111);

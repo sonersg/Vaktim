@@ -1,7 +1,7 @@
 import { storage } from '../app/(screens)/_layout';
 
 // setFavs function
-export function setFavs(city: string, lat: number, long: number) {
+export function setFavs(city: string, lat: number, lon: number) {
   const arrStr = storage.getString('favs-array') || '[]';
   const parsedArray = JSON.parse(arrStr);
 
@@ -10,7 +10,7 @@ export function setFavs(city: string, lat: number, long: number) {
     code: null,
     sponsor: '--',
     latitude: lat,
-    longitude: long,
+    longitude: lon,
   };
 
   if (parsedArray.length >= 5) {
@@ -22,6 +22,7 @@ export function setFavs(city: string, lat: number, long: number) {
 
   storage.set('favs-array', JSON.stringify(parsedArray));
 }
+
 // getFavs function
 export function getFavs() {
   const arrStr = storage.getString('favs-array') || '[]';

@@ -25,7 +25,7 @@ export default function calculateArray(size: number) {
   const lat = storage.getNumber('lat') || -111;
   const lon = storage.getNumber('lon') || -111;
 
-  if (lat === -111 && lon === -111) return [[], ['--', 'isha']];
+  if (lat === -111 && lon === -111) return [[], ['--', '--']];
 
   const arr = new Array(size); // Pre-allocate
 
