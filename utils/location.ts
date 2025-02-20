@@ -12,7 +12,7 @@ export async function getLocationPermission() {
     storage.set('auto-location', 'off');
     return 'Permission to access location was denied';
   }
-  await getCurrentLocation();
+  // await getCurrentLocation();
   return 'success';
 }
 
