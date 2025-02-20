@@ -6,16 +6,20 @@ import { setFavs } from './favsArray';
 
 const LOCATION_CHANGE_THRESHOLD = 0.01; // Threshold in degrees (approx 1 km)
 
-export async function getCurrentLocation() {
-  //   if (Platform.OS === 'android' && !Device.isDevice) {
-  //     return 'Oops, this will not work on Snack in an Android Emulator. Try it on your device!';
-  //   }
-
+export async function getLocationPermission() {
   let { status } = await Location.requestForegroundPermissionsAsync();
   if (status !== 'granted') {
     storage.set('auto-location', 'off');
     return 'Permission to access location was denied';
   }
+  await getCurrentLocation();
+  return 'success';
+}
+
+export async function getCurrentLocation() {
+  //   if (Platform.OS === 'android' && !Device.isDevice) {
+  //     return 'Oops, this will not work on Snack in an Android Emulator. Try it on your device!';
+  //   }
 
   console.log('location called');
 
@@ -71,13 +75,10 @@ const getCityFromCoords = async (latitude: number, longitude: number) => {
       const address = reverseGeocode[0];
 
       if (address.city) {
-        storage.set('selected-city', address.city);
         setFavs(address.city, latitude, longitude);
       } else if (address.subregion) {
-        storage.set('selected-city', address.subregion);
         setFavs(address.subregion, latitude, longitude);
       } else if (address.region) {
-        storage.set('selected-city', address.region);
         setFavs(address.region, latitude, longitude);
       }
 

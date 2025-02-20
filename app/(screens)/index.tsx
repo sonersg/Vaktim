@@ -40,22 +40,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // for some reason "alignItems" cancelled "justifyContent"
   },
-
-  text: {
-    color: 'antiquewhite',
-    fontWeight: 'bold',
-    fontSize: 17,
-  },
-
-  btn: {
-    backgroundColor: 'skyblue',
-    padding: 10,
-    margin: 10,
-    paddingHorizontal: 15,
-    borderRadius: 10,
-  },
-
-  emoji: {
-    fontSize: 50,
-  },
 });

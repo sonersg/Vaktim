@@ -2,6 +2,12 @@ import { storage } from '../app/(screens)/_layout';
 
 // setFavs function
 export function setFavs(city: string, lat: number, lon: number) {
+  const storedCity = storage.getString('selected-city');
+  // console.log(city, storedCity);
+  if (storedCity === city) return;
+
+  storage.set('selected-city', city);
+
   const arrStr = storage.getString('favs-array') || '[]';
   const parsedArray = JSON.parse(arrStr);
 

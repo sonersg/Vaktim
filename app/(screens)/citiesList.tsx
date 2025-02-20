@@ -24,11 +24,10 @@ export default function CitiesList() {
 
   async function handleItemPress(cityName: string, lat: number, lon: number) {
     if (cityName === '--') return;
-    storage.set('selected-city', cityName);
+    setFavs(cityName, lat, lon);
     storage.set('lat', lat);
     storage.set('lon', lon);
     router.back();
-    setFavs(cityName, lat, lon);
     resetAlarms();
   }
 
