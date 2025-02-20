@@ -41,7 +41,7 @@ export const setAlarm = async (prayer: number) => {
       uid: `${prayer}~${getISO(index)}`,
       day: newDate,
       title: arr[prayer],
-      description: '',
+      description: arr.join(' - '),
       snoozeInterval: 5,
       repeating: false,
       active: true,
