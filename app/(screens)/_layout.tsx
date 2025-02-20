@@ -1,28 +1,38 @@
-import { Stack, useGlobalSearchParams } from 'expo-router';
+import { Redirect, Stack, useGlobalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { ImageBackground } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MMKV } from 'react-native-mmkv';
+import { useEffect, useState } from 'react';
 
 export const storage = new MMKV();
 
-const defaultBgImgUri =
+const defaultBgImgURI =
   'https://images.pexels.com/photos/8071161/pexels-photo-8071161.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
-// const defaultBgImgUri =
+// const defaultBgImgURI =
 //   'https://images.pexels.com/photos/1624496/pexels-photo-1624496.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
 
+const bgImgURI = storage.getString('bg-img-URL') || defaultBgImgURI;
+
 export default function ScreensLayout() {
+  const [isFirst, setisFirst] = useState(true);
+
   const insets = useSafeAreaInsets();
   const params = useGlobalSearchParams();
-
   const updateTrigger = params.updateTrigger;
-
   console.log('_layout screen: ', updateTrigger);
+
+  useEffect(() => {
+    const a = storage.getBoolean('is-first');
+    if (a != undefined) setisFirst(a);
+  }, []);
+
+  if (isFirst) return <Redirect href='/onboarding' />;
 
   return (
     <ImageBackground
       source={{
-        uri: storage.getString('bg-img-URL') || defaultBgImgUri,
+        uri: bgImgURI,
       }}
       style={{
         flex: 1,
