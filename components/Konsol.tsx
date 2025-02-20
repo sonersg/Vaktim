@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { storage } from '../app/(screens)/_layout';
 import useToast from '../utils/useToast';
@@ -50,14 +50,10 @@ const Konsol = () => {
       storage.clearAll();
       useToast('Hafıza temizlendi.');
       setinput('');
-    } else if (input.trim().toLowerCase() === 'notifications') {
-      // NOTIFICATIONS
-      // setNotificationArguments(getParsedPrayerTimes());
-      setinput('');
-    } else if (input.trim().toLowerCase() === 'cancel notifications') {
-      // CANCEL NOTIFICATIONS
-      // cancelTrigger();
-      setinput('');
+    } else if (input.trim().toLowerCase() === 'get timezone') {
+      // GET TIMEZONE
+      const tz = new Date().getTimezoneOffset() / -60;
+      setinput(tz.toString());
     }
     // else {
     //   useToast('Oyuncağa benziyor galiba.');
