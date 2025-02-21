@@ -32,7 +32,7 @@ export const setAlarm = async (prayer: number) => {
 
     // Check if the newDate is in the past
     if (newDate <= now) {
-      console.log(`Skipping past date: ${newDate}`);
+      // console.log(`Skipping past date: ${newDate}`);
       // console.log(newDate, now);
       return; // Skip scheduling this alarm
     }
