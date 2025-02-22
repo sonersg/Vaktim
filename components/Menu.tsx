@@ -6,33 +6,34 @@ import Animated, {
   withSpring,
   useAnimatedStyle,
 } from 'react-native-reanimated';
+import Compass from './Compass';
 
 interface IMenuProps {
   menuVisible: boolean;
 }
 function Menu({ menuVisible }: IMenuProps) {
   const router = useRouter();
-  const height = useSharedValue(0);
+  const bottom = useSharedValue(0);
   const opacity = useSharedValue(0);
 
   useEffect(() => {
     if (menuVisible) {
-      // height.value = withSpring(150, {
+      // bottom.value = withSpring(150, {
       //   mass: 1,
       //   stiffness: 100,
       //   damping: 5, //also known as friction
       // }); // Animate to 100
-      height.value = withSpring(150); // Animate to 100
+      bottom.value = withSpring(-10); // Animate to 100
       opacity.value = withSpring(1); // Animate to 100
     } else {
-      height.value = withSpring(55); // Animate to 0
+      bottom.value = withSpring(-90); // Animate to 0
       opacity.value = withSpring(0); // Animate to 100
     }
-  }, [menuVisible]); // Only run this effect when menuVisible changes
+  }, [menuVisible]);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      height: height.value, // Animate height
+      bottom: bottom.value, // Animate height
       opacity: opacity.value,
     };
   });
@@ -42,25 +43,28 @@ function Menu({ menuVisible }: IMenuProps) {
   return (
     <Animated.View style={[styles.container, animatedStyle]}>
       <View style={styles.row}>
-        <TouchableOpacity onPress={() => router.push('qada')}>
-          <View style={styles.itemContainer}>
-            <Text style={{ fontSize: 50 }}>📒</Text>
-            <Text style={{ color: 'white' }}>Kaza Takibi</Text>
-          </View>
+        <TouchableOpacity
+          style={styles.itemContainer}
+          onPress={() => router.push('qada')}
+        >
+          <Text style={{ fontSize: 44 }}>📒</Text>
+          <Text style={{ color: 'white' }}>Kaza Takibi</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => router.push('qibla')}>
-          <View style={styles.itemContainer}>
-            <Text style={{ fontSize: 50 }}>🧭</Text>
-            <Text style={{ color: 'white' }}>Kıble</Text>
-          </View>
+        <TouchableOpacity
+          style={styles.itemContainer}
+          onPress={() => router.push('qibla')}
+        >
+          {menuVisible && <Compass />}
+          <Text style={{ color: 'white' }}>Kıble</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => router.push('settings')}>
-          <View style={styles.itemContainer}>
-            <Text style={{ fontSize: 50 }}>✨</Text>
-            <Text style={{ color: 'white' }}>Ayarlar</Text>
-          </View>
+        <TouchableOpacity
+          style={styles.itemContainer}
+          onPress={() => router.push('settings')}
+        >
+          <Text style={{ fontSize: 44 }}>✨</Text>
+          <Text style={{ color: 'white' }}>Ayarlar</Text>
         </TouchableOpacity>
       </View>
 
@@ -83,9 +87,9 @@ export default Menu;
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
     position: 'absolute',
-    bottom: -20,
+    bottom: -10,
+    height: 140,
     width: '100%',
     backgroundColor: '#33333399',
     padding: 10,
@@ -93,25 +97,17 @@ const styles = StyleSheet.create({
   },
 
   row: {
-    display: 'flex',
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    paddingVertical: 5,
-    marginVertical: 5,
-  },
-
-  btn: {
-    backgroundColor: 'skyblue',
-    padding: 10,
-    margin: 10,
-    paddingHorizontal: 15,
-    borderRadius: 10,
+    // backgroundColor: 'green',
   },
 
   itemContainer: {
-    display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    // backgroundColor: 'red',
+    width: 88,
   },
 });
