@@ -48,7 +48,8 @@ const SettingsScreen = () => {
           <View style={styles.row}>
             <TouchableHighlight
               style={[
-                styles.radioBtn,
+                styles.btn,
+                styles.radioBtnLeft,
                 { borderColor: themeColor },
                 locatn === 'on' && {
                   backgroundColor: themeColor,
@@ -61,7 +62,8 @@ const SettingsScreen = () => {
 
             <TouchableHighlight
               style={[
-                styles.radioBtn,
+                styles.btn,
+                styles.radioBtnRight,
                 { borderColor: themeColor },
                 locatn === 'off' && {
                   backgroundColor: themeColor,
@@ -73,7 +75,7 @@ const SettingsScreen = () => {
             </TouchableHighlight>
           </View>
           <TouchableHighlight
-            style={[styles.radioBtn, { backgroundColor: themeColor }]}
+            style={[styles.btn, { backgroundColor: themeColor }]}
             onPress={openAppSettings}
           >
             <Text style={styles.text}>Konum erişimine izin ver</Text>
@@ -84,7 +86,7 @@ const SettingsScreen = () => {
           <Text style={styles.text}>Bildirimler:</Text>
           <View style={styles.row}>
             <TouchableHighlight
-              style={[styles.radioBtn, { backgroundColor: themeColor }]}
+              style={[styles.btn, { backgroundColor: themeColor }]}
               onPress={openAppSettings}
             >
               <Text style={styles.text}>Bildirimlere izin ver</Text>
@@ -97,7 +99,7 @@ const SettingsScreen = () => {
           <View style={styles.row}>
             <TouchableHighlight
               style={[
-                styles.radioBtn,
+                styles.btn,
                 { borderColor: themeColor },
                 highlight === 'always' && {
                   backgroundColor: themeColor,
@@ -110,7 +112,7 @@ const SettingsScreen = () => {
 
             <TouchableHighlight
               style={[
-                styles.radioBtn,
+                styles.btn,
                 { borderColor: themeColor },
                 highlight === 'on-press' && {
                   backgroundColor: themeColor,
@@ -128,7 +130,9 @@ const SettingsScreen = () => {
           <View style={styles.row}>
             <TouchableHighlight
               style={[
-                styles.radioBtn,
+                styles.btn,
+                styles.radioBtnLeft,
+
                 { borderColor: 'hotpink' },
                 themeColor === 'hotpink' && {
                   backgroundColor: 'hotpink',
@@ -141,7 +145,8 @@ const SettingsScreen = () => {
 
             <TouchableHighlight
               style={[
-                styles.radioBtn,
+                styles.btn,
+                styles.radioBtnRight,
                 { borderColor: 'skyblue' },
                 themeColor === 'skyblue' && {
                   backgroundColor: 'skyblue',
@@ -172,23 +177,28 @@ const styles = StyleSheet.create({
   },
 
   btn: {
-    backgroundColor: 'red',
-    paddingBottom: 5,
-    margin: 10,
+    paddingVertical: 5,
     paddingHorizontal: 20,
-    borderRadius: 5,
+    marginTop: 13,
+    borderWidth: 3,
+    minWidth: '33%',
+    alignItems: 'center',
   },
 
-  radioBtn: {
-    padding: 5,
-    marginTop: 10,
-    borderRadius: 5,
-    borderWidth: 3,
+  radioBtnRight: {
+    borderTopRightRadius: 15,
+    borderBottomRightRadius: 15,
+    borderLeftWidth: 0,
+  },
+  radioBtnLeft: {
+    borderTopLeftRadius: 15,
+    borderBottomLeftRadius: 15,
+    borderRightWidth: 0,
   },
 
   text: {
     color: 'white',
-    fontSize: 15,
+    fontSize: 17,
     fontWeight: 'bold',
   },
 });
