@@ -38,15 +38,15 @@ class Sound {
         startVibration();
 
         // Stop alarm automatically after 5 seconds
-        new Handler(Looper.getMainLooper()).postDelayed(this::stop, 11111);
+        new Handler(Looper.getMainLooper()).postDelayed(this::stop, 9999);
     }
 
     void stop() {
         try {
             // if (mediaPlayer.isPlaying()) {
                 stopVibration();
-                stopSound();
-                mediaPlayer.release();
+                // stopSound();
+                // mediaPlayer.release();
             // }
         } catch (IllegalStateException e) {
             Log.d(TAG, "Sound has probably been released already");
