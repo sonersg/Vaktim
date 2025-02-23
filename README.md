@@ -25,6 +25,8 @@ Cumartesi 25, Ocak 2025
 
    cd android && ./gradlew clean
    cd ..
+
+   cd android && ./gradlew app:bundleRelease
    ```
 
 ## Learn more
