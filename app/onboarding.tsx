@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   SafeAreaView,
   Image,
@@ -9,6 +9,7 @@ import {
   StatusBar,
   TouchableOpacity,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import { storage } from '../app/(screens)/_layout';
 import Animated, {
@@ -68,6 +69,16 @@ export default function OnboardingScreen() {
 
   const opacity = useSharedValue(1);
 
+  useEffect(() => {
+    (async () => {
+      if (currentSlideIndex === 2) {
+        setcity('--');
+        await getCurrentLocation();
+        setcity(storage.getString('selected-city') || '');
+      }
+    })();
+  }, [currentSlideIndex]);
+
   const animatedStyle = useAnimatedStyle(() => {
     return {
       opacity: opacity.value,
@@ -86,18 +97,18 @@ export default function OnboardingScreen() {
     if (currentSlideIndex === 0) {
       await getLocationPermission();
     } else if (currentSlideIndex === 1) {
-      getCurrentLocation();
       await requestNotificationPermissions();
-      await setcity(storage.getString('selected-city') || '');
     }
 
-    let nextSlideIndex = (await currentSlideIndex) + 1;
-    const offset = (await nextSlideIndex) * width;
-    await ref?.current?.scrollToOffset({ offset });
-    await setCurrentSlideIndex(currentSlideIndex + 1);
+    const nextSlideIndex = currentSlideIndex + 1;
+    const offset = nextSlideIndex * width;
+    ref?.current?.scrollToOffset({ offset });
+    setCurrentSlideIndex(currentSlideIndex + 1);
   };
+  // console.log(currentSlideIndex);
 
   function onStart() {
+    if (city === '--') return;
     storage.set('is-first', false);
     opacity.value = withTiming(0.3);
     router.replace('/');
@@ -118,6 +129,18 @@ export default function OnboardingScreen() {
         </View>
 
         <Footer />
+
+        {city === '--' && (
+          <ActivityIndicator
+            size='large'
+            color='#eee'
+            style={{
+              position: 'absolute',
+              top: 111,
+              transform: [{ scale: 3 }],
+            }}
+          />
+        )}
       </View>
     );
   };

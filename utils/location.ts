@@ -21,10 +21,11 @@ export async function getCurrentLocation() {
   //     return 'Oops, this will not work on Snack in an Android Emulator. Try it on your device!';
   //   }
 
+  console.log('location called');
+
   try {
     let location = await Location.getCurrentPositionAsync({});
     const { latitude, longitude } = location.coords;
-    // console.log('location called', location.coords);
 
     // Get the previously stored location
     const storedLat = storage.getNumber('lat');

@@ -15,7 +15,7 @@ const defaultBgImgURI =
 const bgImgURI = storage.getString('bg-img-URL') || defaultBgImgURI;
 
 export default function ScreensLayout() {
-  const [isFirst, setisFirst] = useState<null | boolean>(null);
+  const [isFirst, setisFirst] = useState<boolean>(false);
 
   const insets = useSafeAreaInsets();
   const params = useGlobalSearchParams();
@@ -24,8 +24,7 @@ export default function ScreensLayout() {
 
   useEffect(() => {
     const a = storage.getBoolean('is-first');
-    if (a === undefined) setisFirst(true);
-    if (a != undefined) setisFirst(a);
+    a === undefined && setisFirst(true);
   }, []);
 
   if (isFirst) return <Redirect href='/onboarding' />;

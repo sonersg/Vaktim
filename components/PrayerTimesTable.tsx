@@ -44,10 +44,10 @@ function PrayerTimesTable() {
             const loc = await getCurrentLocation();
             console.log(loc);
             if (loc === 'location-changed') {
-              arr = await calculateArray(1)[0];
-              await setarry(arr);
-              await setremaining(getRemaining(arr) || '--');
-              await sethighlight(getHighlightedIndex(arr) || 0);
+              arr = calculateArray(1)[0];
+              setarry(arr);
+              setremaining(getRemaining(arr) || '--');
+              sethighlight(getHighlightedIndex(arr) || 0);
             }
           })();
       }, 1111);

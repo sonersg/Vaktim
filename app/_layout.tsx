@@ -1,11 +1,6 @@
 import { Stack } from 'expo-router';
-import { useEffect, useState } from 'react';
-import {
-  requestNotificationPermissions,
-  resetAlarms,
-} from '../utils/expoAlarm';
-import Onboard from '../components/Onboard';
-import { storage } from './(screens)/_layout';
+import { useEffect } from 'react';
+import { resetAlarms } from '../utils/expoAlarm';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -17,18 +12,10 @@ export const unstable_settings = {
   initialRouteName: '(screens)',
 };
 
-//////////////////////////////////////////7
-//////////////////////////////////////////7
-//////////////////////////////////////////7
 export default function RootLayout() {
-  // const [onboard, setonboard] = useState(true);
-
   useEffect(() => {
-    // setonboard(storage.getBoolean('onboard') || false);
     resetAlarms();
   }, []);
-
-  // if (!onboard) return <Onboard setonboard={setonboard} />;
 
   return (
     <Stack>

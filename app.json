@@ -22,8 +22,7 @@
         "backgroundColor": "#bbbbbb"
       },
       "package": "com.viyolet",
-      "versionCode": 6,
-      "targetSdkVersion": 34
+      "versionCode": 6
     },
     "web": {
       "favicon": "./assets/favicon.png",
