@@ -17,7 +17,8 @@ import { storage } from '../app/(screens)/_layout';
 import { getCurrentLocation } from '../utils/location';
 import calculateArray from '../utils/calculate';
 import Magnify from './Magnify';
-import { cancellAlarm, setAlarm } from '../utils/expoAlarm';
+import { cancellAlarm, setAlarm, testAlarm } from '../utils/expoAlarm';
+import Modal from './Modal';
 
 function PrayerTimesTable() {
   const [arry, setarry] = useState<string[]>([]);
@@ -25,6 +26,7 @@ function PrayerTimesTable() {
   const [bell, setbell] = useState('');
   const [highlight, sethighlight] = useState(-1);
   const router = useRouter();
+  const [modalVisible, setmodalVisible] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -101,6 +103,7 @@ function PrayerTimesTable() {
               key={index}
               style={[styles.eachTimeContainer]}
               onPress={() => setremaining(getTouched(time))}
+              onLongPress={() => setmodalVisible(true)}
             >
               <Text
                 style={[
@@ -141,11 +144,14 @@ function PrayerTimesTable() {
         <TouchableHighlight
           style={[styles.btn, { backgroundColor: themeColor }]}
           onPress={() => router.navigate('citiesList')}
+          // onPress={testAlarm}
         >
           <Text style={styles.text}>{city}</Text>
         </TouchableHighlight>
 
         {/* <Text style={{ color: 'white', fontSize: 15 }}>{getSponsor()}</Text> */}
+
+        <Modal modalVisible={modalVisible} setmodalVisible={setmodalVisible} />
       </View>
     );
   } else {
@@ -170,6 +176,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'static',
   },
 
   eachTimeContainer: {
