@@ -20,6 +20,9 @@ import Magnify from './Magnify';
 import { cancellAlarm, setAlarm, testAlarm } from '../utils/expoAlarm';
 import Modal from './Modal';
 
+let city = storage.getString('selected-city') || 'Şehirler';
+let themeColor = storage.getString('theme-color') || 'skyblue';
+
 function PrayerTimesTable() {
   const [arry, setarry] = useState<string[]>([]);
   const [remaining, setremaining] = useState('--');
@@ -31,6 +34,9 @@ function PrayerTimesTable() {
   useFocusEffect(
     useCallback(() => {
       // console.log(storage.getString('auto-location'));
+
+      city = storage.getString('selected-city') || 'Şehirler';
+      themeColor = storage.getString('theme-color') || 'skyblue';
 
       setbell(storage.getString('bells') || '111000');
 
@@ -88,9 +94,6 @@ function PrayerTimesTable() {
       cancellAlarm(index);
     }
   }
-
-  const city = storage.getString('selected-city') || 'Şehirler';
-  const themeColor = storage.getString('theme-color') || 'skyblue';
 
   if (arry.length === 6) {
     return (
