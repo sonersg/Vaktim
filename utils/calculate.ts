@@ -17,9 +17,9 @@ prayTimes.tune({
   maghrib: 6,
 });
 
-const timeZone = -1 * (new Date().getTimezoneOffset() / 60);
+const timeZone = new Date().getTimezoneOffset() / -60;
 
-export default function calculateArray(size: number) {
+export default function calculateArray(size: number, start: number = 0) {
   console.log('Calculate function called', timeZone);
 
   const lat = storage.getNumber('lat') || -111;
@@ -31,8 +31,9 @@ export default function calculateArray(size: number) {
 
   for (let i = 0; i < size; i++) {
     const date = new Date();
-    date.setDate(date.getDate() + i);
+    date.setDate(date.getDate() + i + start);
     // const iso = date.toISOString().slice(0, 10);
+    // console.log(iso);
     const times = prayTimes.getTimes(date, [lat, lon], timeZone);
     const valuesArray = Object.values(times);
     valuesArray.splice(8, 1); // remove midnight

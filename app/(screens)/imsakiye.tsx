@@ -6,25 +6,55 @@ import {
   View,
   FlatList,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import { storage } from './_layout';
 import calculateArray from '../../utils/calculate';
 import { getHijri, getISO, getTR } from '../../utils/date';
 
+const SIZE = 33;
+let countr = 0;
+
 const ImsakiyeScreen = () => {
   const [arr, setarr] = useState<string[][]>([]);
+  const [loading, setloading] = useState(true);
+
+  const themeColor = storage.getString('theme-color') || 'skyblue';
 
   useEffect(() => {
+    // Keep it as 3 for fast initial page rendering
     setarr(calculateArray(3));
 
     const timeout = setTimeout(() => {
-      setarr(calculateArray(99));
-    }, 1000);
+      setarr(calculateArray(SIZE));
+      setloading(false);
+      countr = SIZE;
+    }, 777);
 
     return () => clearTimeout(timeout);
   }, []);
 
-  const themeColor = storage.getString('theme-color') || 'skyblue';
+  function fetchMore() {
+    // console.log('end reached');
+    if (loading) return;
+    setloading(true);
+    const temp = calculateArray(SIZE, countr);
+    countr += SIZE;
+    setarr((prev) => [...prev, ...temp]);
+    setloading(false);
+  }
+
+  // Render a loading indicator at the bottom
+  const renderFooter = () => {
+    if (!loading) return null;
+    return (
+      <ActivityIndicator
+        size='large'
+        color={themeColor}
+        style={{ marginVertical: 20 }}
+      />
+    );
+  };
 
   if (arr.length > 0) {
     return (
@@ -36,8 +66,11 @@ const ImsakiyeScreen = () => {
         <ScrollView horizontal>
           <FlatList
             data={arr}
+            onEndReached={fetchMore}
+            // onEndReachedThreshold={0.5}
+            ListFooterComponent={renderFooter}
             renderItem={({ item, index }) => (
-              <TouchableOpacity key={index} style={[styles.displayRow]}>
+              <TouchableOpacity key={index} style={styles.displayRow}>
                 <Text style={[styles.text, { color: themeColor }]}>
                   {getISO(index)}
                 </Text>
@@ -90,11 +123,10 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    backgroundColor: 'green',
     paddingHorizontal: 20,
     paddingVertical: 5,
-    marginVertical: 30,
-    color: 'white',
+    marginVertical: 20,
+    // color: 'white',
     fontWeight: 'bold',
     fontSize: 18,
   },
