@@ -17,17 +17,18 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 
-const SIZE = 33;
+let themeColor = storage.getString('theme-color') || 'skyblue';
 let countr = 0;
+const SIZE = 33;
 
 const ImsakiyeScreen = () => {
   const [arr, setarr] = useState<string[][]>([]);
   const [loading, setloading] = useState(true);
   const fontsz = useSharedValue(16);
 
-  const themeColor = storage.getString('theme-color') || 'skyblue';
-
   useEffect(() => {
+    themeColor = storage.getString('theme-color') || 'skyblue';
+
     // Keep it as 3 for fast initial page rendering
     setarr(calculateArray(3));
 
@@ -70,6 +71,7 @@ const ImsakiyeScreen = () => {
   const animatedStyle = useAnimatedStyle(() => {
     return {
       fontSize: fontsz.value,
+      margin: 5,
     };
   });
 
@@ -92,9 +94,7 @@ const ImsakiyeScreen = () => {
                 onPress={zoomInOut}
                 style={styles.displayRow}
               >
-                <Animated.Text
-                  style={[animatedStyle, styles.text, { color: themeColor }]}
-                >
+                <Animated.Text style={[animatedStyle, { color: themeColor }]}>
                   {getISO(index)}
                 </Animated.Text>
                 {item.map((time, index2) => (
@@ -108,7 +108,7 @@ const ImsakiyeScreen = () => {
                     {time}
                   </Animated.Text>
                 ))}
-                <Animated.Text style={[animatedStyle, styles.text]}>
+                <Animated.Text style={[animatedStyle, { color: 'white' }]}>
                   {getHijri(index)}
                 </Animated.Text>
               </TouchableOpacity>
@@ -121,7 +121,9 @@ const ImsakiyeScreen = () => {
   } else {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>Vakitleri güncelleyiniz.</Text>
+        <Animated.Text style={animatedStyle}>
+          Vakitleri güncelleyiniz.
+        </Animated.Text>
       </View>
     );
   }
@@ -134,11 +136,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#242424aa',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  text: {
-    color: 'white',
-    margin: 5,
-    // fontSize: 22,
   },
 
   displayRow: {
