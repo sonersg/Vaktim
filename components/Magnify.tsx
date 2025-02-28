@@ -14,18 +14,18 @@ interface IMagnifyProps {
 }
 
 const Magnify = ({ remaining, themeColor }: IMagnifyProps) => {
-  const fontSize = useSharedValue(20);
+  const fontSize = useSharedValue(22);
 
   function zoomInOut() {
     fontSize.value = withSequence(
       withSpring(44),
-      withDelay(999, withSpring(20))
+      withDelay(999, withSpring(22))
     );
   }
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      fontSize: fontSize.value, // Animate the fontSize
+      fontSize: fontSize.value,
     };
   });
 
