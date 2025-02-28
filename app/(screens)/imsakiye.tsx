@@ -11,6 +11,11 @@ import {
 import { storage } from './_layout';
 import calculateArray from '../../utils/calculate';
 import { getHijri, getISO, getTR } from '../../utils/date';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
 
 const SIZE = 33;
 let countr = 0;
@@ -18,6 +23,7 @@ let countr = 0;
 const ImsakiyeScreen = () => {
   const [arr, setarr] = useState<string[][]>([]);
   const [loading, setloading] = useState(true);
+  const fontsz = useSharedValue(16);
 
   const themeColor = storage.getString('theme-color') || 'skyblue';
 
@@ -56,6 +62,17 @@ const ImsakiyeScreen = () => {
     );
   };
 
+  function zoomInOut() {
+    if (fontsz.value < 33) fontsz.value += 4;
+    else fontsz.value = withSpring(16);
+  }
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      fontSize: fontsz.value,
+    };
+  });
+
   if (arr.length > 0) {
     return (
       <View style={styles.container}>
@@ -70,22 +87,30 @@ const ImsakiyeScreen = () => {
             // onEndReachedThreshold={0.5}
             ListFooterComponent={renderFooter}
             renderItem={({ item, index }) => (
-              <TouchableOpacity key={index} style={styles.displayRow}>
-                <Text style={[styles.text, { color: themeColor }]}>
+              <TouchableOpacity
+                key={index}
+                onPress={zoomInOut}
+                style={styles.displayRow}
+              >
+                <Animated.Text
+                  style={[animatedStyle, styles.text, { color: themeColor }]}
+                >
                   {getISO(index)}
-                </Text>
+                </Animated.Text>
                 {item.map((time, index2) => (
-                  <Text
+                  <Animated.Text
                     key={index2}
                     style={[
-                      styles.text,
-                      index2 % 2 !== 0 && { color: themeColor },
+                      animatedStyle,
+                      { color: index2 % 2 != 0 ? themeColor : 'white' },
                     ]}
                   >
                     {time}
-                  </Text>
+                  </Animated.Text>
                 ))}
-                <Text style={[styles.text]}>{getHijri(index)}</Text>
+                <Animated.Text style={[animatedStyle, styles.text]}>
+                  {getHijri(index)}
+                </Animated.Text>
               </TouchableOpacity>
             )}
             keyExtractor={(item, index) => index.toString()}
