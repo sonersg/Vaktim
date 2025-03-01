@@ -14,7 +14,7 @@ import { getHijri, getISO, getTR } from '../../utils/date';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
+  withTiming,
 } from 'react-native-reanimated';
 
 let themeColor = storage.getString('theme-color') || 'skyblue';
@@ -24,9 +24,10 @@ const SIZE = 33;
 const ImsakiyeScreen = () => {
   const [arr, setarr] = useState<string[][]>([]);
   const [loading, setloading] = useState(true);
-  const fontsz = useSharedValue(16);
+  const fontsz = useSharedValue(15);
 
   useEffect(() => {
+    // Check theme color only on mount
     themeColor = storage.getString('theme-color') || 'skyblue';
 
     // Keep it as 3 for fast initial page rendering
@@ -51,21 +52,9 @@ const ImsakiyeScreen = () => {
     setloading(false);
   }
 
-  // Render a loading indicator at the bottom
-  const renderFooter = () => {
-    if (!loading) return null;
-    return (
-      <ActivityIndicator
-        size='large'
-        color={themeColor}
-        style={{ marginVertical: 20 }}
-      />
-    );
-  };
-
   function zoomInOut() {
-    if (fontsz.value < 33) fontsz.value += 4;
-    else fontsz.value = withSpring(16);
+    if (fontsz.value < 27) fontsz.value += 5;
+    else fontsz.value = withTiming(15);
   }
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -75,7 +64,13 @@ const ImsakiyeScreen = () => {
     };
   });
 
-  if (arr.length > 0) {
+  // Render a loading indicator at the bottom
+  const renderFooter = () => {
+    if (!loading) return null;
+    return <ActivityIndicator color={themeColor} />;
+  };
+
+  if (arr.length > 2) {
     return (
       <View style={styles.container}>
         <Text style={[styles.header, { backgroundColor: themeColor }]}>
