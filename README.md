@@ -51,7 +51,7 @@ android > app > my-upload-key.keystore
 
 # gradle.properties
 
-android > gradle.properties, after line 57
+android > gradle.properties, after line 56
 
 ```bash
 
@@ -65,7 +65,7 @@ MYAPP_UPLOAD_KEY_PASSWORD=*******
 
 # build.gradle
 
-android > app > build.gradle, after line 104
+android > app > build.gradle, after line 103
 
 ```bash
 
