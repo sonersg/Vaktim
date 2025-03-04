@@ -18,7 +18,7 @@ import { getCurrentLocation } from '../utils/location';
 import calculateArray from '../utils/calculate';
 import Magnify from './Magnify';
 import { cancellAlarm, setAlarm, testAlarm } from '../utils/expoAlarm';
-import Modal from './Modal';
+// import Modal from './Modal';
 
 let city = storage.getString('selected-city') || 'Şehirler';
 let themeColor = storage.getString('theme-color') || 'skyblue';
@@ -29,7 +29,7 @@ function PrayerTimesTable() {
   const [bell, setbell] = useState('');
   const [highlight, sethighlight] = useState(-1);
   const router = useRouter();
-  const [modalVisible, setmodalVisible] = useState(false);
+  // const [modalVisible, setmodalVisible] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -106,7 +106,7 @@ function PrayerTimesTable() {
               key={index}
               style={[styles.eachTimeContainer]}
               onPress={() => setremaining(getTouched(time))}
-              onLongPress={() => setmodalVisible(true)}
+              // onLongPress={() => setmodalVisible(true)}
             >
               <Text
                 style={[
@@ -154,7 +154,7 @@ function PrayerTimesTable() {
 
         {/* <Text style={{ color: 'white', fontSize: 15 }}>{getSponsor()}</Text> */}
 
-        <Modal modalVisible={modalVisible} setmodalVisible={setmodalVisible} />
+        {/* <Modal modalVisible={modalVisible} setmodalVisible={setmodalVisible} /> */}
       </View>
     );
   } else {
