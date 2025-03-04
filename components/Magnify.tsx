@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet } from 'react-native';
+import { Alert, Pressable, StyleSheet } from 'react-native';
 import React, { memo } from 'react';
 import Animated, {
   useAnimatedStyle,
@@ -7,6 +7,7 @@ import Animated, {
   withSequence,
   withSpring,
 } from 'react-native-reanimated';
+import { storage } from '../app/(screens)/_layout';
 
 interface IMagnifyProps {
   remaining: string;
@@ -15,6 +16,18 @@ interface IMagnifyProps {
 
 const Magnify = ({ remaining, themeColor }: IMagnifyProps) => {
   const fontSize = useSharedValue(22);
+
+  function handleLong() {
+    const currentIsAlways = storage.getBoolean('is-always');
+    if (currentIsAlways) {
+      Alert.alert('Uygulamayı Yeniden Açın', 'Dokunduğunda Göster');
+      storage.set('is-always', false);
+    } else if (!currentIsAlways) {
+      Alert.alert('Uygulamayı Yeniden Açın', 'Her zaman Göster');
+      // useToast('Her zaman göster');
+      storage.set('is-always', true);
+    }
+  }
 
   function zoomInOut() {
     fontSize.value = withSequence(
@@ -30,7 +43,7 @@ const Magnify = ({ remaining, themeColor }: IMagnifyProps) => {
   });
 
   return (
-    <Pressable onPress={zoomInOut}>
+    <Pressable onPress={zoomInOut} onLongPress={handleLong}>
       <Animated.Text
         style={[styles.remainingStyle, { color: themeColor }, animatedStyle]}
       >

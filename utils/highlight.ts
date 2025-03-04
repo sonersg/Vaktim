@@ -4,9 +4,11 @@ import calculateArray from './calculate';
 
 const ishaMessage =
   storage.getString('isha-message') || `Güneş: ${calculateArray(2)[1][1]}`;
+const isAlways = storage.getBoolean('is-always');
 
 export function getRemaining(todaySarray: string[]) {
   if (todaySarray.length < 6) return 'ah sana array';
+  if (!isAlways && isAlways != undefined) return ishaMessage;
 
   const currentTime = moment().format('HH:mm');
   const currentTimeValue = +currentTime.replace(':', '');

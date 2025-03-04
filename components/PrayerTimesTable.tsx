@@ -35,8 +35,8 @@ function PrayerTimesTable() {
     useCallback(() => {
       // console.log(storage.getString('auto-location'));
 
-      city = storage.getString('selected-city') || 'Şehirler';
       themeColor = storage.getString('theme-color') || 'skyblue';
+      city = storage.getString('selected-city') || '-';
 
       setbell(storage.getString('bells') || '111000');
 
@@ -52,6 +52,7 @@ function PrayerTimesTable() {
             const loc = await getCurrentLocation();
             console.log(loc);
             if (loc === 'location-changed') {
+              city = storage.getString('selected-city') || '-';
               arr = calculateArray(1)[0];
               setarry(arr);
               setremaining(getRemaining(arr) || '--');
