@@ -2,8 +2,8 @@
   "expo": {
     "name": "Vaktim",
     "slug": "Vaktim",
-    "scheme": "your-app-scheme",
-    "version": "2.0.2",
+    "scheme": "Vaktim",
+    "version": "2.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -22,7 +22,7 @@
         "backgroundColor": "#bbbbbb"
       },
       "package": "com.viyolet",
-      "versionCode": 6
+      "versionCode": 7
     },
     "web": {
       "favicon": "./assets/favicon.png",

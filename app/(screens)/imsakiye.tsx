@@ -116,9 +116,7 @@ const ImsakiyeScreen = () => {
   } else {
     return (
       <View style={styles.container}>
-        <Animated.Text style={animatedStyle}>
-          Vakitleri güncelleyiniz.
-        </Animated.Text>
+        <Text style={{ color: '#fff' }}>Konum seçiniz</Text>
       </View>
     );
   }
