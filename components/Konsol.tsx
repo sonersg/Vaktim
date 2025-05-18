@@ -54,6 +54,15 @@ const Konsol = () => {
       // GET TIMEZONE
       const tz = new Date().getTimezoneOffset() / -60;
       setinput(tz.toString());
+    } else if (input.trim()[0] === '#') {
+      // SET THEME-COLOR
+      const hexColorPattern = /^#([A-Fa-f0-9]{6})$/;
+      const isValidColor = hexColorPattern.test(input.trim());
+      if (isValidColor) {
+        useToast('theme-color');
+        storage.set('theme-color', input.trim());
+        setinput('');
+      }
     }
     // else {
     //   useToast('Oyuncağa benziyor galiba.');
@@ -65,7 +74,7 @@ const Konsol = () => {
     <View style={styles.container}>
       <TextInput
         style={[styles.input, { borderColor: themeColor }]}
-        onChangeText={(text) => setinput(text)}
+        onChangeText={setinput}
         onEndEditing={handleEndEditing}
         value={input}
         cursorColor={themeColor}

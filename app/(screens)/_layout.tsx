@@ -23,8 +23,12 @@ export default function ScreensLayout() {
   console.log('_layout screen: ', updateTrigger);
 
   useEffect(() => {
-    const a = storage.getBoolean('is-first');
-    a === undefined && setisFirst(true);
+    const tmout = setTimeout(() => {
+      const a = storage.getBoolean('is-first');
+      a === undefined && setisFirst(true);
+    }, 555);
+
+    return () => clearTimeout(tmout);
   }, []);
 
   if (isFirst) return <Redirect href='/onboarding' />;
