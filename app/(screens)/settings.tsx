@@ -11,6 +11,7 @@ import Konsol from '../../components/Konsol';
 import * as Linking from 'expo-linking';
 import { Platform } from 'react-native';
 import { Alert } from 'react-native';
+import MyModal from '../../components/MyModal';
 
 const SettingsScreen = () => {
   const [themeColor, setthemeColor] = useState(
@@ -19,6 +20,8 @@ const SettingsScreen = () => {
   const [locatn, setlocatn] = useState(
     storage.getString('auto-location') || 'on'
   );
+  const [modalVisible, setmodalVisible] = useState(false);
+  const [calcMethod, setcalcMethod] = useState('');
 
   const setAndNotify = (key: string, value: string) => {
     // set storage
@@ -94,36 +97,17 @@ const SettingsScreen = () => {
           </View>
         </View>
 
-        {/* <View style={styles.sectionContainer}>
-          <Text style={styles.text}>Bir sonraki namaza kalan vakti:</Text>
+        <View style={styles.sectionContainer}>
+          <Text style={styles.text}>Hesaplama Yöntemleri:</Text>
           <View style={styles.row}>
             <TouchableHighlight
-              style={[
-                styles.btn,
-                { borderColor: themeColor },
-                highlight === 'always' && {
-                  backgroundColor: themeColor,
-                },
-              ]}
-              onPress={() => setAndNotify('show-times-when', 'always')}
+              style={[styles.btn, { backgroundColor: themeColor }]}
+              onPress={() => setmodalVisible(true)}
             >
-              <Text style={styles.text}>Her Zaman Göster</Text>
-            </TouchableHighlight>
-
-            <TouchableHighlight
-              style={[
-                styles.btn,
-                { borderColor: themeColor },
-                highlight === 'on-press' && {
-                  backgroundColor: themeColor,
-                },
-              ]}
-              onPress={() => setAndNotify('show-times-when', 'on-press')}
-            >
-              <Text style={styles.text}>Dokunduğunda Göster</Text>
+              <Text style={styles.text}>{calcMethod}</Text>
             </TouchableHighlight>
           </View>
-        </View> */}
+        </View>
 
         <View style={styles.sectionContainer}>
           <Text style={styles.text}>Bir renk seç?</Text>
@@ -157,8 +141,18 @@ const SettingsScreen = () => {
               <Text style={styles.text}>Mavi</Text>
             </TouchableHighlight>
           </View>
+          <Text style={styles.text2}>
+            You can also input hex color code above, #00ff00
+          </Text>
         </View>
       </ScrollView>
+
+      <MyModal
+        modalVisible={modalVisible}
+        setmodalVisible={setmodalVisible}
+        calcMethod={calcMethod}
+        setcalcMethod={setcalcMethod}
+      />
     </View>
   );
 };
@@ -201,6 +195,8 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: 'bold',
   },
+
+  text2: { color: 'white', textAlign: 'center', marginVertical: 11 },
 });
 
 export default SettingsScreen;

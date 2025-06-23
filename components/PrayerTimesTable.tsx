@@ -1,24 +1,12 @@
 import React, { memo, useCallback, useState } from 'react';
-import {
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
-import { prayerTimeLabels } from '../assets/iller';
-import {
-  getHighlightedIndex,
-  getRemaining,
-  getTouched,
-} from '../utils/highlight';
+import { getHighlightedIndex, getRemaining } from '../utils/highlight';
 import { storage } from '../app/(screens)/_layout';
 import { getCurrentLocation } from '../utils/location';
 import calculateArray from '../utils/calculate';
 import Magnify from './Magnify';
-import { cancellAlarm, setAlarm, testAlarm } from '../utils/expoAlarm';
-// import Modal from './Modal';
+import TableCells from './TableCells';
 
 let city = storage.getString('selected-city') || 'Şehirler';
 let themeColor = storage.getString('theme-color') || 'skyblue';
@@ -26,10 +14,8 @@ let themeColor = storage.getString('theme-color') || 'skyblue';
 function PrayerTimesTable() {
   const [arry, setarry] = useState<string[]>([]);
   const [remaining, setremaining] = useState('--');
-  const [bell, setbell] = useState('');
   const [highlight, sethighlight] = useState(-1);
   const router = useRouter();
-  // const [modalVisible, setmodalVisible] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -37,8 +23,6 @@ function PrayerTimesTable() {
 
       themeColor = storage.getString('theme-color') || 'skyblue';
       city = storage.getString('selected-city') || '-';
-
-      setbell(storage.getString('bells') || '111000');
 
       let arr = calculateArray(1)[0];
       setarry(arr);
@@ -70,7 +54,6 @@ function PrayerTimesTable() {
         }
 
         setremaining(getRemaining(arr) || '--');
-
         sethighlight(getHighlightedIndex(arr) || 0);
       }, 3333);
 
@@ -82,68 +65,18 @@ function PrayerTimesTable() {
     }, [])
   );
 
-  function handleBell(index: number) {
-    if (bell[index] === '0') {
-      const temp = bell.substring(0, index) + '1' + bell.substring(index + 1);
-      storage.set('bells', temp);
-      setbell(temp);
-      setAlarm(index);
-    } else if (bell[index] === '1') {
-      const temp = bell.substring(0, index) + '0' + bell.substring(index + 1);
-      storage.set('bells', temp);
-      setbell(temp);
-      cancellAlarm(index);
-    }
-  }
-
   if (arry.length === 6) {
     return (
       <View style={styles.mainContainer}>
         <Magnify remaining={remaining} themeColor={themeColor} />
 
-        <View>
-          {arry.map((time: string, index: number) => (
-            <TouchableOpacity
-              key={index}
-              style={[styles.eachTimeContainer]}
-              onPress={() => setremaining(getTouched(time))}
-              // onLongPress={() => setmodalVisible(true)}
-            >
-              <Text
-                style={[
-                  styles.text,
-                  highlight === index && {
-                    fontWeight: 'bold',
-                    color: themeColor,
-                  },
-                ]}
-              >
-                {prayerTimeLabels[index]}:
-              </Text>
-
-              <View style={styles.row}>
-                <TouchableOpacity
-                  style={styles.bell}
-                  onPress={() => handleBell(index)}
-                >
-                  <Text>{bell[index] === '1' ? '🔔' : '⚫️'}</Text>
-                </TouchableOpacity>
-
-                <Text
-                  style={[
-                    styles.text,
-                    highlight === index && {
-                      fontWeight: 'bold',
-                      color: themeColor,
-                    },
-                  ]}
-                >
-                  {time}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </View>
+        <TableCells
+          arry={arry}
+          setarry={setarry}
+          highlight={highlight}
+          themeColor={themeColor}
+          setremaining={setremaining}
+        />
 
         <TouchableHighlight
           style={[styles.btn, { backgroundColor: themeColor }]}
@@ -154,8 +87,6 @@ function PrayerTimesTable() {
         </TouchableHighlight>
 
         {/* <Text style={{ color: 'white', fontSize: 15 }}>{getSponsor()}</Text> */}
-
-        {/* <Modal modalVisible={modalVisible} setmodalVisible={setmodalVisible} /> */}
       </View>
     );
   } else {
@@ -183,19 +114,6 @@ const styles = StyleSheet.create({
     position: 'static',
   },
 
-  eachTimeContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#33333399',
-    paddingVertical: 7,
-    paddingHorizontal: 15,
-    borderWidth: 3,
-    borderColor: '#777',
-    borderRadius: 15,
-    width: 240,
-  },
-
   text: {
     color: 'white',
     fontSize: 25,
@@ -207,17 +125,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 10,
     maxWidth: '99%',
-  },
-
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '57%',
-  },
-
-  bell: {
-    // backgroundColor: 'red',
-    padding: 7,
   },
 });

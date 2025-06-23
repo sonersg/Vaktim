@@ -59,8 +59,8 @@ const Konsol = () => {
       const hexColorPattern = /^#([A-Fa-f0-9]{6})$/;
       const isValidColor = hexColorPattern.test(input.trim());
       if (isValidColor) {
-        useToast('theme-color');
         storage.set('theme-color', input.trim());
+        router.replace('/settings');
         setinput('');
       }
     }
