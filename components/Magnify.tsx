@@ -17,6 +17,10 @@ interface IMagnifyProps {
 const Magnify = ({ remaining, themeColor }: IMagnifyProps) => {
   const fontSize = useSharedValue(22);
 
+  // useEffect(() => {
+  //   fontSize.value = withRepeat(withTiming(44, { duration: 2222 }), -1, true);
+  // }, []);
+
   function handleLong() {
     const currentIsAlways = storage.getBoolean('is-always');
     if (currentIsAlways) {

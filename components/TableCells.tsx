@@ -3,7 +3,6 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
-  Modal,
   Button,
   ScrollView,
 } from 'react-native';
@@ -12,6 +11,12 @@ import { storage } from '../app/(screens)/_layout';
 import { cancellAlarm, resetAlarms, setAlarm } from '../utils/expoAlarm';
 import { getTouched } from '../utils/highlight';
 import calculateArray from '../utils/calculate';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
 
 interface ITableCellsProps {
   arry: string[];
@@ -30,6 +35,7 @@ export default function TableCells({
   const [bell, setbell] = useState('');
   const [modalVisible, setmodalVisible] = useState(false);
   const [tunesObject, settunesObject] = useState(defaultTunesObject);
+  const opacity = useSharedValue(0);
 
   useEffect(() => {
     setbell(storage.getString('bells') || '111000');
@@ -41,6 +47,10 @@ export default function TableCells({
   useEffect(() => {
     resetAlarms();
   }, [arry]);
+
+  useEffect(() => {
+    if (!modalVisible) opacity.value = 0;
+  }, [modalVisible]);
 
   function handleBell(index: number) {
     if (bell[index] === '0') {
@@ -58,6 +68,7 @@ export default function TableCells({
 
   function handleLongPress(index: number) {
     setmodalVisible(true);
+    opacity.value = withTiming(1, { duration: 999 });
     settunesObject({ ...tunesObject, label: prayerTimeLabels[index] });
   }
 
@@ -85,6 +96,12 @@ export default function TableCells({
     storage.delete('tunes-object');
     setarry(calculateArray(1)[0]);
   }
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity: opacity.value,
+    };
+  });
 
   return (
     <>
@@ -132,57 +149,53 @@ export default function TableCells({
         ))}
       </View>
 
-      <Modal
-        animationType='slide'
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setmodalVisible(!modalVisible)}
+      {/* ************* Modal ******************* */}
+      <View
+        style={[
+          styles.centeredView,
+          { display: modalVisible ? 'flex' : 'none' },
+        ]}
       >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text
-              style={{
-                color: 'white',
-                fontSize: 17,
-                fontWeight: 'bold',
-              }}
-            >
-              {tunesObject.label}:{' '}
-              {
-                //@ts-ignore
-                tunesObject[tunesObject.label.toLowerCase()]
-              }{' '}
-              min
-            </Text>
+        <Animated.View style={[styles.modalView, animatedStyle]}>
+          <Text
+            style={{
+              color: 'white',
+              fontSize: 17,
+              fontWeight: 'bold',
+            }}
+          >
+            {tunesObject.label}:{' '}
+            {
+              //@ts-ignore
+              tunesObject[tunesObject.label.toLowerCase()]
+            }{' '}
+            min
+          </Text>
 
-            <View style={styles.scrollViewContainer}>
-              <ScrollView pagingEnabled>
-                {minutesArray.map((min) => (
-                  <TouchableOpacity
-                    key={min}
-                    onPress={() => handleOffsets(min)}
-                  >
-                    <Text style={styles.scrollText}>{min} min</Text>
-                  </TouchableOpacity>
-                ))}
-              </ScrollView>
-            </View>
-
-            <View style={{ flexDirection: 'row', gap: 22 }}>
-              <Button
-                title='sıfırla'
-                onPress={handleResetOffsets}
-                color='transparent'
-              />
-              <Button
-                title='tamam'
-                onPress={() => setmodalVisible(false)}
-                color='transparent'
-              />
-            </View>
+          <View style={styles.scrollViewContainer}>
+            <ScrollView pagingEnabled>
+              {minutesArray.map((min) => (
+                <TouchableOpacity key={min} onPress={() => handleOffsets(min)}>
+                  <Text style={styles.scrollText}>{min} min</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
           </View>
-        </View>
-      </Modal>
+
+          <View style={{ flexDirection: 'row', gap: 22 }}>
+            <Button
+              title='sıfırla'
+              onPress={handleResetOffsets}
+              color='transparent'
+            />
+            <Button
+              title='tamam'
+              onPress={() => setmodalVisible(false)}
+              color='transparent'
+            />
+          </View>
+        </Animated.View>
+      </View>
     </>
   );
 }
@@ -223,22 +236,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'absolute',
+    zIndex: 11,
+    // backgroundColor: 'aqua',
   },
 
   modalView: {
-    margin: 10,
     backgroundColor: '#797979aa',
     borderRadius: 20,
     padding: 15,
     alignItems: 'center',
-    shadowColor: '#fff',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
   },
 
   scrollViewContainer: {
