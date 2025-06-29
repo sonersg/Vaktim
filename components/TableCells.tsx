@@ -14,7 +14,6 @@ import calculateArray from '../utils/calculate';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
   withTiming,
 } from 'react-native-reanimated';
 

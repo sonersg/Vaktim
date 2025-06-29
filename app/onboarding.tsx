@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
-  SafeAreaView,
   Image,
   StyleSheet,
   FlatList,
@@ -9,17 +8,12 @@ import {
   StatusBar,
   TouchableOpacity,
   Dimensions,
-  ActivityIndicator,
 } from 'react-native';
 import { storage } from '../app/(screens)/_layout';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
 import { getCurrentLocation, getLocationPermission } from '../utils/location';
 import { requestNotificationPermissions } from '../utils/expoAlarm';
 import { useRouter } from 'expo-router';
+import MyModal from '../components/MyModal';
 
 const { width, height } = Dimensions.get('window');
 const COLORS = { primary: '#282534', white: '#ddd' };
@@ -44,7 +38,7 @@ const slides = [
   {
     id: 3,
     image: require('../assets/splash-icon.png'),
-    imgHeight: '55%',
+    imgHeight: '33%',
     title: '',
     subtitle: '',
   },
@@ -62,28 +56,19 @@ interface SlideProps {
 }
 
 export default function OnboardingScreen() {
-  const [currentSlideIndex, setCurrentSlideIndex] = React.useState(0);
-  const [city, setcity] = React.useState('');
-  const ref = React.useRef<FlatList<Item> | null>(null);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [modalVisible, setmodalVisible] = useState(false);
+  const [calcMethod, setcalcMethod] = useState('Türkiye');
+  const [city, setcity] = useState('');
+  const ref = useRef<FlatList<Item> | null>(null);
   const router = useRouter();
 
-  const opacity = useSharedValue(1);
-
   useEffect(() => {
-    (async () => {
-      if (currentSlideIndex === 2) {
-        setcity('--');
-        await getCurrentLocation();
-        setcity(storage.getString('selected-city') || '');
-      }
-    })();
-  }, [currentSlideIndex]);
-
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      opacity: opacity.value,
-    };
-  });
+    if (currentSlideIndex > 0) {
+      const sc = storage.getString('selected-city');
+      if (sc) setcity(sc);
+    }
+  }, [currentSlideIndex, modalVisible, calcMethod]);
 
   const updateCurrentSlideIndex = (e: any) => {
     const contentOffsetX = e.nativeEvent.contentOffset.x;
@@ -96,6 +81,7 @@ export default function OnboardingScreen() {
 
     if (currentSlideIndex === 0) {
       await getLocationPermission();
+      getCurrentLocation();
     } else if (currentSlideIndex === 1) {
       await requestNotificationPermissions();
     }
@@ -105,12 +91,9 @@ export default function OnboardingScreen() {
     ref?.current?.scrollToOffset({ offset });
     setCurrentSlideIndex(currentSlideIndex + 1);
   };
-  // console.log(currentSlideIndex);
 
   function onStart() {
-    if (city === '--') return;
     storage.set('is-first', false);
-    opacity.value = withTiming(0.3);
     router.replace('/');
   }
 
@@ -123,24 +106,28 @@ export default function OnboardingScreen() {
           source={item?.image}
           style={{ height: item.imgHeight, resizeMode: 'contain' }}
         />
-        <View>
-          <Text style={styles.title}>{item.id === 3 ? city : item.title}</Text>
+
+        {item.id === 3 && (
+          <>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => setmodalVisible(true)}
+            >
+              <Text style={{ color: COLORS.white }}>
+                Hesaplama Yöntemi: {calcMethod} 🔻
+              </Text>
+            </TouchableOpacity>
+
+            <Text style={styles.title}>{city}</Text>
+          </>
+        )}
+
+        <View style={item.id === 3 && { display: 'none' }}>
+          <Text style={styles.title}>{item?.title}</Text>
           <Text style={styles.subtitle}>{item?.subtitle}</Text>
         </View>
 
         <Footer />
-
-        {city === '--' && (
-          <ActivityIndicator
-            size='large'
-            color='#eee'
-            style={{
-              position: 'absolute',
-              top: 111,
-              transform: [{ scale: 3 }],
-            }}
-          />
-        )}
       </View>
     );
   };
@@ -158,20 +145,16 @@ export default function OnboardingScreen() {
         {/* Render buttons */}
         <View>
           {currentSlideIndex == slides.length - 1 ? (
-            <TouchableOpacity style={styles.btn} onPress={onStart}>
+            <TouchableOpacity
+              style={[styles.btn, { backgroundColor: COLORS.white }]}
+              onPress={onStart}
+            >
               <Text style={{ fontWeight: 'bold', fontSize: 22 }}>BAŞLA</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
               activeOpacity={0.8}
-              style={[
-                styles.btn,
-                {
-                  borderColor: COLORS.white,
-                  borderWidth: 1,
-                  backgroundColor: 'transparent',
-                },
-              ]}
+              style={styles.btn}
               onPress={goToNextSlide}
             >
               <Text
@@ -202,7 +185,7 @@ export default function OnboardingScreen() {
                 styles.indicator,
                 currentSlideIndex == index && {
                   backgroundColor: 'white',
-                  width: 25,
+                  width: 22,
                 },
               ]}
             />
@@ -213,8 +196,7 @@ export default function OnboardingScreen() {
   };
 
   return (
-    <Animated.View style={[styles.container, animatedStyle]}>
-      <StatusBar backgroundColor={COLORS.primary} barStyle='light-content' />
+    <View style={styles.container}>
       <FlatList
         ref={ref}
         onMomentumScrollEnd={updateCurrentSlideIndex}
@@ -224,7 +206,16 @@ export default function OnboardingScreen() {
         pagingEnabled
         renderItem={({ item }) => <Slide item={item} />}
       />
-    </Animated.View>
+
+      <MyModal
+        modalVisible={modalVisible}
+        setmodalVisible={setmodalVisible}
+        calcMethod={calcMethod}
+        setcalcMethod={setcalcMethod}
+      />
+
+      <StatusBar backgroundColor={COLORS.primary} barStyle='light-content' />
+    </View>
   );
 }
 
@@ -236,22 +227,21 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     color: COLORS.white,
-    fontSize: 13,
-    marginTop: 10,
-    maxWidth: '70%',
+    fontSize: 14,
+    maxWidth: '77%',
     textAlign: 'center',
     lineHeight: 23,
   },
   title: {
     color: COLORS.white,
     fontSize: 22,
+    marginVertical: 22,
     fontWeight: 'bold',
-    marginTop: 44,
     textAlign: 'center',
   },
   indicator: {
-    height: 3,
-    width: 10,
+    height: 5,
+    width: 11,
     backgroundColor: 'grey',
     marginHorizontal: 3,
     borderRadius: 2,
@@ -259,8 +249,11 @@ const styles = StyleSheet.create({
   btn: {
     // flex: 1,
     height: 50,
+    borderWidth: 1,
     borderRadius: 5,
-    backgroundColor: COLORS.white,
+    paddingHorizontal: 22,
+    borderColor: COLORS.white,
+    backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
   },

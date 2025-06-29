@@ -65,42 +65,29 @@ function PrayerTimesTable() {
     }, [])
   );
 
-  if (arry.length === 6) {
-    return (
-      <View style={styles.mainContainer}>
-        <Magnify remaining={remaining} themeColor={themeColor} />
+  return (
+    <View style={styles.mainContainer}>
+      <Magnify remaining={remaining} themeColor={themeColor} />
 
-        <TableCells
-          arry={arry}
-          setarry={setarry}
-          highlight={highlight}
-          themeColor={themeColor}
-          setremaining={setremaining}
-        />
+      <TableCells
+        arry={arry}
+        setarry={setarry}
+        highlight={highlight}
+        themeColor={themeColor}
+        setremaining={setremaining}
+      />
 
-        <TouchableHighlight
-          style={[styles.btn, { backgroundColor: themeColor }]}
-          onPress={() => router.navigate('citiesList')}
-          // onPress={testAlarm}
-        >
-          <Text style={styles.text}>{city}</Text>
-        </TouchableHighlight>
+      <TouchableHighlight
+        style={[styles.btn, { backgroundColor: themeColor }]}
+        onPress={() => router.navigate('citiesList')}
+        // onPress={testAlarm}
+      >
+        <Text style={styles.text}>{city}</Text>
+      </TouchableHighlight>
 
-        {/* <Text style={{ color: 'white', fontSize: 15 }}>{getSponsor()}</Text> */}
-      </View>
-    );
-  } else {
-    return (
-      <View style={styles.mainContainer}>
-        <TouchableHighlight
-          style={[styles.btn, { backgroundColor: themeColor }]}
-          onPress={() => router.push('citiesList')}
-        >
-          <Text style={styles.text}>Şehirler</Text>
-        </TouchableHighlight>
-      </View>
-    );
-  }
+      {/* <Text style={{ color: 'white', fontSize: 15 }}>{getSponsor()}</Text> */}
+    </View>
+  );
 }
 
 export default memo(PrayerTimesTable);

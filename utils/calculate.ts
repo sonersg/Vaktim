@@ -6,7 +6,7 @@ const timeZone = new Date().getTimezoneOffset() / -60;
 export default function calculateArray(size: number, start: number = 0) {
   console.log('Calculate function called', timeZone);
 
-  let prayTimes = new PrayTimes();
+  let prayTimes = new PrayTimes('Turkiye');
 
   // Set calculation method from localStorage
   const cm = storage.getString('calculation-method');

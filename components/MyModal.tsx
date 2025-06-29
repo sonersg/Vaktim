@@ -27,7 +27,7 @@ export default function MyModal({
   const [ishaAngle, setishaAngle] = useState('');
 
   useEffect(() => {
-    setcalcMethod(storage.getString('calculation-method') || 'MWL');
+    setcalcMethod(storage.getString('calculation-method') || 'Türkiye');
     setfajrAngle(storage.getString('fajr-angle') || '0');
     setishaAngle(storage.getString('isha-angle') || '0');
   }, []);
