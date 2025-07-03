@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { getHighlightedIndex, getRemaining } from '../utils/highlight';
@@ -7,63 +7,60 @@ import { getCurrentLocation } from '../utils/location';
 import calculateArray from '../utils/calculate';
 import Magnify from './Magnify';
 import TableCells from './TableCells';
+import { resetAlarms } from '../utils/expoAlarm';
+import useToast from '../utils/useToast';
 
 let city = storage.getString('selected-city') || 'Şehirler';
 let themeColor = storage.getString('theme-color') || 'skyblue';
+const defaultArry = ['0:0', '0:0', '0:0', '0:0', '0:0', '0:0'];
 
 function PrayerTimesTable() {
-  const [arry, setarry] = useState<string[]>([]);
-  const [remaining, setremaining] = useState('--');
+  const [arry, setarry] = useState(defaultArry);
+  const [remaining, setremaining] = useState('-');
   const [highlight, sethighlight] = useState(-1);
   const router = useRouter();
+
+  console.log('prayer times table');
 
   useFocusEffect(
     useCallback(() => {
       // console.log(storage.getString('auto-location'));
 
-      themeColor = storage.getString('theme-color') || 'skyblue';
-      city = storage.getString('selected-city') || '-';
-
-      let arr = calculateArray(1)[0];
-      setarry(arr);
-      setremaining(getRemaining(arr) || '--');
-      sethighlight(getHighlightedIndex(arr) || 0);
+      setarry(calculateArray(1)[0]);
 
       const timeout = setTimeout(() => {
+        city = storage.getString('selected-city') || '--';
+        themeColor = storage.getString('theme-color') || 'skyblue';
         const autoLocation = storage.getString('auto-location') || 'on';
         autoLocation === 'on' &&
-          (async () => {
-            const loc = await getCurrentLocation();
-            console.log(loc);
-            if (loc === 'location-changed') {
+          getCurrentLocation().then((res) => {
+            useToast(res);
+            if (res === 'location-changed') {
               city = storage.getString('selected-city') || '-';
-              arr = calculateArray(1)[0];
-              setarry(arr);
-              setremaining(getRemaining(arr) || '--');
-              sethighlight(getHighlightedIndex(arr) || 0);
+              setarry(calculateArray(1)[0]);
             }
-          })();
+          });
       }, 1111);
 
-      const interval = setInterval(() => {
-        if (new Date().getHours() === 0) {
-          if (new Date().getMinutes() === 0) {
-            arr = calculateArray(1)[0];
-            setarry(arr);
-          }
-        }
-
-        setremaining(getRemaining(arr) || '--');
-        sethighlight(getHighlightedIndex(arr) || 0);
-      }, 3333);
-
-      return () => {
-        console.log('Screen unfocused, clearing interval');
-        clearInterval(interval);
-        clearTimeout(timeout);
-      };
+      return () => clearTimeout(timeout);
     }, [])
   );
+
+  useEffect(() => {
+    resetAlarms();
+    setremaining(getRemaining(arry));
+    sethighlight(getHighlightedIndex(arry));
+
+    const interval = setInterval(() => {
+      setremaining(getRemaining(arry));
+      sethighlight(getHighlightedIndex(arry));
+    }, 3333);
+
+    return () => {
+      console.log('does interval unmount on array change');
+      clearInterval(interval);
+    };
+  }, [arry]);
 
   return (
     <View style={styles.mainContainer}>
@@ -94,11 +91,10 @@ export default memo(PrayerTimesTable);
 
 const styles = StyleSheet.create({
   mainContainer: {
-    paddingVertical: 20,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'static',
+    paddingVertical: 22,
   },
 
   text: {
@@ -108,9 +104,8 @@ const styles = StyleSheet.create({
 
   btn: {
     paddingBottom: 5,
-    margin: 30,
     paddingHorizontal: 20,
+    marginVertical: 33,
     borderRadius: 10,
-    maxWidth: '99%',
   },
 });
