@@ -3,7 +3,7 @@
     "name": "Vaktim",
     "slug": "Vaktim",
     "scheme": "Vaktim",
-    "version": "2.0.3",
+    "version": "2025July4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -22,7 +22,7 @@
         "backgroundColor": "#bbbbbb"
       },
       "package": "com.viyolet",
-      "versionCode": 7
+      "versionCode": 8
     },
     "web": {
       "favicon": "./assets/favicon.png",
