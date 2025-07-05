@@ -2,13 +2,14 @@ import moment from 'moment-timezone';
 import { storage } from '../app/(screens)/_layout';
 import calculateArray from './calculate';
 
+export const arrSize2 = calculateArray(2);
 const ishaMessage =
-  storage.getString('isha-message') || `Güneş: ${calculateArray(2)[1][1]}`;
+  storage.getString('isha-message') || `Güneş: ${arrSize2[1][1]}`;
 const isAlways = storage.getBoolean('is-always');
 
 export function getRemaining(todaySarray: string[]) {
-  if (todaySarray.length < 6) return 'ah sana array';
   if (!isAlways && isAlways != undefined) return ishaMessage;
+  if (!todaySarray[5]) return 'array.length < 6';
 
   const currentTime = moment().format('HH:mm');
   const currentTimeValue = +currentTime.replace(':', '');
@@ -35,20 +36,23 @@ export function getRemaining(todaySarray: string[]) {
       return `${hoursLeft}:${minutesLeft}`;
     }
   }
+  return ishaMessage;
 }
 
 export function getHighlightedIndex(todaySarray: string[]) {
-  if (todaySarray.length < 6) return -1;
+  if (!todaySarray[5]) return -1;
 
   const currentTime = moment().format('HH:mm');
   const currentTimeValue = +currentTime.replace(':', '');
   const ishaTimeValue = +todaySarray[5].replace(':', '');
-  if (currentTimeValue >= ishaTimeValue) return -1;
+  if (currentTimeValue > ishaTimeValue) return -1;
 
   for (let i = 0; i < todaySarray.length; i++) {
     const prayerTimeValue = +todaySarray[i].replace(':', '');
     if (currentTimeValue <= prayerTimeValue) return i;
   }
+
+  return -1;
 }
 
 export function getTouched(touched: string) {
@@ -66,18 +70,14 @@ export function getTouched(touched: string) {
     const hoursLeft = Math.floor(minutesDifference / 60).toString();
     const minutesLeft = (minutesDifference % 60).toString();
 
-    if (hoursLeft === '0') {
-      return `${minutesLeft} dakika sonra`;
-    }
+    if (hoursLeft === '0') return `${minutesLeft} dakika sonra`;
 
     return `${hoursLeft} saat ${minutesLeft} dakika sonra`;
   } else if (minutesDifference < 0) {
     const hoursLeft = Math.floor(-minutesDifference / 60).toString();
     const minutesLeft = (-minutesDifference % 60).toString();
 
-    if (hoursLeft === '0') {
-      return `${minutesLeft} dakika önce`;
-    }
+    if (hoursLeft === '0') return `${minutesLeft} dakika önce`;
 
     return `${hoursLeft} saat ${minutesLeft} dakika önce`;
   }

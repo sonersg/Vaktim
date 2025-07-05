@@ -42,9 +42,9 @@ export default function MyModal({
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.text}>Hesaplama Yöntemi: {calcMethod}</Text>
+            <Text style={styles.title}>Hesaplama Yöntemi: {calcMethod}</Text>
             <View style={styles.scrollViewContainer}>
-              <ScrollView pagingEnabled>
+              <ScrollView>
                 {calcMethodsArray.map((object) => (
                   <Pressable
                     key={object.name}
@@ -52,6 +52,9 @@ export default function MyModal({
                       setcalcMethod(object.name);
                       storage.delete('tunes-object');
                       storage.set('calculation-method', object.name);
+                      if (object.name === 'Turkiye') {
+                        storage.delete('calculation-method');
+                      }
                       if (object.name === 'Custom') {
                         setmodal2Visible(true);
                         setmodalVisible(false);
@@ -85,11 +88,11 @@ export default function MyModal({
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.text}>İmsak Açısı: {fajrAngle} °</Text>
-            <Text style={styles.text}>Yatsı Açısı: {ishaAngle} °</Text>
+            <Text style={styles.title}>İmsak Açısı: {fajrAngle} °</Text>
+            <Text style={styles.title}>Yatsı Açısı: {ishaAngle} °</Text>
             <View style={{ flexDirection: 'row', gap: 22 }}>
               <View style={styles.scrollViewContainer}>
-                <ScrollView pagingEnabled>
+                <ScrollView>
                   {degrees.map((degree) => (
                     <Pressable
                       key={degree}
@@ -105,7 +108,7 @@ export default function MyModal({
               </View>
 
               <View style={styles.scrollViewContainer}>
-                <ScrollView pagingEnabled>
+                <ScrollView>
                   {degrees.map((degree) => (
                     <Pressable
                       key={degree}
@@ -159,24 +162,22 @@ const styles = StyleSheet.create({
     // backgroundColor: '#333',
     height: 222,
     minWidth: 111,
-    marginVertical: 22,
+    marginVertical: 11,
   },
 
   scrollText: {
-    // borderTopWidth: 3,
     borderBottomWidth: 2,
     borderColor: 'white',
-    // fontSize: 22,
+    fontSize: 18,
     textAlign: 'center',
     color: 'white',
-    fontWeight: 'bold',
     padding: 5,
     marginVertical: 5,
   },
 
-  text: {
+  title: {
     color: 'white',
-    fontSize: 17,
+    fontSize: 19,
     fontWeight: 'bold',
   },
 });

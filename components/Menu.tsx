@@ -47,7 +47,7 @@ function Menu({ menuVisible }: IMenuProps) {
           style={styles.itemContainer}
           onPress={() => router.push('qada')}
         >
-          <Text style={{ fontSize: 44 }}>📒</Text>
+          <Text style={{ fontSize: 40 }}>📒</Text>
           <Text style={{ color: 'white' }}>Kaza Takibi</Text>
         </TouchableOpacity>
 
@@ -63,7 +63,7 @@ function Menu({ menuVisible }: IMenuProps) {
           style={styles.itemContainer}
           onPress={() => router.push('settings')}
         >
-          <Text style={{ fontSize: 44 }}>✨</Text>
+          <Text style={{ fontSize: 40 }}>✨</Text>
           <Text style={{ color: 'white' }}>Ayarlar</Text>
         </TouchableOpacity>
       </View>
@@ -89,10 +89,10 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     bottom: -10,
-    height: 140,
+    height: 122,
     width: '100%',
     backgroundColor: '#33333399',
-    padding: 10,
+    // padding: 10,
     borderRadius: 30,
   },
 
@@ -100,12 +100,13 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center',
+    // alignItems: 'center',
     // backgroundColor: 'green',
   },
 
   itemContainer: {
-    justifyContent: 'center',
+    // justifyContent: 'center',
+    paddingTop: 11,
     alignItems: 'center',
     // backgroundColor: 'red',
     width: 88,

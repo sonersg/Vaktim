@@ -8,7 +8,7 @@ import { BackHandler, Platform } from 'react-native';
 export default function Home() {
   const [menuVisible, setmenuVisible] = useState(false);
 
-  console.log('index screen');
+  // console.log('index screen');
 
   const exitApp = () => {
     if (Platform.OS === 'android') {

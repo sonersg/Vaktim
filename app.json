@@ -3,7 +3,7 @@
     "name": "Vaktim",
     "slug": "Vaktim",
     "scheme": "Vaktim",
-    "version": "2025July4",
+    "version": "2025July5",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",

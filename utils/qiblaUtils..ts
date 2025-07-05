@@ -78,7 +78,7 @@ export const calculateQiblaAngle = (): number => {
   // Convert the angle from radians to degrees
   const qiblaAngleDegrees = (qiblaAngle * 180) / Math.PI;
 
-  console.log(`Qibla Angle: ${(qiblaAngleDegrees + 360) % 360}°`);
+  // console.log(`Qibla Angle: ${(qiblaAngleDegrees + 360) % 360}°`);
 
   // Ensure the angle is positive (0 to 360 degrees)
   return Math.round((qiblaAngleDegrees + 360) % 360);

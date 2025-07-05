@@ -8,8 +8,8 @@ import {
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { storage } from '../app/(screens)/_layout';
-import { cancellAlarm, resetAlarms, setAlarm } from '../utils/expoAlarm';
-import { getTouched } from '../utils/highlight';
+import { cancellAlarm, setAlarm } from '../utils/expoAlarm';
+import { getHighlightedIndex, getTouched } from '../utils/highlight';
 import calculateArray from '../utils/calculate';
 import Animated, {
   useAnimatedStyle,
@@ -19,7 +19,6 @@ import Animated, {
 
 interface ITableCellsProps {
   arry: string[];
-  highlight: number;
   themeColor: string;
   setarry: React.Dispatch<React.SetStateAction<string[]>>;
   setremaining: React.Dispatch<React.SetStateAction<string>>;
@@ -27,14 +26,15 @@ interface ITableCellsProps {
 export default function TableCells({
   arry,
   setarry,
-  highlight,
   themeColor,
   setremaining,
 }: ITableCellsProps) {
-  const [bell, setbell] = useState('');
-  const [modalVisible, setmodalVisible] = useState(false);
   const [tunesObject, settunesObject] = useState(defaultTunesObject);
+  const [modalVisible, setmodalVisible] = useState(false);
+  const [bell, setbell] = useState('');
   const opacity = useSharedValue(0);
+
+  // console.log('table cells');
 
   useEffect(() => {
     setbell(storage.getString('bells') || '111000');
@@ -42,10 +42,6 @@ export default function TableCells({
     const to = storage.getString('tunes-object');
     if (to) settunesObject(JSON.parse(to));
   }, []);
-
-  useEffect(() => {
-    resetAlarms();
-  }, [arry]);
 
   useEffect(() => {
     if (!modalVisible) opacity.value = 0;
@@ -95,6 +91,8 @@ export default function TableCells({
     storage.delete('tunes-object');
     setarry(calculateArray(1)[0]);
   }
+
+  const highlight = getHighlightedIndex(arry);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -156,13 +154,7 @@ export default function TableCells({
         ]}
       >
         <Animated.View style={[styles.modalView, animatedStyle]}>
-          <Text
-            style={{
-              color: 'white',
-              fontSize: 17,
-              fontWeight: 'bold',
-            }}
-          >
+          <Text style={styles.title}>
             {tunesObject.label}:{' '}
             {
               //@ts-ignore
@@ -172,7 +164,7 @@ export default function TableCells({
           </Text>
 
           <View style={styles.scrollViewContainer}>
-            <ScrollView pagingEnabled>
+            <ScrollView>
               {minutesArray.map((min) => (
                 <TouchableOpacity key={min} onPress={() => handleOffsets(min)}>
                   <Text style={styles.scrollText}>{min} min</Text>
@@ -251,18 +243,23 @@ const styles = StyleSheet.create({
     // backgroundColor: '#333',
     height: 222,
     minWidth: 111,
-    marginVertical: 22,
+    marginVertical: 11,
   },
 
   scrollText: {
     borderBottomWidth: 2,
     borderColor: 'white',
-    // fontSize: 22,
+    fontSize: 18,
     textAlign: 'center',
     color: 'white',
-    fontWeight: 'bold',
     padding: 5,
     marginVertical: 5,
+  },
+
+  title: {
+    color: 'white',
+    fontSize: 19,
+    fontWeight: 'bold',
   },
 });
 

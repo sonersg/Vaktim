@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
-import { getHighlightedIndex, getRemaining } from '../utils/highlight';
+import { arrSize2, getRemaining } from '../utils/highlight';
 import { storage } from '../app/(screens)/_layout';
 import { getCurrentLocation } from '../utils/location';
 import calculateArray from '../utils/calculate';
@@ -10,57 +10,66 @@ import TableCells from './TableCells';
 import { resetAlarms } from '../utils/expoAlarm';
 import useToast from '../utils/useToast';
 
-let city = storage.getString('selected-city') || 'Şehirler';
-let themeColor = storage.getString('theme-color') || 'skyblue';
-const defaultArry = ['0:0', '0:0', '0:0', '0:0', '0:0', '0:0'];
+let city = 'Şehirler';
+let themeColor: string;
+let getDate = new Date().getDate();
 
 function PrayerTimesTable() {
-  const [arry, setarry] = useState(defaultArry);
-  const [remaining, setremaining] = useState('-');
-  const [highlight, sethighlight] = useState(-1);
+  const [arry, setarry] = useState(arrSize2[0]);
+  const [remaining, setremaining] = useState('');
   const router = useRouter();
 
-  console.log('prayer times table');
+  // console.log('prayer times table');
 
   useFocusEffect(
     useCallback(() => {
-      // console.log(storage.getString('auto-location'));
+      city = storage.getString('selected-city') || 'Şehirler';
+      themeColor = storage.getString('theme-color') || '#24fd45';
 
       setarry(calculateArray(1)[0]);
 
-      const timeout = setTimeout(() => {
-        city = storage.getString('selected-city') || '--';
-        themeColor = storage.getString('theme-color') || 'skyblue';
-        const autoLocation = storage.getString('auto-location') || 'on';
-        autoLocation === 'on' &&
-          getCurrentLocation().then((res) => {
-            useToast(res);
-            if (res === 'location-changed') {
-              city = storage.getString('selected-city') || '-';
-              setarry(calculateArray(1)[0]);
-            }
-          });
-      }, 1111);
+      // const timeout = setTimeout(() => {
+      const autoLocation = storage.getString('auto-location') || 'on';
+      autoLocation == 'on' &&
+        getCurrentLocation().then((res) => {
+          useToast(res);
+          if (res == 'location-changed') {
+            city = storage.getString('selected-city') || '-';
+            setarry(calculateArray(1)[0]);
+          }
+        });
+      // }, 222);
 
-      return () => clearTimeout(timeout);
+      // return () => clearTimeout(timeout);
     }, [])
   );
 
   useEffect(() => {
-    resetAlarms();
     setremaining(getRemaining(arry));
-    sethighlight(getHighlightedIndex(arry));
 
     const interval = setInterval(() => {
       setremaining(getRemaining(arry));
-      sethighlight(getHighlightedIndex(arry));
+
+      if (getDate != new Date().getDate()) {
+        getDate = new Date().getDate();
+        router.replace('/');
+      }
+
+      // if (new Date().getHours() == 0)
+      //   if (new Date().getMinutes() == 0)
+      //     if (new Date().getSeconds() < 4) {
+      //       router.replace('/');
+      //     }
     }, 3333);
 
     return () => {
-      console.log('does interval unmount on array change');
+      resetAlarms();
       clearInterval(interval);
+      console.log('does interval unmount on array change');
     };
   }, [arry]);
+
+  // if (arry.length < 6) return <ActivityIndicator size='large' />;
 
   return (
     <View style={styles.mainContainer}>
@@ -69,7 +78,6 @@ function PrayerTimesTable() {
       <TableCells
         arry={arry}
         setarry={setarry}
-        highlight={highlight}
         themeColor={themeColor}
         setremaining={setremaining}
       />

@@ -16,11 +16,11 @@ const bgImgURI = storage.getString('bg-img-URL') || defaultBgImgURI;
 
 export default function ScreensLayout() {
   const [isFirst, setisFirst] = useState<boolean>(false);
-
   const insets = useSafeAreaInsets();
+
   const params = useGlobalSearchParams();
   const updateTrigger = params.updateTrigger;
-  console.log('_layout screen: ', updateTrigger);
+  // console.log('_layout screen: ', updateTrigger);
 
   useEffect(() => {
     const tmout = setTimeout(() => {
@@ -64,9 +64,9 @@ export default function ScreensLayout() {
       </Stack>
 
       <StatusBar
-        style='light'
+        style='inverted'
         // backgroundColor='transparent'
-        translucent={true}
+        // translucent={true}
       />
     </ImageBackground>
   );

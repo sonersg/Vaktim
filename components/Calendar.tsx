@@ -4,6 +4,9 @@ import { useRouter } from 'expo-router';
 import moment from 'moment-timezone';
 import { getHijri, getTR } from '../utils/date';
 
+const tr = getTR();
+const hijri = getHijri();
+
 function Calendar() {
   const [currentTime, setCurrentTime] = useState(moment().format('HH:mm'));
   const router = useRouter();
@@ -33,8 +36,10 @@ function Calendar() {
         style={styles.one}
         onPress={() => router.navigate('imsakiye')}
       >
-        <Text style={[styles.text]}>{getTR()}</Text>
-        <Text style={[styles.text]}>{getHijri()}</Text>
+        <Text style={[styles.text, { fontSize: getFontSize(tr) }]}>{tr}</Text>
+        <Text style={[styles.text, { fontSize: getFontSize(hijri) }]}>
+          {hijri}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -64,6 +69,10 @@ const styles = StyleSheet.create({
   text: {
     color: 'antiquewhite',
     fontWeight: 'bold',
-    fontSize: 17,
   },
 });
+
+function getFontSize(text: string) {
+  if (text.length < 15) return 17;
+  return 15;
+}

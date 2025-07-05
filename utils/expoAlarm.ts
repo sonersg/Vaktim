@@ -15,7 +15,6 @@ const SIZE = 5;
 // setAlarm function
 export const setAlarm = async (prayer: number) => {
   const fiveArr = calculateArray(SIZE);
-  if (fiveArr.length === 2) return;
 
   const now = new Date(); // Get the current date and time
 
