@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import {
+  Alert,
   ScrollView,
   StyleSheet,
   Text,
   TouchableHighlight,
   View,
+  Platform,
 } from 'react-native';
 import { storage } from './_layout';
 import Konsol from '../../components/Konsol';
 import * as Linking from 'expo-linking';
-import { Platform } from 'react-native';
-import { Alert } from 'react-native';
 import MyModal from '../../components/MyModal';
 
 const SettingsScreen = () => {
   const [themeColor, setthemeColor] = useState(
-    storage.getString('theme-color') || 'skyblue'
+    storage.getString('theme-color') || 'hotpink'
   );
   const [locatn, setlocatn] = useState(
     storage.getString('auto-location') || 'on'
@@ -23,7 +23,7 @@ const SettingsScreen = () => {
   const [modalVisible, setmodalVisible] = useState(false);
   const [calcMethod, setcalcMethod] = useState('');
 
-  const setAndNotify = (key: string, value: string) => {
+  const setAndSave = (key: string, value: string) => {
     // set storage
     storage.set(key, value);
 
@@ -35,16 +35,7 @@ const SettingsScreen = () => {
   return (
     <View style={{ flex: 1, backgroundColor: '#242424a4' }}>
       <ScrollView>
-        <Konsol />
-
-        <View style={styles.sectionContainer}>
-          <Text style={styles.text}>Duvar Kağıdı:</Text>
-          <Text style={{ color: 'white', textAlign: 'center' }}>
-            Duvar kağıdı ayarlamak için internetten bulduğunuz herhangi bir
-            fotoğrafı yeni sekmede açıp, linkini yukarıdaki alana
-            yapıştırabilirsiniz.
-          </Text>
-        </View>
+        <Konsol themeColor={themeColor} />
 
         <View style={styles.sectionContainer}>
           <Text style={styles.text}>Konum:</Text>
@@ -58,7 +49,7 @@ const SettingsScreen = () => {
                   backgroundColor: themeColor,
                 },
               ]}
-              onPress={() => setAndNotify('auto-location', 'on')}
+              onPress={() => setAndSave('auto-location', 'on')}
             >
               <Text style={styles.text}>Açık</Text>
             </TouchableHighlight>
@@ -72,7 +63,7 @@ const SettingsScreen = () => {
                   backgroundColor: themeColor,
                 },
               ]}
-              onPress={() => setAndNotify('auto-location', 'off')}
+              onPress={() => setAndSave('auto-location', 'off')}
             >
               <Text style={styles.text}>Kapalı</Text>
             </TouchableHighlight>
@@ -122,7 +113,7 @@ const SettingsScreen = () => {
                   backgroundColor: 'hotpink',
                 },
               ]}
-              onPress={() => setAndNotify('theme-color', 'hotpink')}
+              onPress={() => setAndSave('theme-color', 'hotpink')}
             >
               <Text style={styles.text}>Pembe</Text>
             </TouchableHighlight>
@@ -136,13 +127,22 @@ const SettingsScreen = () => {
                   backgroundColor: 'skyblue',
                 },
               ]}
-              onPress={() => setAndNotify('theme-color', 'skyblue')}
+              onPress={() => setAndSave('theme-color', 'skyblue')}
             >
               <Text style={styles.text}>Mavi</Text>
             </TouchableHighlight>
           </View>
           <Text style={styles.text2}>
             You can also input hex color code above, #00ff00
+          </Text>
+        </View>
+
+        <View style={styles.sectionContainer}>
+          <Text style={styles.text}>Duvar Kağıdı:</Text>
+          <Text style={{ color: 'white', textAlign: 'center' }}>
+            Duvar kağıdı ayarlamak için internetten bulduğunuz herhangi bir
+            fotoğrafı yeni sekmede açıp, linkini yukarıdaki alana
+            yapıştırabilirsiniz.
           </Text>
         </View>
       </ScrollView>

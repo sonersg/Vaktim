@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { storage } from '../app/(screens)/_layout';
 import useToast from '../utils/useToast';
 import { useRouter } from 'expo-router';
 
-const Konsol = () => {
+const Konsol = ({ themeColor }: { themeColor: string }) => {
   const [input, setinput] = useState('');
   const router = useRouter();
-
-  const themeColor = storage.getString('theme-color') || 'skyblue';
 
   // handleEndEditing function
   const handleEndEditing = () => {
@@ -103,4 +101,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Konsol;
+export default memo(Konsol);
