@@ -16,8 +16,8 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import { themeColor } from '../../components/PrayerTimesTable';
 
-let themeColor = storage.getString('theme-color') || 'skyblue';
 let countr = 0;
 const SIZE = 33;
 
@@ -27,9 +27,6 @@ const ImsakiyeScreen = () => {
   const fontsz = useSharedValue(15);
 
   useEffect(() => {
-    // Check theme color only on mount
-    themeColor = storage.getString('theme-color') || 'skyblue';
-
     // Keep it as 3 for fast initial page rendering
     setarr(calculateArray(3));
 
@@ -138,12 +135,12 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     paddingVertical: 5,
-    marginVertical: 20,
-    // color: 'white',
+    marginVertical: 15,
+    color: 'white',
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 17,
   },
 });
 

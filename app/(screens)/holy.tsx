@@ -15,7 +15,7 @@ const HolyDaysScreen = () => {
     }
   }, []);
 
-  const themeColor = storage.getString('theme-color') || 'skyblue';
+  const themeColor = storage.getString('theme-color') || 'hotpink';
 
   return (
     <View style={styles.container}>
@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    backgroundColor: 'green',
     paddingHorizontal: 20,
     paddingVertical: 5,
     marginVertical: 30,

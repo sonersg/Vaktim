@@ -4,6 +4,7 @@ import { storage } from './_layout';
 import { qadaTimeLabels } from '../../assets/iller';
 import moment from 'moment-timezone';
 import { getTR } from '../../utils/date';
+import { themeColor } from '../../components/PrayerTimesTable';
 
 export default function Qada() {
   const [fajr, setfajr] = useState(storage.getNumber('qada-fajr') || 0);
@@ -16,8 +17,6 @@ export default function Qada() {
   const [vitr, setvitr] = useState(storage.getNumber('qada-vitr') || 0);
   const [sawm, setsawm] = useState(storage.getNumber('qada-sawm') || 0);
   const [edited, setedited] = useState(storage.getString('last-edit') || '');
-
-  const themeColor = storage.getString('theme-color') || 'skyblue';
 
   const states = [
     {

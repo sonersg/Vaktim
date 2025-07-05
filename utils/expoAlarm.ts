@@ -52,13 +52,9 @@ export const setAlarm = async (prayer: number) => {
 
 // cancellAlarm function
 export const cancellAlarm = async (index: number) => {
-  useToast('Güncelleniyor');
-
   for (let i = 0; i < SIZE; i++) {
     await removeAlarm(`${index}~${getISO(i)}`);
   }
-
-  // console.log(await getAllAlarms());
 };
 
 // resetAlarms function

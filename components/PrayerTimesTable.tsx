@@ -11,7 +11,7 @@ import { resetAlarms } from '../utils/expoAlarm';
 import useToast from '../utils/useToast';
 
 let city = 'Şehirler';
-let themeColor: string;
+export let themeColor: string;
 let getDate = new Date().getDate();
 
 function PrayerTimesTable() {
@@ -24,7 +24,7 @@ function PrayerTimesTable() {
   useFocusEffect(
     useCallback(() => {
       city = storage.getString('selected-city') || 'Şehirler';
-      themeColor = storage.getString('theme-color') || '#24fd45';
+      themeColor = storage.getString('theme-color') || 'hotpink';
 
       setarry(calculateArray(1)[0]);
 
