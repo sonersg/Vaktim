@@ -6,7 +6,7 @@ const timeZone = new Date().getTimezoneOffset() / -60;
 export default function calculateArray(size: number, start: number = 0) {
   console.log('Calculate function called', size, start);
 
-  let prayTimes = new PrayTimes('Turkiye');
+  let prayTimes = new PrayTimes();
 
   // Set calculation method from localStorage
   const cm = storage.getString('calculation-method');
@@ -58,8 +58,8 @@ export default function calculateArray(size: number, start: number = 0) {
     }
   }
 
-  const lat = storage.getString('lat') || 37.066;
-  const lon = storage.getString('lon') || 37.3781;
+  const lat = storage.getNumber('lat') || 37.066;
+  const lon = storage.getNumber('lon') || 37.3781;
   // const lat = 37.066;
   // const lon = 37.3781;
 
@@ -69,7 +69,7 @@ export default function calculateArray(size: number, start: number = 0) {
     const date = new Date();
     date.setDate(date.getDate() + i + start);
     // const iso = date.toISOString().slice(0, 10);
-    const times = prayTimes.getTimes(date, [+lat, +lon], timeZone);
+    const times = prayTimes.getTimes(date, [lat, lon], timeZone);
     const valuesArray = Object.values(times);
     valuesArray.splice(8, 1); // remove midnight
     valuesArray.splice(5, 1); // remove sunset

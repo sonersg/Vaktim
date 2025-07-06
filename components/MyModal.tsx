@@ -1,7 +1,7 @@
 import {
   Button,
   Modal,
-  Pressable,
+  TouchableHighlight,
   ScrollView,
   StyleSheet,
   Text,
@@ -27,7 +27,7 @@ export default function MyModal({
   const [ishaAngle, setishaAngle] = useState('');
 
   useEffect(() => {
-    setcalcMethod(storage.getString('calculation-method') || 'Türkiye');
+    setcalcMethod(storage.getString('calculation-method') || 'MWL');
     setfajrAngle(storage.getString('fajr-angle') || '0');
     setishaAngle(storage.getString('isha-angle') || '0');
   }, []);
@@ -46,15 +46,12 @@ export default function MyModal({
             <View style={styles.scrollViewContainer}>
               <ScrollView>
                 {calcMethodsArray.map((object) => (
-                  <Pressable
+                  <TouchableHighlight
                     key={object.name}
                     onPress={() => {
                       setcalcMethod(object.name);
                       storage.delete('tunes-object');
                       storage.set('calculation-method', object.name);
-                      if (object.name === 'Turkiye') {
-                        storage.delete('calculation-method');
-                      }
                       if (object.name === 'Custom') {
                         setmodal2Visible(true);
                         setmodalVisible(false);
@@ -66,7 +63,7 @@ export default function MyModal({
                     }}
                   >
                     <Text style={styles.scrollText}>{object.fullName}</Text>
-                  </Pressable>
+                  </TouchableHighlight>
                 ))}
               </ScrollView>
             </View>
@@ -94,7 +91,7 @@ export default function MyModal({
               <View style={styles.scrollViewContainer}>
                 <ScrollView>
                   {degrees.map((degree) => (
-                    <Pressable
+                    <TouchableHighlight
                       key={degree}
                       onPress={() => {
                         setfajrAngle(degree);
@@ -102,7 +99,7 @@ export default function MyModal({
                       }}
                     >
                       <Text style={styles.scrollText}>{degree} °</Text>
-                    </Pressable>
+                    </TouchableHighlight>
                   ))}
                 </ScrollView>
               </View>
@@ -110,7 +107,7 @@ export default function MyModal({
               <View style={styles.scrollViewContainer}>
                 <ScrollView>
                   {degrees.map((degree) => (
-                    <Pressable
+                    <TouchableHighlight
                       key={degree}
                       onPress={() => {
                         setishaAngle(degree);
@@ -118,7 +115,7 @@ export default function MyModal({
                       }}
                     >
                       <Text style={styles.scrollText}>{degree} °</Text>
-                    </Pressable>
+                    </TouchableHighlight>
                   ))}
                 </ScrollView>
               </View>
