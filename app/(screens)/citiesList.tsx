@@ -10,7 +10,6 @@ import { useRouter } from 'expo-router';
 import { iller } from '../../assets/iller';
 import { getFavs, setFavs } from '../../utils/favsArray';
 import { storage } from './_layout';
-import { resetAlarms } from '../../utils/expoAlarm';
 
 export default function CitiesList() {
   const router = useRouter();
@@ -28,7 +27,6 @@ export default function CitiesList() {
     storage.set('lat', lat);
     storage.set('lon', lon);
     router.back();
-    resetAlarms();
   }
 
   return (

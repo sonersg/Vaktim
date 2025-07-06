@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { storage } from '../app/(screens)/_layout';
 
 interface IModalProps {
@@ -23,14 +23,12 @@ export default function MyModal({
   setcalcMethod,
 }: IModalProps) {
   const [modal2Visible, setmodal2Visible] = useState(false);
-  const [fajrAngle, setfajrAngle] = useState('');
-  const [ishaAngle, setishaAngle] = useState('');
-
-  useEffect(() => {
-    setcalcMethod(storage.getString('calculation-method') || 'MWL');
-    setfajrAngle(storage.getString('fajr-angle') || '0');
-    setishaAngle(storage.getString('isha-angle') || '0');
-  }, []);
+  const [fajrAngle, setfajrAngle] = useState(
+    storage.getString('fajr-angle') || '0'
+  );
+  const [ishaAngle, setishaAngle] = useState(
+    storage.getString('isha-angle') || '0'
+  );
 
   return (
     <>
@@ -52,6 +50,9 @@ export default function MyModal({
                       setcalcMethod(object.name);
                       storage.delete('tunes-object');
                       storage.set('calculation-method', object.name);
+                      if (object.name === 'Turkiye') {
+                        storage.delete('calculation-method');
+                      }
                       if (object.name === 'Custom') {
                         setmodal2Visible(true);
                         setmodalVisible(false);

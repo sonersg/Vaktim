@@ -6,7 +6,7 @@ const timeZone = new Date().getTimezoneOffset() / -60;
 export default function calculateArray(size: number, start: number = 0) {
   console.log('Calculate function called', size, start);
 
-  let prayTimes = new PrayTimes();
+  let prayTimes = new PrayTimes('Turkiye');
 
   // Set calculation method from localStorage
   const cm = storage.getString('calculation-method');
@@ -25,7 +25,7 @@ export default function calculateArray(size: number, start: number = 0) {
   // Adjust tunes
   const to = storage.getString('tunes-object');
 
-  if (cm === 'Turkiye' && !to) {
+  if ((cm === 'Turkiye' && !to) || !cm) {
     prayTimes.tune({
       sunrise: -7,
       dhuhr: 5,

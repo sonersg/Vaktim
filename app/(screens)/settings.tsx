@@ -20,8 +20,10 @@ const SettingsScreen = () => {
   const [locatn, setlocatn] = useState(
     storage.getString('auto-location') || 'on'
   );
+  const [calcMethod, setcalcMethod] = useState(
+    storage.getString('calculation-method') || 'Türkiye'
+  );
   const [modalVisible, setmodalVisible] = useState(false);
-  const [calcMethod, setcalcMethod] = useState('');
 
   const setAndSave = (key: string, value: string) => {
     // set storage

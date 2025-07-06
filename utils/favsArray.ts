@@ -14,7 +14,7 @@ export function setFavs(city: string, lat: number, lon: number) {
   const temp = {
     name: city,
     code: null,
-    sponsor: '--',
+    sponsor: '',
     latitude: lat,
     longitude: lon,
   };
