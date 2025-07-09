@@ -1,17 +1,20 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { memo, useEffect, useState } from 'react';
+import { memo, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import moment from 'moment-timezone';
-import { getHijri, getTR } from '../utils/date';
-
-const tr = getTR();
-const hijri = getHijri();
+import { getHijri, getMonth } from '../utils/date';
+import { ReRenderContext } from '../context/ReRenderContext';
 
 function Calendar() {
   const [currentTime, setCurrentTime] = useState(moment().format('HH:mm'));
+  const data = useContext(ReRenderContext);
   const router = useRouter();
 
+  const tr = getMonth();
+  const hijri = getHijri();
+
   useEffect(() => {
+    setCurrentTime(moment().format('HH:mm'));
     // update current time
     const interval = setInterval(() => {
       setCurrentTime(moment().format('HH:mm'));
@@ -74,5 +77,5 @@ const styles = StyleSheet.create({
 
 function getFontSize(text: string) {
   if (text.length < 15) return 17;
-  return 15;
+  return 14;
 }

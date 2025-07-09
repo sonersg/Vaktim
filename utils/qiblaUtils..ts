@@ -6,6 +6,7 @@ import {
 import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { storage } from '../app/(screens)/_layout';
+import translation from '../assets/translations/translations';
 
 interface OrientationResult {
   isFlat: boolean;
@@ -91,24 +92,26 @@ export const calculateQiblaAngle = (): number => {
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 
-export function getDirection(angle: number): string {
+export function getDirection(angle: number, t: any): string {
+  // const t = translation();
+
   if (angle >= 337.5 && angle < 22.5) {
-    return 'Kuzey';
+    return t.qibla.north;
   } else if (angle >= 22.5 && angle < 67.5) {
-    return 'KuzeyDoğu';
+    return t.qibla.northEast;
   } else if (angle >= 67.5 && angle < 112.5) {
-    return 'Doğu';
+    return t.qibla.east;
   } else if (angle >= 112.5 && angle < 157.5) {
-    return 'GüneyDoğu';
+    return t.qibla.southEast;
   } else if (angle >= 157.5 && angle < 202.5) {
-    return 'Güney';
+    return t.qibla.south;
   } else if (angle >= 202.5 && angle < 247.5) {
-    return 'GüneyBatı';
+    return t.qibla.southWest;
   } else if (angle >= 247.5 && angle < 292.5) {
-    return 'Batı';
+    return t.qibla.west;
   } else if (angle >= 292.5 && angle < 337.5) {
-    return 'KuzeyBatı';
+    return t.qibla.northWest;
   } else {
-    return 'Kuzey';
+    return t.qibla.north;
   }
 }

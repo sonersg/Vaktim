@@ -11,7 +11,7 @@ import { resetAlarms } from '../utils/expoAlarm';
 import useToast from '../utils/useToast';
 
 let city = 'Şehirler';
-export let themeColor: string;
+export let themeColor = '#fff';
 let getDate = new Date().getDate();
 
 function PrayerTimesTable() {

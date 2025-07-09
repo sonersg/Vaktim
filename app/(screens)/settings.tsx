@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Alert,
   ScrollView,
@@ -12,6 +12,9 @@ import { storage } from './_layout';
 import Konsol from '../../components/Konsol';
 import * as Linking from 'expo-linking';
 import MyModal from '../../components/MyModal';
+import translation from '../../assets/translations/translations';
+import SetLanguage from '../../components/SetLanguage';
+import { ReRenderContext } from '../../context/ReRenderContext';
 
 const SettingsScreen = () => {
   const [themeColor, setthemeColor] = useState(
@@ -24,6 +27,10 @@ const SettingsScreen = () => {
     storage.getString('calculation-method') || 'Türkiye'
   );
   const [modalVisible, setmodalVisible] = useState(false);
+
+  const data = useContext(ReRenderContext);
+
+  const t = translation();
 
   const setAndSave = (key: string, value: string) => {
     // set storage
@@ -40,7 +47,7 @@ const SettingsScreen = () => {
         <Konsol themeColor={themeColor} />
 
         <View style={styles.sectionContainer}>
-          <Text style={styles.text}>Konum:</Text>
+          <Text style={styles.text}>{t.settings.locHeader}</Text>
           <View style={styles.row}>
             <TouchableHighlight
               style={[
@@ -53,7 +60,7 @@ const SettingsScreen = () => {
               ]}
               onPress={() => setAndSave('auto-location', 'on')}
             >
-              <Text style={styles.text}>Açık</Text>
+              <Text style={styles.text}>{t.settings.locBtnOn}</Text>
             </TouchableHighlight>
 
             <TouchableHighlight
@@ -67,31 +74,31 @@ const SettingsScreen = () => {
               ]}
               onPress={() => setAndSave('auto-location', 'off')}
             >
-              <Text style={styles.text}>Kapalı</Text>
+              <Text style={styles.text}>{t.settings.locBtnOff}</Text>
             </TouchableHighlight>
           </View>
           <TouchableHighlight
             style={[styles.btn, { backgroundColor: themeColor }]}
             onPress={openAppSettings}
           >
-            <Text style={styles.text}>Konum erişimine izin ver</Text>
+            <Text style={styles.text}>{t.settings.locBtnPermission}</Text>
           </TouchableHighlight>
         </View>
 
         <View style={styles.sectionContainer}>
-          <Text style={styles.text}>Bildirimler:</Text>
+          <Text style={styles.text}>{t.settings.notHeader}</Text>
           <View style={styles.row}>
             <TouchableHighlight
               style={[styles.btn, { backgroundColor: themeColor }]}
               onPress={openAppSettings}
             >
-              <Text style={styles.text}>Bildirimlere izin ver</Text>
+              <Text style={styles.text}>{t.settings.notBtnPermission}</Text>
             </TouchableHighlight>
           </View>
         </View>
 
         <View style={styles.sectionContainer}>
-          <Text style={styles.text}>Hesaplama Yöntemleri:</Text>
+          <Text style={styles.text}>{t.settings.calcMethodsHeader}</Text>
           <View style={styles.row}>
             <TouchableHighlight
               style={[styles.btn, { backgroundColor: themeColor }]}
@@ -103,7 +110,11 @@ const SettingsScreen = () => {
         </View>
 
         <View style={styles.sectionContainer}>
-          <Text style={styles.text}>Bir renk seç?</Text>
+          <SetLanguage themeColor={themeColor} />
+        </View>
+
+        <View style={styles.sectionContainer}>
+          <Text style={styles.text}>{t.settings.colorsHeader}</Text>
           <View style={styles.row}>
             <TouchableHighlight
               style={[
@@ -117,7 +128,7 @@ const SettingsScreen = () => {
               ]}
               onPress={() => setAndSave('theme-color', 'hotpink')}
             >
-              <Text style={styles.text}>Pembe</Text>
+              <Text style={styles.text}>{t.settings.colorsBtnPink}</Text>
             </TouchableHighlight>
 
             <TouchableHighlight
@@ -131,20 +142,16 @@ const SettingsScreen = () => {
               ]}
               onPress={() => setAndSave('theme-color', 'skyblue')}
             >
-              <Text style={styles.text}>Mavi</Text>
+              <Text style={styles.text}>{t.settings.colorsBtnBlue}</Text>
             </TouchableHighlight>
           </View>
-          <Text style={styles.text2}>
-            You can also input hex color code above, #00ff00
-          </Text>
+          <Text style={styles.text2}>{t.settings.colorsSubText}</Text>
         </View>
 
         <View style={styles.sectionContainer}>
-          <Text style={styles.text}>Duvar Kağıdı:</Text>
+          <Text style={styles.text}>{t.settings.walpaperHeader}</Text>
           <Text style={{ color: 'white', textAlign: 'center' }}>
-            Duvar kağıdı ayarlamak için internetten bulduğunuz herhangi bir
-            fotoğrafı yeni sekmede açıp, linkini yukarıdaki alana
-            yapıştırabilirsiniz.
+            {t.settings.walpaperText}
           </Text>
         </View>
       </ScrollView>

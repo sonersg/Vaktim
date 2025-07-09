@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { storage } from './_layout';
-import { qadaTimeLabels } from '../../assets/iller';
 import moment from 'moment-timezone';
-import { getTR } from '../../utils/date';
+import { getMonth } from '../../utils/date';
 import { themeColor } from '../../components/PrayerTimesTable';
+import translation from '../../assets/translations/translations';
 
 export default function Qada() {
   const [fajr, setfajr] = useState(storage.getNumber('qada-fajr') || 0);
@@ -17,6 +17,8 @@ export default function Qada() {
   const [vitr, setvitr] = useState(storage.getNumber('qada-vitr') || 0);
   const [sawm, setsawm] = useState(storage.getNumber('qada-sawm') || 0);
   const [edited, setedited] = useState(storage.getString('last-edit') || '');
+
+  const t = translation();
 
   const states = [
     {
@@ -62,7 +64,7 @@ export default function Qada() {
     qada: string
   ) {
     // last edited
-    const lastEdit = getTR() + ' ~ ' + moment().format('HH:mm:ss');
+    const lastEdit = getMonth() + ' ~ ' + moment().format('HH:mm:ss');
     storage.set('last-edit', lastEdit);
     setedited(lastEdit);
 
@@ -85,7 +87,7 @@ export default function Qada() {
   return (
     <View style={styles.container}>
       <Text style={styles.edit}>{edited}</Text>
-      {qadaTimeLabels.map((label, index) => (
+      {t.qada.labels.map((label, index) => (
         <View
           key={index}
           style={[styles.sectionContainer, { backgroundColor: themeColor }]}

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { View, FlatList, StyleSheet, Text } from 'react-native';
-import { RDNObject } from '../../assets/iller';
 import { storage } from './_layout';
 import { IslamicEvents } from '../../assets/types/types';
+import t from '../../assets/translations/translations';
 
 const HolyDaysScreen = () => {
-  const [religiousDaysNights, setreligiousDaysNights] =
-    useState<IslamicEvents>(RDNObject);
+  const [religiousDaysNights, setreligiousDaysNights] = useState<IslamicEvents>(
+    t().holy.holyData
+  );
 
   useEffect(() => {
+    console.log(t().qada.labels);
     const jsonString = storage.getString('holy-days-nights');
     if (jsonString) {
       setreligiousDaysNights(JSON.parse(jsonString));

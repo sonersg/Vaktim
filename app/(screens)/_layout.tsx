@@ -12,15 +12,15 @@ const defaultBgImgURI =
 // const defaultBgImgURI =
 //   'https://images.pexels.com/photos/1624496/pexels-photo-1624496.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
 
-const bgImgURI = storage.getString('bg-img-URL') || defaultBgImgURI;
-
 export default function ScreensLayout() {
   const [isFirst, setisFirst] = useState<boolean>(false);
   const insets = useSafeAreaInsets();
 
-  const params = useGlobalSearchParams();
-  const updateTrigger = params.updateTrigger;
-  // console.log('_layout screen: ', updateTrigger);
+  // const params = useGlobalSearchParams();
+  // const updateTrigger = params.updateTrigger;
+  // // console.log('_layout screen: ', updateTrigger);
+
+  const bgImgURI = storage.getString('bg-img-URL') || defaultBgImgURI;
 
   useEffect(() => {
     const tmout = setTimeout(() => {
@@ -65,8 +65,9 @@ export default function ScreensLayout() {
 
       <StatusBar
         style='inverted'
-        // backgroundColor='transparent'
-        // translucent={true}
+        backgroundColor='transparent'
+        translucent={true}
+        animated
       />
     </ImageBackground>
   );

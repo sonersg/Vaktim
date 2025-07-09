@@ -5,8 +5,10 @@ import {
   TouchableOpacity,
   Button,
   ScrollView,
+  Pressable,
+  TouchableHighlight,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { storage } from '../app/(screens)/_layout';
 import { cancellAlarm, setAlarm } from '../utils/expoAlarm';
 import { getHighlightedIndex, getTouched } from '../utils/highlight';
@@ -16,6 +18,8 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import translation from '../assets/translations/translations';
+import { ReRenderContext } from '../context/ReRenderContext';
 
 interface ITableCellsProps {
   arry: string[];
@@ -32,7 +36,11 @@ export default function TableCells({
   const [tunesObject, settunesObject] = useState(defaultTunesObject);
   const [modalVisible, setmodalVisible] = useState(false);
   const [bell, setbell] = useState('');
+
+  const data = useContext(ReRenderContext);
   const opacity = useSharedValue(0);
+
+  const t = translation();
 
   // console.log('table cells');
 
@@ -119,16 +127,16 @@ export default function TableCells({
                 },
               ]}
             >
-              {labelsInTR[index]}:
+              {t.home.labels[index]}
             </Text>
 
             <View style={styles.row}>
-              <TouchableOpacity
+              <TouchableHighlight
                 style={styles.bell}
                 onPress={() => handleBell(index)}
               >
                 <Text>{bell[index] === '1' ? '🔔' : '⚫️'}</Text>
-              </TouchableOpacity>
+              </TouchableHighlight>
 
               <Text
                 style={[
@@ -160,14 +168,14 @@ export default function TableCells({
               //@ts-ignore
               tunesObject[tunesObject.label.toLowerCase()]
             }{' '}
-            min
+            {t.home.min}
           </Text>
 
           <View style={styles.scrollViewContainer}>
             <ScrollView>
               {minutesArray.map((min) => (
                 <TouchableOpacity key={min} onPress={() => handleOffsets(min)}>
-                  <Text style={styles.scrollText}>{min} min</Text>
+                  <Text style={styles.scrollText}>{min}'</Text>
                 </TouchableOpacity>
               ))}
             </ScrollView>
@@ -202,7 +210,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#777',
     borderRadius: 15,
-    width: 240,
+    width: 255,
   },
 
   text: {
@@ -264,7 +272,6 @@ const styles = StyleSheet.create({
 });
 
 const prayerTimeLabels = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-const labelsInTR = ['İmsak', 'Güneş', 'Öğle', 'İkindi', 'Akşam', 'Yatsı'];
 
 const defaultTunesObject = {
   label: '',

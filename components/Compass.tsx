@@ -12,14 +12,18 @@ import {
   getDirection,
   isPhoneHorizontal,
 } from '../utils/qiblaUtils.';
+import translation from '../assets/translations/translations';
 
 interface ICompassProps {
   qibla?: boolean;
+  t: any;
 }
-const Compass = ({ qibla }: ICompassProps) => {
+const Compass = ({ qibla, t }: ICompassProps) => {
   const [heading, setHeading] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
   const [isFlat, setIsFlat] = useState<boolean>(false);
+
+  // const t = translation();
 
   useEffect(() => {
     qiblaAngle = calculateQiblaAngle();
@@ -110,10 +114,12 @@ const Compass = ({ qibla }: ICompassProps) => {
       {qibla && (
         <>
           <Text style={styles.directionText}>{heading}°</Text>
-          <Text style={styles.directionText}>{getDirection(heading)}</Text>
-          <Text style={styles.directionText}>Kıble Açısı: {qiblaAngle}°</Text>
+          <Text style={styles.directionText}>{getDirection(heading, t)}</Text>
+          <Text style={styles.directionText}>
+            {t.qibla.qiblaAngle} {qiblaAngle}°
+          </Text>
           <Text style={[styles.directionText, { color: 'yellow' }]}>
-            {!isFlat ? 'Telefonu düz tutun' : ''}
+            {!isFlat ? t.qibla.holdFlat : ''}
           </Text>
         </>
       )}

@@ -8,9 +8,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import { storage } from './_layout';
 import calculateArray from '../../utils/calculate';
-import { getHijri, getISO, getTR } from '../../utils/date';
+import { getHijri, getISO, getMonth } from '../../utils/date';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -71,7 +70,7 @@ const ImsakiyeScreen = () => {
     return (
       <View style={styles.container}>
         <Text style={[styles.header, { backgroundColor: themeColor }]}>
-          {getTR()} - {getHijri()}
+          {getMonth()} - {getHijri()}
         </Text>
 
         <ScrollView horizontal>

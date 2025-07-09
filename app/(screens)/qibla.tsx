@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Compass from '../../components/Compass';
+import translation from '../../assets/translations/translations';
 
 export default function Qibla() {
   const [qibla, setqibla] = useState(false);
+
+  const t = translation();
+
   useEffect(() => {
     setqibla(true);
-
     return () => {
       setqibla(false);
     };
@@ -16,12 +19,9 @@ export default function Qibla() {
     <View style={styles.container}>
       {/* <Text style={styles.text}>Gördüğün ilk kişiye kıbleyi sor.</Text> */}
       <View style={{ alignItems: 'center' }}>
-        <Compass qibla={qibla} />
+        <Compass qibla={qibla} t={t} />
       </View>
-      <Text style={styles.text}>
-        Kıble yönü telefonunuzdan alınan sensör bilgileriyle hesaplanmaktadır.
-        Her zaman doğru olmayabilir.
-      </Text>
+      <Text style={styles.text}>{t.qibla.warning}</Text>
     </View>
   );
 }

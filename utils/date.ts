@@ -1,27 +1,17 @@
-// get date as ISO string, format (2023-12-24)
+import translation from '../assets/translations/translations';
+import { toHijri } from 'hijri-converter';
+
+// Get date as ISO string, format (2023-12-24)
 export function getISO(future: number = 0) {
   const date = new Date();
   date.setDate(date.getDate() + future);
   return date.toISOString().slice(0, 10);
 }
 
-// get date TR, format (6 Şubat 2025)
-const aylar = [
-  'Ocak',
-  'Şubat',
-  'Mart',
-  'Nisan',
-  'Mayıs',
-  'Haziran',
-  'Temmuz',
-  'Ağustos',
-  'Eylül',
-  'Ekim',
-  'Kasım',
-  'Aralık',
-];
+// Get date, format (6 Şubat 2025)
+export function getMonth(future: number = 0) {
+  const t = translation();
 
-export function getTR(future: number = 0) {
   const date = new Date();
   date.setDate(date.getDate() + future);
   const year = date.getFullYear(); // 2023
@@ -30,28 +20,13 @@ export function getTR(future: number = 0) {
 
   const day = date.getDate(); // 31
 
-  return day + ' ' + aylar[month] + ' ' + year;
+  return day + ' ' + t.home.months[month] + ' ' + year;
 }
 
-// get date hijri, format (7 Şaban 1446)
-import { toHijri, toGregorian } from 'hijri-converter';
-
-const hicriAylar = [
-  'Muharrem',
-  'Safer',
-  'R.evvel',
-  'R.ahir',
-  'C.evvel',
-  'C.ahir',
-  'Recep',
-  'Şaban',
-  'Ramazan',
-  'Şevval',
-  'Zilkade',
-  'Zilhicce',
-];
-
+// Get date hijri, format (7 Şaban 1446)
 export function getHijri(future: number = 0) {
+  const t = translation();
+
   const date = new Date();
   date.setDate(date.getDate() + future);
 
@@ -65,5 +40,5 @@ export function getHijri(future: number = 0) {
 
   // const greg = toGregorian(1407, 7, 1); // convert 1st of Rajab, 1407 to Gregorian
 
-  return hicri.hd + ' ' + hicriAylar[hicri.hm - 1] + ' ' + hicri.hy;
+  return hicri.hd + ' ' + t.home.hijriMonths[hicri.hm - 1] + ' ' + hicri.hy;
 }

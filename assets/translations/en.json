@@ -1,0 +1,109 @@
+{
+  "onboarding": {
+    "locTitle": "Location",
+    "locSubtitle": "To determine accurate prayer times based on your location, the app needs access to your location information.",
+    "notTitle": "Notifications",
+    "notSubtitle": "If you want to receive notifications for prayer times, you must enable notification permissions. Notifications can be turned off later."
+  },
+
+  "holy": {
+    "header": "2025 Religious Days and Nights",
+    "holyData": {
+      "dgg": "2025 Religious Days and Nights",
+      "year": 2025,
+      "value": [
+        "January 1 - Beginning of the Three Sacred Months",
+        "January 2 - Regab Night (Lailat al-Raghaib)",
+        "January 26 - Miraj Night (Lailat al-Miraj)",
+        "February 13 - Bara'at Night (Lailat al-Bara'at)",
+        "March 1 - Beginning of Ramadan",
+        "March 26 - Night of Power (Lailat al-Qadr)",
+        "March 30 - Eid al-Fitr (Day 1)",
+        "March 31 - Eid al-Fitr (Day 2)",
+        "April 1 - Eid al-Fitr (Day 3)",
+        "June 6 - Eid al-Adha (Day 1)",
+        "June 7 - Eid al-Adha (Day 2)",
+        "June 8 - Eid al-Adha (Day 3)",
+        "June 9 - Eid al-Adha (Day 4)",
+        "June 26 - Islamic New Year",
+        "July 5 - Day of Ashura",
+        "September 3 - Mawlid al-Nabi (Prophet's Birthday)",
+        "December 21 - Beginning of the Three Sacred Months",
+        "December 25 - Regab Night (Lailat al-Raghaib)"
+      ]
+    }
+  },
+
+  "home": {
+    "labels": ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"],
+    "min": "min",
+    "months": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "hijriMonths": [
+      "Muharrem",
+      "Safer",
+      "R.evvel",
+      "R.ahir",
+      "C.evvel",
+      "C.ahir",
+      "Recep",
+      "Şaban",
+      "Ramazan",
+      "Şevval",
+      "Zilkade",
+      "Zilhicce"
+    ]
+  },
+
+  "menu": {
+    "qada": "Qada ",
+    "qibla": "Qibla",
+    "settings": "Settings"
+  },
+
+  "qada": {
+    "labels": ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha", "Witr", "Sawm"]
+  },
+
+  "qibla": {
+    "north": "North",
+    "northEast": "NorthEast",
+    "east": "East",
+    "southEast": "SouthEast",
+    "south": "South",
+    "southWest": "SouthWest",
+    "west": "West",
+    "northWest": "NorthWest",
+    "qiblaAngle": "Qibla Angle:",
+    "holdFlat": "Hold the phone flat",
+    "warning": "The Qibla direction is calculated using sensor data from your phone. It may not always be accurate."
+  },
+
+  "settings": {
+    "locHeader": "Location",
+    "locBtnOn": "On",
+    "locBtnOff": "Off",
+    "locBtnPermission": "Allow location access",
+    "notHeader": "Notifications",
+    "notBtnPermission": "Allow notifications",
+    "calcMethodsHeader": "Calculation Methods",
+    "colorsHeader": "Choose a color?",
+    "colorsBtnPink": "Pink",
+    "colorsBtnBlue": "Blue",
+    "colorsSubText": "You can also input hex color code above, #00ff00",
+    "walpaperHeader": "Wallpaper",
+    "walpaperText": "To set a wallpaper, you can open any image you find on the internet in a new tab and paste its link in the field above."
+  }
+}
