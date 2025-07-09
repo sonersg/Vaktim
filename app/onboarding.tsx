@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import {
   Image,
   StyleSheet,
@@ -14,35 +14,12 @@ import { getCurrentLocation, getLocationPermission } from '../utils/location';
 import { requestNotificationPermissions } from '../utils/expoAlarm';
 import { useRouter } from 'expo-router';
 import MyModal from '../components/MyModal';
+import SetLanguage from '../components/SetLanguage';
+import translation from '../assets/translations/translations';
+import { ReRenderContext } from '../context/ReRenderContext';
 
 const { width, height } = Dimensions.get('window');
 const COLORS = { primary: '#282534', white: '#ddd' };
-
-const slides = [
-  {
-    id: 1,
-    image: require('../assets/location.png'),
-    imgHeight: '33%',
-    title: 'Konum',
-    subtitle:
-      'Bulunduğunuz konuma göre doğru namaz vakitlerini belirleyebilmek için, uygulamanın konum bilgilerinize erişmesi gerekmektedir.',
-  },
-  {
-    id: 2,
-    image: require('../assets/bell.png'),
-    imgHeight: '33%',
-    title: 'Bildirimler',
-    subtitle:
-      'Namaz vakitlerinde bildirim almak istiyorsanız, bildirim izinlerini açmalısınız. Bildirimler sonradan kapatılabilir.',
-  },
-  {
-    id: 3,
-    image: require('../assets/splash-icon.png'),
-    imgHeight: '33%',
-    title: '',
-    subtitle: '',
-  },
-];
 
 interface Item {
   id: number;
@@ -59,16 +36,41 @@ export default function OnboardingScreen() {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [modalVisible, setmodalVisible] = useState(false);
   const [calcMethod, setcalcMethod] = useState('Türkiye');
-  const [city, setcity] = useState('');
   const ref = useRef<FlatList<Item> | null>(null);
+  const data = useContext(ReRenderContext);
   const router = useRouter();
 
-  useEffect(() => {
-    if (currentSlideIndex > 0) {
-      const sc = storage.getString('selected-city');
-      if (sc) setcity(sc);
-    }
-  }, [currentSlideIndex, modalVisible, calcMethod]);
+  const t = translation();
+  const slides = [
+    {
+      id: 1,
+      image: require('../assets/splash-icon.png'),
+      imgHeight: '33%',
+      title: '',
+      subtitle: '',
+    },
+    {
+      id: 2,
+      image: require('../assets/location.png'),
+      imgHeight: '33%',
+      title: t.onboarding.locTitle,
+      subtitle: t.onboarding.locSubtitle,
+    },
+    {
+      id: 3,
+      image: require('../assets/bell.png'),
+      imgHeight: '33%',
+      title: t.onboarding.notTitle,
+      subtitle: t.onboarding.notSubtitle,
+    },
+    {
+      id: 4,
+      image: require('../assets/splash-icon.png'),
+      imgHeight: '33%',
+      title: '',
+      subtitle: '',
+    },
+  ];
 
   const updateCurrentSlideIndex = (e: any) => {
     const contentOffsetX = e.nativeEvent.contentOffset.x;
@@ -79,10 +81,10 @@ export default function OnboardingScreen() {
   const goToNextSlide = async () => {
     // console.log(currentSlideIndex);
 
-    if (currentSlideIndex === 0) {
+    if (currentSlideIndex === 1) {
       await getLocationPermission();
       getCurrentLocation();
-    } else if (currentSlideIndex === 1) {
+    } else if (currentSlideIndex === 2) {
       await requestNotificationPermissions();
     }
 
@@ -107,22 +109,26 @@ export default function OnboardingScreen() {
           style={{ height: item.imgHeight, resizeMode: 'contain' }}
         />
 
-        {item.id === 3 && (
+        {item.id === 1 && <SetLanguage />}
+
+        {item.id == 4 && (
           <>
             <TouchableOpacity
               style={styles.btn}
               onPress={() => setmodalVisible(true)}
             >
               <Text style={{ color: COLORS.white }}>
-                Hesaplama Yöntemi: {calcMethod} 🔻
+                {t.home.calcMethod}: {calcMethod} 🔻
               </Text>
             </TouchableOpacity>
 
-            <Text style={styles.title}>{city}</Text>
+            <Text style={styles.title}>
+              {storage.getString('selected-city') || ''}
+            </Text>
           </>
         )}
 
-        <View style={item.id === 3 && { display: 'none' }}>
+        <View style={!item.title && { display: 'none' }}>
           <Text style={styles.title}>{item?.title}</Text>
           <Text style={styles.subtitle}>{item?.subtitle}</Text>
         </View>
@@ -149,7 +155,9 @@ export default function OnboardingScreen() {
               style={[styles.btn, { backgroundColor: COLORS.white }]}
               onPress={onStart}
             >
-              <Text style={{ fontWeight: 'bold', fontSize: 22 }}>BAŞLA</Text>
+              <Text style={{ fontWeight: 'bold', fontSize: 22 }}>
+                {t.onboarding.btnStart}
+              </Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
@@ -164,7 +172,9 @@ export default function OnboardingScreen() {
                   color: COLORS.white,
                 }}
               >
-                İZİN VER
+                {currentSlideIndex === 0
+                  ? t.onboarding.btnNext
+                  : t.onboarding.btnGrant}
               </Text>
             </TouchableOpacity>
           )}

@@ -72,11 +72,14 @@ export default function TableCells({
   function handleLongPress(index: number) {
     setmodalVisible(true);
     opacity.value = withTiming(1, { duration: 999 });
-    settunesObject({ ...tunesObject, label: prayerTimeLabels[index] });
+    settunesObject({
+      ...tunesObject,
+      id: index,
+    });
   }
 
   function handleOffsets(min: string) {
-    const currentLabel = tunesObject.label;
+    const currentLabel = translation('en').home.labels[tunesObject.id];
     const updatedTunesObject = {
       ...tunesObject,
       [currentLabel.toLowerCase()]: min,
@@ -163,10 +166,12 @@ export default function TableCells({
       >
         <Animated.View style={[styles.modalView, animatedStyle]}>
           <Text style={styles.title}>
-            {tunesObject.label}:{' '}
+            {t.home.labels[tunesObject.id]}:{' '}
             {
-              //@ts-ignore
-              tunesObject[tunesObject.label.toLowerCase()]
+              // @ts-ignore
+              tunesObject[
+                translation('en').home.labels[tunesObject.id].toLowerCase()
+              ]
             }{' '}
             {t.home.min}
           </Text>
@@ -183,12 +188,12 @@ export default function TableCells({
 
           <View style={{ flexDirection: 'row', gap: 22 }}>
             <Button
-              title='sıfırla'
+              title={t.home.btnReset}
               onPress={handleResetOffsets}
               color='transparent'
             />
             <Button
-              title='tamam'
+              title={t.home.btnOk}
               onPress={() => setmodalVisible(false)}
               color='transparent'
             />
@@ -271,10 +276,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const prayerTimeLabels = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-
 const defaultTunesObject = {
-  label: '',
+  id: 1,
   fajr: '0',
   sunrise: '0',
   dhuhr: '0', // Add 5 minutes to dhuhr

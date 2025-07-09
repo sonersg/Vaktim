@@ -3,7 +3,10 @@
     "locTitle": "Location",
     "locSubtitle": "To determine accurate prayer times based on your location, the app needs access to your location information.",
     "notTitle": "Notifications",
-    "notSubtitle": "If you want to receive notifications for prayer times, you must enable notification permissions. Notifications can be turned off later."
+    "notSubtitle": "If you want to receive notifications for prayer times, you must enable notification permissions. Notifications can be turned off later.",
+    "btnNext": "NEXT",
+    "btnGrant": "GRANT",
+    "btnStart": "START"
   },
 
   "holy": {
@@ -35,8 +38,16 @@
   },
 
   "home": {
-    "labels": ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"],
     "min": "min",
+    "btnOk": "Okay",
+    "btnReset": "Reset",
+    "calcMethod": "Calculation Method",
+    "fajrAngle": "Fajr Angle",
+    "ishaAngle": "Isha Angle",
+    "qada": "Qada ",
+    "qibla": "Qibla",
+    "settings": "Settings",
+    "labels": ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"],
     "months": [
       "January",
       "February",
@@ -65,12 +76,6 @@
       "Zilkade",
       "Zilhicce"
     ]
-  },
-
-  "menu": {
-    "qada": "Qada ",
-    "qibla": "Qibla",
-    "settings": "Settings"
   },
 
   "qada": {

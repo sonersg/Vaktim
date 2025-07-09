@@ -3,7 +3,10 @@
     "locTitle": "Konum",
     "locSubtitle": "Bulunduğunuz konuma göre doğru namaz vakitlerini belirleyebilmek için, uygulamanın konum bilgilerinize erişmesi gerekmektedir.",
     "notTitle": "Bildirimler",
-    "notSubtitle": "Namaz vakitlerinde bildirim almak istiyorsanız, bildirim izinlerini açmalısınız. Bildirimler sonradan kapatılabilir."
+    "notSubtitle": "Namaz vakitlerinde bildirim almak istiyorsanız, bildirim izinlerini açmalısınız. Bildirimler sonradan kapatılabilir.",
+    "btnNext": "SONRAKİ",
+    "btnGrant": "İZİN VER",
+    "btnStart": "BAŞLA"
   },
 
   "holy": {
@@ -35,8 +38,16 @@
   },
 
   "home": {
-    "labels": ["İmsak", "Güneş", "Öğle", "İkindi", "Akşam", "Yatsı"],
     "min": "dakika",
+    "btnOk": "Tamam",
+    "btnReset": "Sıfırla",
+    "calcMethod": "Hesaplama Yöntemi",
+    "fajrAngle": "İmsak Açısı",
+    "ishaAngle": "Yatsı Açısı",
+    "qada": "Kaza Takibi",
+    "qibla": "Kıble",
+    "settings": "Ayarlar",
+    "labels": ["İmsak", "Güneş", "Öğle", "İkindi", "Akşam", "Yatsı"],
     "months": [
       "Ocak",
       "Şubat",
@@ -65,12 +76,6 @@
       "Zilkade",
       "Zilhicce"
     ]
-  },
-
-  "menu": {
-    "qada": "Kaza Takibi",
-    "qibla": "Kıble",
-    "settings": "Ayarlar"
   },
 
   "qada": {

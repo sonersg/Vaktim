@@ -44,7 +44,7 @@ const SetLanguage = ({ themeColor }: { themeColor?: string }) => {
           ]}
           onPress={() => setAndSave('en')}
         >
-          <Text style={styles.text}>English 🇺🇸</Text>
+          <Text style={styles.text}>English 🇲🇾</Text>
         </TouchableHighlight>
       </View>
     </View>

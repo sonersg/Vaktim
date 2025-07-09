@@ -12,11 +12,10 @@ import {
   getDirection,
   isPhoneHorizontal,
 } from '../utils/qiblaUtils.';
-import translation from '../assets/translations/translations';
 
 interface ICompassProps {
   qibla?: boolean;
-  t: any;
+  t?: any;
 }
 const Compass = ({ qibla, t }: ICompassProps) => {
   const [heading, setHeading] = useState<number>(0);

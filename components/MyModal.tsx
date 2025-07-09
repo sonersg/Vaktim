@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import { storage } from '../app/(screens)/_layout';
+import translation from '../assets/translations/translations';
 
 interface IModalProps {
   setmodalVisible: React.Dispatch<React.SetStateAction<boolean>>;
@@ -30,6 +31,8 @@ export default function MyModal({
     storage.getString('isha-angle') || '0'
   );
 
+  const t = translation();
+
   return (
     <>
       <Modal
@@ -40,7 +43,9 @@ export default function MyModal({
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.title}>Hesaplama Yöntemi: {calcMethod}</Text>
+            <Text style={styles.title}>
+              {t.home.calcMethod}: {calcMethod}
+            </Text>
             <View style={styles.scrollViewContainer}>
               <ScrollView>
                 {calcMethodsArray.map((object) => (
@@ -58,6 +63,7 @@ export default function MyModal({
                         setmodalVisible(false);
                       }
                       if (object.name != 'Custom') {
+                        setmodalVisible(false);
                         storage.delete('fajr-angle');
                         storage.delete('isha-angle');
                       }
@@ -70,7 +76,7 @@ export default function MyModal({
             </View>
 
             <Button
-              title='tamam'
+              title={t.home.btnOk}
               onPress={() => setmodalVisible(false)}
               color='transparent'
             />
@@ -86,8 +92,12 @@ export default function MyModal({
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.title}>İmsak Açısı: {fajrAngle} °</Text>
-            <Text style={styles.title}>Yatsı Açısı: {ishaAngle} °</Text>
+            <Text style={styles.title}>
+              {t.home.fajrAngle}: {fajrAngle} °
+            </Text>
+            <Text style={styles.title}>
+              {t.home.ishaAngle}: {ishaAngle} °
+            </Text>
             <View style={{ flexDirection: 'row', gap: 22 }}>
               <View style={styles.scrollViewContainer}>
                 <ScrollView>
@@ -122,7 +132,7 @@ export default function MyModal({
               </View>
             </View>
             <Button
-              title='tamam'
+              title={t.home.btnOk}
               onPress={() => setmodal2Visible(false)}
               color='transparent'
             />
