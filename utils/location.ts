@@ -1,10 +1,8 @@
 // import * as Device from 'expo-device';
 import * as Location from 'expo-location';
 import { storage } from '../app/(screens)/_layout';
-import { resetAlarms } from './expoAlarm';
 import { setFavs } from './favsArray';
-
-const LOCATION_CHANGE_THRESHOLD = 0.01; // Threshold in degrees (approx 1 km)
+import useToast from './useToast';
 
 export async function getLocationPermission() {
   let { status } = await Location.requestForegroundPermissionsAsync();
@@ -21,44 +19,12 @@ export async function getCurrentLocation() {
   //     return 'Oops, this will not work on Snack in an Android Emulator. Try it on your device!';
   //   }
 
-  console.log('location called');
+  // console.log('location called');
 
   try {
-    let location = await Location.getCurrentPositionAsync({});
+    const location = await Location.getCurrentPositionAsync({});
     const { latitude, longitude } = location.coords;
-
-    // Get the previously stored location
-    const storedLat = storage.getNumber('lat');
-    const storedLon = storage.getNumber('lon');
-
-    if (storedLat && storedLon) {
-      // Calculate the difference between the new and stored location
-      const latDiff = Math.abs(latitude - storedLat);
-      const lonDiff = Math.abs(longitude - storedLon);
-
-      // Only update storage if the change is significant
-      if (
-        latDiff > LOCATION_CHANGE_THRESHOLD ||
-        lonDiff > LOCATION_CHANGE_THRESHOLD
-      ) {
-        storage.set('lat', latitude);
-        storage.set('lon', longitude);
-        resetAlarms();
-        await getCityFromCoords(latitude, longitude);
-
-        return 'location-changed';
-      }
-    } else {
-      // If no stored location exists, save the new location
-      storage.set('lat', latitude);
-      storage.set('lon', longitude);
-      resetAlarms();
-      await getCityFromCoords(latitude, longitude);
-
-      return 'location-changed';
-    }
-
-    return 'success-Location is same';
+    return await getCityFromCoords(latitude, longitude);
   } catch (error) {
     return "Couldn't get location!";
   }
@@ -72,24 +38,49 @@ const getCityFromCoords = async (latitude: number, longitude: number) => {
     });
 
     if (reverseGeocode.length > 0) {
+      const storedCity = storage.getString('selected-city');
       const address = reverseGeocode[0];
       // console.log(address);
       if (address.city) {
-        setFavs(address.city, latitude, longitude);
+        if (address.city === storedCity) {
+          return 'Location is same';
+        } else {
+          setFavs(address.city, latitude, longitude);
+          storage.set('lat', latitude);
+          storage.set('lon', longitude);
+          useToast('Location changed');
+          return 'Location changed';
+        }
       } else if (address.subregion) {
-        setFavs(address.subregion, latitude, longitude);
+        if (address.subregion === storedCity) {
+          return 'Location is same';
+        } else {
+          setFavs(address.subregion, latitude, longitude);
+          storage.set('lat', latitude);
+          storage.set('lon', longitude);
+          useToast('Location changed');
+          return 'Location changed';
+        }
       } else if (address.region) {
-        setFavs(address.region, latitude, longitude);
+        if (address.region === storedCity) {
+          return 'Location is same';
+        } else {
+          setFavs(address.region, latitude, longitude);
+          storage.set('lat', latitude);
+          storage.set('lon', longitude);
+          useToast('Location changed');
+          return 'Location changed';
+        }
       }
 
-      return address.region;
+      return 'No address found';
     } else {
       // console.log('No address found');
-      return null;
+      return 'No address found';
     }
   } catch (error) {
     // console.error('Error in reverse geocoding:', error);
-    return null;
+    return 'null';
   }
 };
 

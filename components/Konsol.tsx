@@ -1,12 +1,12 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useContext, useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { storage } from '../app/(screens)/_layout';
 import useToast from '../utils/useToast';
-import { useRouter } from 'expo-router';
+import { ReRenderContext } from '../context/ReRenderContext';
 
 const Konsol = ({ themeColor }: { themeColor: string }) => {
   const [input, setinput] = useState('');
-  const router = useRouter();
+  const data = useContext(ReRenderContext);
 
   // handleEndEditing function
   const handleEndEditing = () => {
@@ -26,11 +26,14 @@ const Konsol = ({ themeColor }: { themeColor: string }) => {
     } else if (input.trim().slice(0, 4) === 'http') {
       // BACKGROUND IMAGE START
       storage.set('bg-img-URL', input.trim());
-      router.setParams({ updateTrigger: input.trim() });
+      data.setreRender((prev) => !prev);
       setinput('');
-    } else if (input.trim().toLowerCase() === 'varsayılan') {
+    } else if (input.trim().toLowerCase() === 'defaults') {
       storage.delete('bg-img-URL');
-      router.setParams({ updateTrigger: input.trim() });
+      storage.delete('theme-color');
+      storage.delete('auto-location');
+      storage.delete('calculation-method');
+      data.setreRender((prev) => !prev);
       setinput('');
       // BACKGROUND IMAGE END
     } else if (define[0].trim().toLowerCase() === 'notification body message') {
@@ -58,7 +61,7 @@ const Konsol = ({ themeColor }: { themeColor: string }) => {
       const isValidColor = hexColorPattern.test(input.trim());
       if (isValidColor) {
         storage.set('theme-color', input.trim());
-        router.replace('/settings');
+        data.setreRender((prev) => !prev);
         setinput('');
       }
     }

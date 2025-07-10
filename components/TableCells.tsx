@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Button,
   ScrollView,
-  Pressable,
   TouchableHighlight,
 } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
@@ -165,16 +164,18 @@ export default function TableCells({
         ]}
       >
         <Animated.View style={[styles.modalView, animatedStyle]}>
-          <Text style={styles.title}>
-            {t.home.labels[tunesObject.id]}:{' '}
-            {
-              // @ts-ignore
-              tunesObject[
-                translation('en').home.labels[tunesObject.id].toLowerCase()
-              ]
-            }{' '}
-            {t.home.min}
-          </Text>
+          {modalVisible && (
+            <Text style={styles.title}>
+              {t.home.labels[tunesObject.id]}:{' '}
+              {
+                // @ts-ignore
+                tunesObject[
+                  translation('en').home.labels[tunesObject.id].toLowerCase()
+                ]
+              }{' '}
+              {t.home.min}
+            </Text>
+          )}
 
           <View style={styles.scrollViewContainer}>
             <ScrollView>

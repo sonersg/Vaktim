@@ -3,9 +3,8 @@ import { storage } from '../app/(screens)/_layout';
 import calculateArray from './calculate';
 
 export const arrSize2 = calculateArray(2);
-const ishaMessage =
-  storage.getString('isha-message') || `Güneş: ${arrSize2[1][1]}`;
 const isAlways = storage.getBoolean('is-always');
+const ishaMessage = storage.getString('isha-message') || arrSize2[1][1];
 
 export function getRemaining(todaySarray: string[]) {
   if (!isAlways && isAlways != undefined) return ishaMessage;

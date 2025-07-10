@@ -8,7 +8,6 @@ import calculateArray from '../utils/calculate';
 import Magnify from './Magnify';
 import TableCells from './TableCells';
 import { resetAlarms } from '../utils/expoAlarm';
-import useToast from '../utils/useToast';
 
 let city = 'Şehirler';
 export let themeColor = '#fff';
@@ -32,8 +31,7 @@ function PrayerTimesTable() {
       const autoLocation = storage.getString('auto-location') || 'on';
       autoLocation == 'on' &&
         getCurrentLocation().then((res) => {
-          useToast(res);
-          if (res == 'location-changed') {
+          if (res == 'Location changed') {
             city = storage.getString('selected-city') || '-';
             setarry(calculateArray(1)[0]);
           }

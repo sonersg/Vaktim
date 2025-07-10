@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Alert,
   ScrollView,
@@ -17,20 +17,18 @@ import SetLanguage from '../../components/SetLanguage';
 import { ReRenderContext } from '../../context/ReRenderContext';
 
 const SettingsScreen = () => {
-  const [themeColor, setthemeColor] = useState(
-    storage.getString('theme-color') || 'hotpink'
-  );
-  const [locatn, setlocatn] = useState(
-    storage.getString('auto-location') || 'on'
-  );
-  const [calcMethod, setcalcMethod] = useState(
-    storage.getString('calculation-method') || 'Türkiye'
-  );
+  const [themeColor, setthemeColor] = useState('hotpink');
+  const [locatn, setlocatn] = useState('on');
+  const [calcMethod, setcalcMethod] = useState('Türkiye');
   const [modalVisible, setmodalVisible] = useState(false);
-
   const data = useContext(ReRenderContext);
-
   const t = translation();
+
+  useEffect(() => {
+    setthemeColor(storage.getString('theme-color') || 'hotpink');
+    setlocatn(storage.getString('auto-location') || 'on');
+    setcalcMethod(storage.getString('calculation-method') || 'Türkiye');
+  }, [data.reRender]);
 
   const setAndSave = (key: string, value: string) => {
     // set storage

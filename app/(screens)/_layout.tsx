@@ -1,26 +1,21 @@
-import { Redirect, Stack, useGlobalSearchParams } from 'expo-router';
+import { Redirect, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { ImageBackground } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MMKV } from 'react-native-mmkv';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { ReRenderContext } from '../../context/ReRenderContext';
 
 export const storage = new MMKV();
-
-const defaultBgImgURI =
-  'https://images.pexels.com/photos/8071161/pexels-photo-8071161.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
-// const defaultBgImgURI =
-//   'https://images.pexels.com/photos/1624496/pexels-photo-1624496.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
 
 export default function ScreensLayout() {
   const [isFirst, setisFirst] = useState<boolean>(false);
   const insets = useSafeAreaInsets();
+  const data = useContext(ReRenderContext);
 
-  // const params = useGlobalSearchParams();
-  // const updateTrigger = params.updateTrigger;
-  // // console.log('_layout screen: ', updateTrigger);
+  const bgImgURI = storage.getString('bg-img-URL') || getImg();
 
-  const bgImgURI = storage.getString('bg-img-URL') || defaultBgImgURI;
+  // console.log('(screens) _layout');
 
   useEffect(() => {
     const tmout = setTimeout(() => {
@@ -71,4 +66,19 @@ export default function ScreensLayout() {
       />
     </ImageBackground>
   );
+}
+
+const bgImg1 =
+  'https://images.pexels.com/photos/8071161/pexels-photo-8071161.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
+const bgImg2 =
+  'https://images.pexels.com/photos/32319577/pexels-photo-32319577.jpeg?_gl=1*1sr579c*_ga*MTA3ODU0OTE2LjE3Mzg5MDQ2NjE.*_ga_8JE65Q40S6*czE3NTIwNzUxNjUkbzMkZzEkdDE3NTIwNzUxOTAkajM1JGwwJGgw';
+const bgImg3 =
+  'https://images.pexels.com/photos/1624496/pexels-photo-1624496.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
+
+function getImg() {
+  const images = [bgImg1, bgImg2, bgImg3];
+  const getDate = new Date().getDate();
+  if (getDate % 2 === 0) return images[0];
+  else if (getDate % 3 === 0) return images[1];
+  else return images[2];
 }
