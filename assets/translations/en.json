@@ -47,6 +47,7 @@
     "qada": "Qada ",
     "qibla": "Qibla",
     "settings": "Settings",
+    "width": 255,
     "labels": ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"],
     "months": [
       "January",

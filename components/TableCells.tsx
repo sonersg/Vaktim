@@ -116,7 +116,7 @@ export default function TableCells({
         {arry.map((time: string, index: number) => (
           <TouchableOpacity
             key={index}
-            style={styles.eachTimeContainer}
+            style={[styles.eachTimeContainer, { width: t.home.width }]}
             onPress={() => setremaining(getTouched(time))}
             onLongPress={() => handleLongPress(index)}
           >

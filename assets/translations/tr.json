@@ -47,6 +47,7 @@
     "qada": "Kaza Takibi",
     "qibla": "Kıble",
     "settings": "Ayarlar",
+    "width": 222,
     "labels": ["İmsak", "Güneş", "Öğle", "İkindi", "Akşam", "Yatsı"],
     "months": [
       "Ocak",
