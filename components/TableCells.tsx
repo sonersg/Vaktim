@@ -7,7 +7,7 @@ import {
   ScrollView,
   TouchableHighlight,
 } from 'react-native';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { storage } from '../app/(screens)/_layout';
 import { cancellAlarm, setAlarm } from '../utils/expoAlarm';
 import { getHighlightedIndex, getTouched } from '../utils/highlight';
@@ -18,7 +18,6 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import translation from '../assets/translations/translations';
-import { ReRenderContext } from '../context/ReRenderContext';
 
 interface ITableCellsProps {
   arry: string[];
@@ -34,11 +33,8 @@ export default function TableCells({
 }: ITableCellsProps) {
   const [tunesObject, settunesObject] = useState(defaultTunesObject);
   const [modalVisible, setmodalVisible] = useState(false);
-  const [bell, setbell] = useState('');
-
-  const data = useContext(ReRenderContext);
+  const [bell, setbell] = useState('000000');
   const opacity = useSharedValue(0);
-
   const t = translation();
 
   // console.log('table cells');

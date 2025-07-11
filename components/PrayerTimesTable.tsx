@@ -1,22 +1,33 @@
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, {
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
-import { arrSize2, getRemaining } from '../utils/highlight';
+import { getRemaining } from '../utils/highlight';
 import { storage } from '../app/(screens)/_layout';
 import { getCurrentLocation } from '../utils/location';
 import calculateArray from '../utils/calculate';
 import Magnify from './Magnify';
 import TableCells from './TableCells';
 import { resetAlarms } from '../utils/expoAlarm';
+import { ReRenderContext } from '../context/ReRenderContext';
+import translation from '../assets/translations/translations';
 
 let city = 'Şehirler';
 export let themeColor = '#fff';
 let getDate = new Date().getDate();
+const defaultArray = calculateArray(1)[0];
 
 function PrayerTimesTable() {
-  const [arry, setarry] = useState(arrSize2[0]);
+  const [arry, setarry] = useState(defaultArray);
   const [remaining, setremaining] = useState('');
   const router = useRouter();
+  const data = useContext(ReRenderContext);
+  const t = translation();
 
   // console.log('prayer times table');
 
@@ -43,21 +54,24 @@ function PrayerTimesTable() {
   );
 
   useEffect(() => {
-    setremaining(getRemaining(arry));
+    const isAlways = storage.getString('is-always');
+    if (isAlways === 'no') setremaining(`${t.home.labels[1]}: ${arry[1]}`);
+    else setremaining(getRemaining(arry));
 
     const interval = setInterval(() => {
-      setremaining(getRemaining(arry));
+      if (isAlways === 'no') setremaining(`${t.home.labels[1]}: ${arry[1]}`);
+      else setremaining(getRemaining(arry));
 
       if (getDate != new Date().getDate()) {
         getDate = new Date().getDate();
-        router.replace('/');
+        data.setreRender((p) => !p);
       }
 
-      // if (new Date().getHours() == 0)
-      //   if (new Date().getMinutes() == 0)
+      // if (new Date().getHours() === 12)
+      //   if (new Date().getMinutes() === 28)
       //     if (new Date().getSeconds() < 4) {
-      //       router.replace('/');
-      //     }
+      //        router.replace('/');
+      // }
     }, 3333);
 
     return () => {

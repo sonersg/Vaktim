@@ -40,7 +40,7 @@ const SettingsScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#242424a4' }}>
+    <View style={{ flex: 1 }}>
       <ScrollView>
         <Konsol themeColor={themeColor} />
 
@@ -166,6 +166,7 @@ const SettingsScreen = () => {
 
 const styles = StyleSheet.create({
   sectionContainer: {
+    backgroundColor: '#24242466',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 20,

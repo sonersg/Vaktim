@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#242424a4',
+    backgroundColor: '#24242466',
     paddingHorizontal: 11,
   },
 

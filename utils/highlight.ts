@@ -1,13 +1,11 @@
 import moment from 'moment-timezone';
 import { storage } from '../app/(screens)/_layout';
-import calculateArray from './calculate';
 
-export const arrSize2 = calculateArray(2);
-const isAlways = storage.getBoolean('is-always');
-const ishaMessage = storage.getString('isha-message') || arrSize2[1][1];
+// const isAlways = storage.getString('is-always') || 'yes';
+const ishaMessage = storage.getString('isha-message') || '-';
 
 export function getRemaining(todaySarray: string[]) {
-  if (!isAlways && isAlways != undefined) return ishaMessage;
+  // if (isAlways === 'no') return ishaMessage;
   if (!todaySarray[5]) return 'array.length < 6';
 
   const currentTime = moment().format('HH:mm');

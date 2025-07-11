@@ -1,4 +1,4 @@
-import { Alert, Pressable, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 import React, { memo } from 'react';
 import Animated, {
   useAnimatedStyle,
@@ -8,6 +8,7 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import { storage } from '../app/(screens)/_layout';
+import useToast from '../utils/useToast';
 
 interface IMagnifyProps {
   remaining: string;
@@ -22,14 +23,15 @@ const Magnify = ({ remaining, themeColor }: IMagnifyProps) => {
   // }, []);
 
   function handleLong() {
-    const currentIsAlways = storage.getBoolean('is-always');
-    if (currentIsAlways) {
-      Alert.alert('Uygulamayı Yeniden Açın', 'Dokunduğunda Göster');
-      storage.set('is-always', false);
-    } else if (!currentIsAlways) {
-      Alert.alert('Uygulamayı Yeniden Açın', 'Her zaman Göster');
-      // useToast('Her zaman göster');
-      storage.set('is-always', true);
+    const storedIsAlways = storage.getString('is-always') || 'yes';
+    if (storedIsAlways === 'yes') {
+      // Alert.alert('Restart the app', 'to hide remaining');
+      useToast('Restart the app to hide remaining');
+      storage.set('is-always', 'no');
+    } else {
+      // Alert.alert('Restart the app', 'to show remaining always');
+      useToast('Restart the app to show remaining always');
+      storage.set('is-always', 'yes');
     }
   }
 
