@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, {
   useSharedValue,
@@ -7,6 +7,8 @@ import Animated, {
   useAnimatedStyle,
 } from 'react-native-reanimated';
 import Compass from './Compass';
+import translation from '../assets/translations/translations';
+import { ReRenderContext } from '../context/ReRenderContext';
 
 interface IMenuProps {
   menuVisible: boolean;
@@ -15,6 +17,11 @@ function Menu({ menuVisible }: IMenuProps) {
   const router = useRouter();
   const bottom = useSharedValue(0);
   const opacity = useSharedValue(0);
+  const data = useContext(ReRenderContext);
+
+  const t = translation();
+
+  // console.log(menuVisible);
 
   useEffect(() => {
     if (menuVisible) {
@@ -38,8 +45,6 @@ function Menu({ menuVisible }: IMenuProps) {
     };
   });
 
-  // console.log(menuVisible);
-
   return (
     <Animated.View style={[styles.container, animatedStyle]}>
       <View style={styles.row}>
@@ -48,7 +53,7 @@ function Menu({ menuVisible }: IMenuProps) {
           onPress={() => router.push('qada')}
         >
           <Text style={{ fontSize: 40 }}>📒</Text>
-          <Text style={{ color: 'white' }}>Kaza Takibi</Text>
+          <Text style={{ color: 'white' }}>{t.home.qada}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -56,7 +61,7 @@ function Menu({ menuVisible }: IMenuProps) {
           onPress={() => router.push('qibla')}
         >
           {menuVisible && <Compass />}
-          <Text style={{ color: 'white' }}>Kıble</Text>
+          <Text style={{ color: 'white' }}>{t.home.qibla}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -64,7 +69,7 @@ function Menu({ menuVisible }: IMenuProps) {
           onPress={() => router.push('settings')}
         >
           <Text style={{ fontSize: 40 }}>✨</Text>
-          <Text style={{ color: 'white' }}>Ayarlar</Text>
+          <Text style={{ color: 'white' }}>{t.home.settings}</Text>
         </TouchableOpacity>
       </View>
 

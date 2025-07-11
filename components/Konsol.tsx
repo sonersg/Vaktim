@@ -64,6 +64,13 @@ const Konsol = ({ themeColor }: { themeColor: string }) => {
         data.setreRender((prev) => !prev);
         setinput('');
       }
+    } else if (define[0].trim().toLowerCase() === 'lat-lon') {
+      // LATITUDE AND LONGITUDE
+      const [lat, lon] = define[1].trim().split('-');
+      storage.set('selected-city', 'Manuel Input');
+      storage.set('lat', +lat);
+      storage.set('lon', +lon);
+      setinput('');
     }
     // else {
     //   useToast('Oyuncağa benziyor galiba.');
