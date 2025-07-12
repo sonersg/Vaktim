@@ -37,7 +37,7 @@ export default function calculateArray(size: number, start: number = 0) {
   if (to) {
     const parsedTunes = JSON.parse(to);
     // Adjust offsets as number and minutes type
-    if (cm === 'Turkiye') {
+    if (cm === 'Turkiye' || !cm) {
       prayTimes.tune({
         fajr: +parsedTunes.fajr,
         sunrise: +parsedTunes.sunrise - 7,

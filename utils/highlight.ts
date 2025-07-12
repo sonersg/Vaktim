@@ -1,17 +1,22 @@
 import moment from 'moment-timezone';
 import { storage } from '../app/(screens)/_layout';
 
-// const isAlways = storage.getString('is-always') || 'yes';
-const ishaMessage = storage.getString('isha-message') || '-';
+const ishaMessage = storage.getString('isha-message');
 
-export function getRemaining(todaySarray: string[]) {
-  // if (isAlways === 'no') return ishaMessage;
+export function getRemaining(
+  todaySarray: string[],
+  label: string,
+  isAlways: boolean
+) {
   if (!todaySarray[5]) return 'array.length < 6';
+  if (!isAlways)
+    return ishaMessage ? ishaMessage : `${label}: ${todaySarray[1]}`;
 
   const currentTime = moment().format('HH:mm');
   const currentTimeValue = +currentTime.replace(':', '');
   const ishaTimeValue = +todaySarray[5].replace(':', '');
-  if (currentTimeValue > ishaTimeValue) return ishaMessage;
+  if (currentTimeValue > ishaTimeValue)
+    return ishaMessage ? ishaMessage : `${label}: ${todaySarray[1]}`;
 
   for (let i = 0; i < todaySarray.length; i++) {
     const prayerTimeValue = +todaySarray[i].replace(':', '');
@@ -33,7 +38,7 @@ export function getRemaining(todaySarray: string[]) {
       return `${hoursLeft}:${minutesLeft}`;
     }
   }
-  return ishaMessage;
+  return ishaMessage ? ishaMessage : `${label}: ${todaySarray[1]}`;
 }
 
 export function getHighlightedIndex(todaySarray: string[]) {

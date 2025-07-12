@@ -17,6 +17,7 @@ import { resetAlarms } from '../utils/expoAlarm';
 import { ReRenderContext } from '../context/ReRenderContext';
 import translation from '../assets/translations/translations';
 
+let isAlways = true;
 let city = 'Şehirler';
 export let themeColor = '#fff';
 let getDate = new Date().getDate();
@@ -38,29 +39,27 @@ function PrayerTimesTable() {
 
       setarry(calculateArray(1)[0]);
 
-      // const timeout = setTimeout(() => {
       const autoLocation = storage.getString('auto-location') || 'on';
-      autoLocation == 'on' &&
+      autoLocation === 'on' &&
         getCurrentLocation().then((res) => {
-          if (res == 'Location changed') {
+          if (res === 'Location changed') {
             city = storage.getString('selected-city') || '-';
             setarry(calculateArray(1)[0]);
           }
         });
-      // }, 222);
-
-      // return () => clearTimeout(timeout);
     }, [])
   );
 
   useEffect(() => {
-    const isAlways = storage.getString('is-always');
-    if (isAlways === 'no') setremaining(`${t.home.labels[1]}: ${arry[1]}`);
-    else setremaining(getRemaining(arry));
+    const ia = storage.getBoolean('is-always');
+    if (ia !== undefined) isAlways = ia;
+  }, [data.reRender]);
+
+  useEffect(() => {
+    setremaining(getRemaining(arry, t.home.labels[1], isAlways));
 
     const interval = setInterval(() => {
-      if (isAlways === 'no') setremaining(`${t.home.labels[1]}: ${arry[1]}`);
-      else setremaining(getRemaining(arry));
+      setremaining(getRemaining(arry, t.home.labels[1], isAlways));
 
       if (getDate != new Date().getDate()) {
         getDate = new Date().getDate();
@@ -79,7 +78,7 @@ function PrayerTimesTable() {
       clearInterval(interval);
       console.log('does interval unmount on array change');
     };
-  }, [arry]);
+  }, [arry, t]);
 
   // if (arry.length < 6) return <ActivityIndicator size='large' />;
 

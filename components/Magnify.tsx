@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet } from 'react-native';
-import React, { memo } from 'react';
+import React, { memo, useContext } from 'react';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -9,6 +9,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { storage } from '../app/(screens)/_layout';
 import useToast from '../utils/useToast';
+import { ReRenderContext } from '../context/ReRenderContext';
 
 interface IMagnifyProps {
   remaining: string;
@@ -17,21 +18,23 @@ interface IMagnifyProps {
 
 const Magnify = ({ remaining, themeColor }: IMagnifyProps) => {
   const fontSize = useSharedValue(22);
+  const data = useContext(ReRenderContext);
 
   // useEffect(() => {
   //   fontSize.value = withRepeat(withTiming(44, { duration: 2222 }), -1, true);
   // }, []);
 
   function handleLong() {
-    const storedIsAlways = storage.getString('is-always') || 'yes';
-    if (storedIsAlways === 'yes') {
+    const storedIsAlways = storage.getBoolean('is-always');
+    if (storedIsAlways) {
       // Alert.alert('Restart the app', 'to hide remaining');
-      useToast('Restart the app to hide remaining');
-      storage.set('is-always', 'no');
+      useToast('Remaining time is hidden');
+      storage.set('is-always', false);
+      data.setreRender((prev) => !prev);
     } else {
-      // Alert.alert('Restart the app', 'to show remaining always');
-      useToast('Restart the app to show remaining always');
-      storage.set('is-always', 'yes');
+      useToast('Show remaining time always');
+      storage.set('is-always', true);
+      data.setreRender((prev) => !prev);
     }
   }
 
