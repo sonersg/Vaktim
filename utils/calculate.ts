@@ -25,7 +25,7 @@ export default function calculateArray(size: number, start: number = 0) {
   // Adjust tunes
   const to = storage.getString('tunes-object');
 
-  if ((cm === 'Turkiye' && !to) || !cm) {
+  if ((cm === 'Turkiye' || !cm) && !to) {
     prayTimes.tune({
       sunrise: -7,
       dhuhr: 5,
