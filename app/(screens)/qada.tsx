@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { storage } from './_layout';
-import moment from 'moment-timezone';
-import { getMonth } from '../../utils/date';
+import { getHHmmss, getMonth } from '../../utils/date';
 import { themeColor } from '../../components/PrayerTimesTable';
 import translation from '../../assets/translations/translations';
 
@@ -64,7 +63,7 @@ export default function Qada() {
     qada: string
   ) {
     // last edited
-    const lastEdit = getMonth() + ' ~ ' + moment().format('HH:mm:ss');
+    const lastEdit = getMonth() + ' ~ ' + getHHmmss(true);
     storage.set('last-edit', lastEdit);
     setedited(lastEdit);
 

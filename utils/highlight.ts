@@ -1,5 +1,5 @@
-import moment from 'moment-timezone';
 import { storage } from '../app/(screens)/_layout';
+import { getHHmmss } from './date';
 
 const ishaMessage = storage.getString('isha-message');
 
@@ -12,7 +12,7 @@ export function getRemaining(
   if (!isAlways)
     return ishaMessage ? ishaMessage : `${label}: ${todaySarray[1]}`;
 
-  const currentTime = moment().format('HH:mm');
+  const currentTime = getHHmmss();
   const currentTimeValue = +currentTime.replace(':', '');
   const ishaTimeValue = +todaySarray[5].replace(':', '');
   if (currentTimeValue > ishaTimeValue)
@@ -44,7 +44,7 @@ export function getRemaining(
 export function getHighlightedIndex(todaySarray: string[]) {
   if (!todaySarray[5]) return -1;
 
-  const currentTime = moment().format('HH:mm');
+  const currentTime = getHHmmss();
   const currentTimeValue = +currentTime.replace(':', '');
   const ishaTimeValue = +todaySarray[5].replace(':', '');
   if (currentTimeValue > ishaTimeValue) return -1;
@@ -58,7 +58,7 @@ export function getHighlightedIndex(todaySarray: string[]) {
 }
 
 export function getTouched(touched: string) {
-  const currentTime = moment().format('HH:mm');
+  const currentTime = getHHmmss();
 
   const [currentHours, currentMinutes] = currentTime.split(':');
   const [touchedHours, touchedMinutes] = touched.split(':');

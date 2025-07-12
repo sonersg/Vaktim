@@ -1,30 +1,29 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { memo, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
-import moment from 'moment-timezone';
-import { getHijri, getMonth } from '../utils/date';
+import { getHHmmss, getHijri, getMonth } from '../utils/date';
 import { ReRenderContext } from '../context/ReRenderContext';
 
 function Calendar() {
-  const [currentTime, setCurrentTime] = useState(moment().format('HH:mm'));
+  const [currentTime, setCurrentTime] = useState(getHHmmss());
   const data = useContext(ReRenderContext);
   const router = useRouter();
 
   const tr = getMonth();
   const hijri = getHijri();
 
+  // console.log('calendar is called');
+
   useEffect(() => {
-    setCurrentTime(moment().format('HH:mm'));
+    setCurrentTime(getHHmmss());
     // update current time
     const interval = setInterval(() => {
-      setCurrentTime(moment().format('HH:mm'));
+      setCurrentTime(getHHmmss());
     }, 1000);
 
     // Clean up the interval when the component unmounts
     return () => clearInterval(interval);
   }, []);
-
-  // console.log('calendar is called');
 
   return (
     <View style={styles.container}>
