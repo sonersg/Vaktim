@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
-import { getRemaining } from '../utils/highlight';
+import { getHighlightedIndex, getRemaining } from '../utils/highlight';
 import { storage } from '../app/(screens)/_layout';
 import { getCurrentLocation } from '../utils/location';
 import calculateArray from '../utils/calculate';
@@ -26,6 +26,7 @@ const defaultArray = calculateArray(1)[0];
 function PrayerTimesTable() {
   const [arry, setarry] = useState(defaultArray);
   const [remaining, setremaining] = useState('');
+  const [index, setindex] = useState(11);
   const router = useRouter();
   const data = useContext(ReRenderContext);
   const t = translation();
@@ -57,8 +58,10 @@ function PrayerTimesTable() {
 
   useEffect(() => {
     setremaining(getRemaining(arry, t.home.labels[1], isAlways));
+    setindex(getHighlightedIndex(arry));
 
     const interval = setInterval(() => {
+      setindex(getHighlightedIndex(arry));
       setremaining(getRemaining(arry, t.home.labels[1], isAlways));
 
       if (getDate != new Date().getDate()) {
@@ -89,6 +92,7 @@ function PrayerTimesTable() {
       <TableCells
         arry={arry}
         setarry={setarry}
+        highlight={index}
         themeColor={themeColor}
         setremaining={setremaining}
       />

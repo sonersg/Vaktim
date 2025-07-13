@@ -7,10 +7,10 @@ import {
   ScrollView,
   TouchableHighlight,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { storage } from '../app/(screens)/_layout';
 import { cancellAlarm, setAlarm } from '../utils/expoAlarm';
-import { getHighlightedIndex, getTouched } from '../utils/highlight';
+import { getTouched } from '../utils/highlight';
 import calculateArray from '../utils/calculate';
 import Animated, {
   useAnimatedStyle,
@@ -22,12 +22,14 @@ import translation from '../assets/translations/translations';
 interface ITableCellsProps {
   arry: string[];
   themeColor: string;
+  highlight: number;
   setarry: React.Dispatch<React.SetStateAction<string[]>>;
   setremaining: React.Dispatch<React.SetStateAction<string>>;
 }
-export default function TableCells({
+function TableCells({
   arry,
   setarry,
+  highlight,
   themeColor,
   setremaining,
 }: ITableCellsProps) {
@@ -97,8 +99,6 @@ export default function TableCells({
     storage.delete('tunes-object');
     setarry(calculateArray(1)[0]);
   }
-
-  const highlight = getHighlightedIndex(arry);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -200,6 +200,8 @@ export default function TableCells({
     </>
   );
 }
+
+export default memo(TableCells);
 
 const styles = StyleSheet.create({
   eachTimeContainer: {
