@@ -5,7 +5,7 @@ import { getHHmmss, getHijri, getMonth } from '../utils/date';
 import { ReRenderContext } from '../context/ReRenderContext';
 
 function Calendar() {
-  const [currentTime, setCurrentTime] = useState(getHHmmss());
+  const [HHmm, setHHmm] = useState(getHHmmss());
   const data = useContext(ReRenderContext);
   const router = useRouter();
 
@@ -15,10 +15,10 @@ function Calendar() {
   // console.log('calendar is called');
 
   useEffect(() => {
-    setCurrentTime(getHHmmss());
+    setHHmm(getHHmmss());
     // update current time
     const interval = setInterval(() => {
-      setCurrentTime(getHHmmss());
+      setHHmm(getHHmmss());
     }, 1000);
 
     // Clean up the interval when the component unmounts
@@ -31,7 +31,7 @@ function Calendar() {
         style={styles.one}
         onPress={() => router.navigate('holy')}
       >
-        <Text style={[styles.text, { fontSize: 40 }]}>{currentTime}</Text>
+        <Text style={[styles.text, { fontSize: 40 }]}>{HHmm}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
