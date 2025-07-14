@@ -13,8 +13,6 @@ export default function ScreensLayout() {
   const insets = useSafeAreaInsets();
   const data = useContext(ReRenderContext);
 
-  const bgImgURI = storage.getString('bg-img-URL') || getImg();
-
   // console.log('(screens) _layout');
 
   useEffect(() => {
@@ -31,7 +29,7 @@ export default function ScreensLayout() {
   return (
     <ImageBackground
       source={{
-        uri: bgImgURI,
+        uri: getImg(),
       }}
       style={{
         flex: 1,
@@ -76,6 +74,8 @@ const bgImg3 =
   'https://images.pexels.com/photos/1624496/pexels-photo-1624496.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
 
 function getImg() {
+  const bgImgURI = storage.getString('bg-img-URL');
+  if (bgImgURI) return bgImgURI;
   const images = [bgImg1, bgImg2, bgImg3];
   const getDate = new Date().getDate();
   if (getDate % 2 === 0) return images[0];
