@@ -26,14 +26,15 @@ const Konsol = ({ themeColor }: { themeColor: string }) => {
     } else if (input.trim().slice(0, 4) === 'http') {
       // BACKGROUND IMAGE START
       storage.set('bg-img-URL', input.trim());
-      data.setreRender((prev) => !prev);
+      data.setreRender(prev => !prev);
       setinput('');
     } else if (input.trim().toLowerCase() === 'defaults') {
+      storage.delete('is-always');
       storage.delete('bg-img-URL');
       storage.delete('theme-color');
       storage.delete('auto-location');
       storage.delete('calculation-method');
-      data.setreRender((prev) => !prev);
+      data.setreRender(prev => !prev);
       setinput('');
       // BACKGROUND IMAGE END
     } else if (define[0].trim().toLowerCase() === 'notification body message') {
@@ -61,7 +62,7 @@ const Konsol = ({ themeColor }: { themeColor: string }) => {
       const isValidColor = hexColorPattern.test(input.trim());
       if (isValidColor) {
         storage.set('theme-color', input.trim());
-        data.setreRender((prev) => !prev);
+        data.setreRender(prev => !prev);
         setinput('');
       }
     } else if (define[0].trim().toLowerCase() === 'lat-lon') {
